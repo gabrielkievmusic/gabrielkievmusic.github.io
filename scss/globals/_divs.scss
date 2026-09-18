@@ -1,0 +1,27 @@
+#boot-screen {
+    // Screen size
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+
+    // Flexbox
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px; // Space between logo and text
+
+    // Logo
+    img {
+        width: 180px;
+        height: auto;
+        max-width: 100%;
+    }
+
+    // Boot screen text
+    p {
+        color: var(--text-color);
+        font-family: "Courier New", Courier, monospace;
+        font-size: 1.2rem;
+    }
+}
