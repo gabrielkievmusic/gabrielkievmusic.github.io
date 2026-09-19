@@ -26,6 +26,24 @@
     }
 }
 
+#boot-transition {
+    // Start hidden
+    display: none;
+
+    // Screen size
+    width: 100vw;
+    height: 100vh;
+
+    // Colors
+    background-color: var(--background-color);
+    color: var(--text-color);
+
+    // Flexbox
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+
 #desktop {
     // Start hidden
     display: none;
@@ -44,7 +62,7 @@
     color: var(--text-color);
 
     // Grid
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    grid-auto-rows: minmax(100px, auto);
+    grid-template-rows: repeat(auto-fill, 120px);
+    grid-auto-columns: 100px;
     gap: 20px;
 }

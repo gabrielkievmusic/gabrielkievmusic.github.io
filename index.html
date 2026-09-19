@@ -11,29 +11,62 @@
 <body>
     <!-- Boot screen div -->
     <div id="boot-screen">
-        <img src="images/gk_logo.png" alt="Boot Logo">
+        <img src="./images/icons/code_icon.png" alt="Boot Logo">
         <p>Click to initialize</p>
+    </div>
+
+    <!-- Boot transition div-->
+    <div id="boot-transition" style="display: none;">
+        <div id="terminal-output"></div>
     </div>
 
     <!-- Desktop div -->
     <div id="desktop">
-        <div class="desktop-icon" id="about-me">
-            <img src="images/icons/doc-icon.png" alt="About Me">
-            <p>About Me</p>
+
+        <!-- About Me-->
+        <div class="desktop-icon" id="about-icon">
+            <img src="./images/icons/doc_icon.png" alt="About Me">
+            <p>About Me.txt</p>
         </div>
 
-        <a href="https://on.soundcloud.com/qhvqUU36YKK52unLnF" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+        <!-- 'About Me' window -->
+        <div class="window" id="about-window" style="display: none;">
+            
+            <!-- Window header -->
+            <div class="window-header">
+                <span class="window-title">About Me</span>
+                <div class="window-controls">
+                    <button class="close-btn" id="close-about">X</button>
+                </div>
+            </div>
+
+            <!-- Window content -->
+            <div class="window-content">
+                <h2>Gabriel Kiev</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero aperiam sapiente culpa at quia deleniti, impedit molestiae quae debitis, non commodi sed laudantium iure quis blanditiis, enim reiciendis similique quibusdam labore facere temporibus velit eius perspiciatis! Inventore quis numquam ut!</p>
+                <p>Blanditiis maxime nostrum dolores illum tempore eveniet excepturi unde inventore fuga? Dolor suscipit laboriosam eveniet ratione quae. Officiis sint at aspernatur optio quasi ad inventore cum. Repellendus nihil non ducimus. Animi architecto quisquam ratione repellat optio non sequi est dolorem?</p>
+                <p>Suscipit, officia dolorum ad aut eaque in enim tenetur iusto iste corrupti, nisi, facere omnis ea nostrum? Aliquam commodi quidem sunt nesciunt rem, numquam vero doloremque nobis accusamus quod, non illo ipsa maxime velit repellat aperiam soluta quam? Ipsam, officiis.</p>
+                <p>Voluptates earum labore totam quo, in quos impedit accusamus ipsam ea aliquid odit commodi ab libero, tempore officia hic, quibusdam molestiae qui sequi sunt corrupti? Soluta praesentium asperiores, ducimus a, similique pariatur et harum deserunt ipsum nulla corrupti sint distinctio?</p>
+                <p>Temporibus quidem ad voluptates distinctio cum vel debitis beatae dolores eius deleniti ipsa ullam fugiat magnam, nam excepturi alias? Recusandae, consectetur laborum voluptatibus magni consequatur natus iure, repellendus ullam eaque nobis tempora sapiente necessitatibus dolorem cumque, consequuntur dolore vitae illo.</p>
+            </div>
+
+        </div>
+        
+
+        <a href="https://soundcloud.com/gabriel-kiev-375092820" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
             <!-- Demo folder -->
             <div class="desktop-icon" id="demo-folder">
-                <img src="images/icons/folder-icon.png" alt="Demo Folder">
+                <img src="./images/icons/folder_icon.png" alt="Demo Folder">
                 <p>Soundcloud</p>
             </div>
         </a>
-        
-
-
-
+    
+    
+    
+    
     </div>
+
+
 
     <script src="js/main.js"></script>
 

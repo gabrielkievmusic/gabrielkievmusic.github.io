@@ -34,6 +34,8 @@ a, a:visited, a:active {
   --background-color: #000000;
   --text-color: #ffffff;
   --hover-background-color: rgba(255, 255, 255, 0.1);
+  --header-background-color: #ffffff;
+  --header-text-color: #000000;
 }
 
 #boot-screen {
@@ -57,6 +59,17 @@ a, a:visited, a:active {
   font-size: 1.2rem;
 }
 
+#boot-transition {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: left;
+  align-items: left;
+}
+
 #desktop {
   display: none;
   height: calc(100vh - 40px);
@@ -66,8 +79,8 @@ a, a:visited, a:active {
   padding: 20px;
   background-color: var(--background-color);
   color: var(--text-color);
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-auto-rows: minmax(100px, auto);
+  grid-template-rows: repeat(auto-fill, 120px);
+  grid-auto-columns: 100px;
   gap: 20px;
 }
 
@@ -97,4 +110,86 @@ a, a:visited, a:active {
 .desktop-icon:hover {
   background-color: var(--hover-background-color);
   border-radius: 8px;
+}
+
+.window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90%;
+  height: 450px;
+  background-color: var(--background-color);
+  border: 2px solid white;
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.window-header {
+  background-color: var(--header-background-color);
+  color: var(--header-text-color);
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.window-controls button {
+  background-color: #000000;
+  color: white;
+  border: 1px solid black;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+.window-content {
+  padding: 20px;
+  color: var(--text-color);
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  49% {
+    opacity: 1;
+  }
+  56% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes crtSwitch {
+  0% {
+    transform: scale(1, 0.001);
+    opacity: 0;
+  }
+  35% {
+    transform: scale(1, 0.001);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1, 0.005);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+.crtSwitch {
+  animation: crtSwitch 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+#boot-screen p {
+  animation: blink 2s infinite;
 }/*# sourceMappingURL=style.css.map */

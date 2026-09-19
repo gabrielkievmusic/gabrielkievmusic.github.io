@@ -27,3 +27,52 @@
         border-radius: 8px;
     }
 }
+
+.window {
+    // Floating window style
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); // Center
+    
+    width: 600px; // Base size
+    max-width: 90%;
+    height: 450px;
+    background-color: var(--background-color);
+    
+    // Border + shadow
+    border: 2px solid white;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.5);
+    
+    overflow: hidden; 
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.window-header {
+    background-color: var(--header-background-color);
+    color: var(--header-text-color);
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.window-controls button {
+    background-color: #000000; // Botão vermelho de fechar
+    color: white;
+    border: 1px solid black;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+.window-content {
+    padding: 20px;
+    color: var(--text-color);
+    
+    overflow-y: auto; 
+    flex-grow: 1;
+}
