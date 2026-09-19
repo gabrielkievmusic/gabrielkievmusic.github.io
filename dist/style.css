@@ -33,6 +33,7 @@ a, a:visited, a:active {
 :root {
   --background-color: #000000;
   --text-color: #ffffff;
+  --hover-background-color: rgba(255, 255, 255, 0.1);
 }
 
 #boot-screen {
@@ -54,4 +55,46 @@ a, a:visited, a:active {
   color: var(--text-color);
   font-family: "Courier New", Courier, monospace;
   font-size: 1.2rem;
+}
+
+#desktop {
+  display: none;
+  height: calc(100vh - 40px);
+  border: 2px solid var(--text-color);
+  border-radius: 15px;
+  margin: 20px;
+  padding: 20px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-auto-rows: minmax(100px, auto);
+  gap: 20px;
+}
+
+.desktop-icon {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.desktop-icon img {
+  width: 64px;
+  height: 64px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.desktop-icon p {
+  color: var(--text-color);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+}
+.desktop-icon:hover {
+  background-color: var(--hover-background-color);
+  border-radius: 8px;
 }/*# sourceMappingURL=style.css.map */
