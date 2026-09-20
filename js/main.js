@@ -14,12 +14,10 @@ const bootMessages = [
     '|Loading effects modules...',
     '|Loading simulations...',
     '|',
-    '|Establishing network connection.',
-    '|Establishing network connection..',
     '|Establishing network connection... [OK]',
+    '|Checking for updates...',
     '|Loading info files...',
     '|Mounting contact protocols...',
-    '|Checking for updates...',
     '|Portfolio loaded successfully.',
     '|',
     '|Loading desktop environment...',
@@ -40,8 +38,8 @@ function typeTerminalOutput(index) {
     line.textContent = bootMessages[index];
     terminalOutput.appendChild(line);
 
-    // Random delay time [25, 200]ms
-    const delay = Math.random() * 175 + 25; 
+    // Random delay time [2, 150]ms
+    const delay = Math.random() * 148 + 2; 
     
     // Call next line
     setTimeout(() => typeTerminalOutput(index + 1), delay);

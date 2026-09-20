@@ -10,13 +10,13 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: "Courier New", Courier, monospace;
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
 h1, h2, h3 {
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-weight: 700;
   line-height: 1.1;
   margin-top: 0;
@@ -150,8 +150,18 @@ a, a:visited, a:active {
 .window-content {
   padding: 20px;
   color: var(--text-color);
+  justify-content: left;
+  text-align: justify;
   overflow-y: auto;
   flex-grow: 1;
+}
+
+.about-img {
+  float: right;
+  width: 200px;
+  height: auto;
+  margin: 50px 20px 20px 20px;
+  border: 1px solid var(--text-color);
 }
 
 @keyframes blink {
