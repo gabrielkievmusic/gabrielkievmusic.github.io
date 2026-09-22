@@ -1,0 +1,39 @@
+#about-icon {
+    &:hover img{
+        transform: scale(1.1);
+    }
+}
+
+@keyframes open-folder {
+    0% {
+        content: url("../images/icons/folder2-icon.png"); // Closed folder
+    }
+    100% {
+        content: url("../images/icons/folder1-icon.png"); // Open folder
+    }
+}
+
+#soundcloud-icon {
+    &:hover img{
+        transform: scale(1.1); // Scale
+        animation: open-folder 0.2s 0.1s forwards; // Delays icon change
+    }
+    
+    // Reset icon when not hovered
+    &:not(:hover) img {
+        transition: transform 0.2s ease-in-out;
+        content: url("../images/icons/folder2-icon.png");
+    }
+}
+
+#system-info-icon {
+    &:hover img{
+        transform: scale(1.1);
+    }
+}
+
+#mail-icon {
+    &:hover img{
+        transform: scale(1.1);
+    }
+}

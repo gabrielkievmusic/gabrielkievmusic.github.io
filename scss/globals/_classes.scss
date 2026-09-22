@@ -1,3 +1,5 @@
+@use '../utils' as *;
+
 .desktop-icon {
     width: 100px;
     height: 100px;
@@ -5,27 +7,29 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px; // Space between icon and text
+    gap: 8px; 
     cursor: pointer;
 
     img {
         width: 64px;
         height: 64px;
         object-fit: contain;
+        transition: all 0.2s ease-in-out;
     }
 
     p {
         color: var(--text-color);
-        font-family: "Courier New", Courier, monospace;
-        font-size: 0.9rem;
+        font-family: $font-system;
+        font-weight: 200;
+        font-size: 1.3rem;
         text-align: center;
         margin: 0;
     }
 
-    &:hover {
+    /*&:hover {
         background-color: var(--hover-background-color);
         border-radius: 8px;
-    }
+    }*/
 }
 
 .window {
@@ -58,10 +62,11 @@
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+    font-size: 1.rem;
 }
 
 .window-controls button {
-    background-color: #000000; // Botão vermelho de fechar
+    background-color: #000000;
     color: white;
     border: 1px solid black;
     padding: 2px 8px;
@@ -76,6 +81,8 @@
     text-align: justify;
     overflow-y: auto; 
     flex-grow: 1;
+    font-family: $font-lucida;
+    font-size:1rem;
 }
 
 .about-img {

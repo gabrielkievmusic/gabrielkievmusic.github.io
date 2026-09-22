@@ -1,3 +1,5 @@
+@use '../utils' as *;
+
 #boot-screen {
     // Screen
     width: 100vw;
@@ -21,8 +23,9 @@
     // Boot screen text
     p {
         color: var(--text-color);
-        font-family: "Courier New", Courier, monospace;
-        font-size: 1.2rem;
+        font-family:  $font-system;
+        font-weight: 300;
+        font-size: 1.5rem;
     }
 }
 
@@ -42,6 +45,15 @@
     display: flex;
     justify-content: left;
     align-items: left;
+
+    //Text
+    p {
+        color: var(--text-color);
+        font-family:  $font-system;
+        font-weight: 50;
+        font-size: 1.2rem;
+        line-height: 0.6rem;
+    }
 }
 
 #desktop {
@@ -65,4 +77,14 @@
     grid-template-rows: repeat(auto-fill, 120px);
     grid-auto-columns: 100px;
     gap: 20px;
+}
+
+#mail-content {
+    padding: 20px;
+    color: var(--text-color);
+    justify-content: center;
+    text-align: center;
+    overflow-y: auto; 
+    flex-grow: 1;
+    font-family: $font-lucida;
 }

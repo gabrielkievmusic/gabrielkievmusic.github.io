@@ -73,3 +73,19 @@ aboutIcon.addEventListener('click', () => {
 closeAboutBtn.addEventListener('click', () => {
     aboutWindow.style.display = 'none';
 });
+
+
+// 'Mail' window
+const mailIcon = document.getElementById('mail-icon');
+const mailWindow = document.getElementById('mail-window');
+const closeMailBtn = document.getElementById('close-mail');
+
+// Open window when clicking the icon
+mailIcon.addEventListener('click', () => {
+    mailWindow.style.display = 'flex'; // Usamos flex para respeitar o layout interno
+});
+
+// Close button
+closeMailBtn.addEventListener('click', () => {
+    mailWindow.style.display = 'none';
+});

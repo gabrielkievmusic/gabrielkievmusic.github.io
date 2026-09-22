@@ -1,3 +1,5 @@
+@use '../utils' as *;
+
 html {
     box-sizing: border-box;
     font-size: 100%;
@@ -10,7 +12,8 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: "Courier New", Courier, monospace;
+    font-family:  $font-system;
+    font-weight: 400;
     background-color: var(--background-color);
     color: var(--text-color);
 }
