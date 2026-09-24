@@ -34,10 +34,9 @@
         </div>
         <!-- 'About Me' window -->
         <div class="window" id="about-window" style="display: none;">
-            
             <!-- Window header -->
             <div class="window-header">
-                <span class="window-title">About Me</span>
+                <span class="window-title">About Me.txt</span>
                 <div class="window-controls">
                     <button class="close-btn" id="close-about">X</button>
                 </div>
@@ -70,12 +69,11 @@
             <img src="./images/icons/mail-icon.png" alt="Mail">
             <p>Mail</p>
         </div>
-        <!-- 'Mail' window -->
+        <!-- Mail window -->
         <div class="window" id="mail-window" style="display: none;">
-            
             <!-- Window header -->
             <div class="window-header">
-                <span class="window-title">Mail</span>
+                <span class="window-title">Mail.exe</span>
                 <div class="window-controls">
                     <button class="close-btn" id="close-mail">X</button>
                 </div>
@@ -83,8 +81,24 @@
 
             <!-- Window content -->
             <div class="window-content" id="mail-content">
-                <h2>Mail</h2>
-                <p>This is the Mail window content.</p>
+                <form action="https://formspree.io/f/mzezgyrn" method="POST" class="mail-form">
+                    <div class="form-group">
+                        <label for="name">Sender:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Sender's e-mail:</label>
+                        <input type="email" id="email" name="_replyto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send</button>
+                </form>
             </div>
 
         </div>
@@ -101,16 +115,16 @@
     
 
         <!---------------------------------------------------------------------------------------------------------------------->
-        <!-- System info -->
-        <div class="desktop-icon" id="system-info-icon">
-            <img src="./images/icons/info-icon.png" alt="System Info">
-            <p>System Info</p>
-    
-    </div>
+        <!-- System settings -->
+        <div class="desktop-icon" id="system-settings-icon">
+            <img src="./images/icons/gears-icon.png" alt="System Settings">
+            <p>System Settings</p>
+        </div>
 
 
 
-    <script src="js/main.js"></script>
+
+    <script /*type="module"*/ src="js/main.js"></script>
 
 </body>
 </html>

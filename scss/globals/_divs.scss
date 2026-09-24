@@ -52,7 +52,7 @@
         font-family:  $font-system;
         font-weight: 50;
         font-size: 1.2rem;
-        line-height: 0.6rem;
+        line-height: 0.8rem;
     }
 }
 
@@ -79,6 +79,10 @@
     gap: 20px;
 }
 
+#mail-window {
+    width: 60%;
+    height: auto;
+}
 #mail-content {
     padding: 20px;
     color: var(--text-color);
