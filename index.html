@@ -81,6 +81,44 @@
 
             <!-- Window content -->
             <div class="window-content" id="mail-content">
+                <h2>Send me an e-mail</h2>
+                <p>Feel free to send me a message using the form below. You can write whatever you want for your name but, if you want me to respond, make sure to leave your e-mail address!</p>
+                <!-- ASCII Art-->
+                <!--
+                <p style="font-size: 0.5rem; white-space: pre;">...........................................................................................
+..                                                                                        ..
+..  ...................................................................................    ...
+    ...                                                                              ..    ...
+    ... ........                                                           ......... ..    ...
+    ... ..    .....                                                      .....   ... ..    ...
+    ... ....     ....                                                 ....      .... ..   ....
+    ...    .....   .....                                           ......   .....    .......
+    ...      .....    .....                                      ....    ......       ........
+    ...         ....      ...                                 ....      ....         ....   ....
+    ...            ....    .....                           .....   ......         ...............
+    ...              ......   .....                    ......    .....        ...........   .......
+    ...                 ....      ....                ....     ...           .........    ....  ....
+    ...                    .....    ....           ....     ....         ..........    .....      ..
+    ...                      ......   .....    ......    ......       ..........   ......        ...
+    ...                         ....     .........     ...         ..........    .....         ....
+    ...                            ....     ..      ....        ..........    ....         .....
+    ...                               .....      .....      ...........    ......       ......
+    ...                                 ..... .....        .........    .....        .....
+    ...                                     ...        .........      ....         ....  ....
+    ...                                             ...........  ......        .....  .....
+    ...                                          ..........    ......       .....    ...
+    ...                                        .........    ....         .....       ..
+    ...                                       ....... .........       ......         ..
+    ...                                     .......    ....        .....             ..
+    ...                                   ........       ...     ....                ..
+.   .............................        .......        ..........  ...................     .
+..   ............................      .... ...    ............. ......................   ...
+....                      ....       ....    ......  .......  ....                      ....
+   ...                    ..        ....      ..........      ..                      ...
+                                  ....   .........
+                                  ........</p>
+                                  -->
+                <!-- Mail Form -->
                 <form action="https://formspree.io/f/mzezgyrn" method="POST" class="mail-form">
                     <div class="form-group">
                         <label for="name">Sender:</label>
@@ -89,7 +127,7 @@
 
                     <div class="form-group">
                         <label for="email">Sender's e-mail:</label>
-                        <input type="email" id="email" name="_replyto" required>
+                        <input type="email" id="email" name="_replyto">
                     </div>
 
                     <div class="form-group">
@@ -116,15 +154,31 @@
 
         <!---------------------------------------------------------------------------------------------------------------------->
         <!-- System settings -->
-        <div class="desktop-icon" id="system-settings-icon">
+        <div class="desktop-icon" id="settings-icon">
             <img src="./images/icons/gears-icon.png" alt="System Settings">
             <p>System Settings</p>
         </div>
+        <!-- Settings window -->
+         <div class="window" id="settings-window" style="display: none;">
+            <!-- Window header -->
+            <div class="window-header">
+                <span class="window-title">System Settings</span>
+                <div class="window-controls">
+                    <button class="close-btn" id="close-settings">X</button>
+                </div>
+            </div>
+
+            <!-- Window content -->
+            <div class="window-content" id="settings-content">
+                <h2>Settings</h2>
+                
+            </div>
+         </div>
 
 
 
 
-    <script /*type="module"*/ src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
 
 </body>
 </html>

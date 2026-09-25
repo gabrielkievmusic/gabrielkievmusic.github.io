@@ -15,7 +15,8 @@
     
     // Reset icon when not hovered
     &:not(:hover) img {
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.1s ease-in-out;
         content: url("../images/icons/folder2-icon.png");
     }
 }
+
