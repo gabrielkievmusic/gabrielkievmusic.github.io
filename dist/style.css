@@ -7,6 +7,13 @@ html {
   box-sizing: inherit;
 }
 
+p {
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -16,7 +23,6 @@ body {
   color: var(--text-color);
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
-  font-smooth: never;
 }
 
 h1, h2, h3 {
@@ -96,9 +102,24 @@ a, a:visited, a:active {
   gap: 20px;
 }
 
+#about-window {
+  width: 50%;
+  height: 90%;
+}
+
+#about-content {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+#about-content p {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 #mail-window {
-  width: 60%;
-  height: auto;
+  width: 65%;
+  height: 85%;
 }
 
 #mail-content {
@@ -208,8 +229,13 @@ a, a:visited, a:active {
   font-family: "VT323", monospace;
   font-weight: 200;
   font-size: 1.2rem;
+  width: 140px;
+  text-align: right;
+  margin-right: none;
+  margin-top: 8px;
 }
 .mail-form input, .mail-form textarea {
+  flex: 1;
   width: 60%;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -221,14 +247,13 @@ a, a:visited, a:active {
 }
 .mail-form input:focus, .mail-form textarea:focus {
   outline: none;
-  border-color: var(--text-color);
 }
 .mail-form textarea {
-  width: 80%;
+  width: 200px;
   resize: none;
 }
 .mail-form .submit-btn {
-  align-self: center;
+  margin-left: 145px;
   width: 100px;
   background-color: var(--background-color);
   color: var(--text-color);
@@ -245,6 +270,25 @@ a, a:visited, a:active {
 }
 .mail-form .submit-btn:active {
   border-color: var(--background-color);
+}
+
+.form-group {
+  display: flex;
+  align-items: flex-start;
+}
+.form-group label {
+  width: 140px;
+  text-align: right;
+  margin-right: 5px;
+}
+.form-group input, .form-group textarea {
+  flex: 1;
+}
+
+.ascii-art {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.4rem;
+  white-space: pre;
 }
 
 @keyframes blink {
@@ -302,4 +346,21 @@ a, a:visited, a:active {
 #soundcloud-icon:not(:hover) img {
   transition: transform 0.1s ease-in-out;
   content: url("../images/icons/folder2-icon.png");
+}
+
+@keyframes open-mail {
+  0% {
+    content: url("../images/icons/mail-icon.png");
+  }
+  100% {
+    content: url("../images/icons/mail-open-icon.png");
+  }
+}
+#mail-icon:hover img {
+  transform: scale(1.08) translateY(-10px);
+  animation: open-mail 0.2s 0.1s forwards;
+}
+#mail-icon:not(:hover) img {
+  transition: transform 0.1s ease-in-out;
+  content: url("../images/icons/mail-icon.png");
 }/*# sourceMappingURL=style.css.map */

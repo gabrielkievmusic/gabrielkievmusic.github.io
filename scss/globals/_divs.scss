@@ -79,9 +79,24 @@
     gap: 20px;
 }
 
+#about-window {
+    width: 50%;
+    height: 90%;
+}
+#about-content {
+    font-family: $font-lucida;
+    font-size: 1.0rem;
+    color: var(--text-color);
+    
+    p {
+        font-family: inherit;
+        font-size: inherit;
+    }
+}
+
 #mail-window {
-    width: 60%;
-    height: auto;
+    width: 65%;
+    height: 85%;
 }
 #mail-content {
     padding: 20px;

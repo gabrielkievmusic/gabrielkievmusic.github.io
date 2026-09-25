@@ -109,9 +109,15 @@
         font-family: $font-system;
         font-weight: 200;
         font-size: 1.2rem;
+
+        width: 140px;
+        text-align: right;
+        margin-right: none;
+        margin-top: 8px;
     }
 
     input, textarea {
+        flex: 1;
         width: 60%;
         background-color: var(--background-color);
         color: var(--text-color);
@@ -123,17 +129,16 @@
 
         &:focus {
             outline: none;
-            border-color: var(--text-color);
         }
     }
 
     textarea {
-        width: 80%;
+        width: 200px;
         resize: none;
     }
 
     .submit-btn {
-        align-self: center;
+        margin-left: 145px; // 140px do label + 15px de margem
         width: 100px;
         background-color: var(--background-color);
         color: var(--text-color);
@@ -153,4 +158,27 @@
             border-color: var(--background-color);
         }
     }
+}
+
+.form-group {
+    display:flex;
+    align-items: flex-start;
+
+    label {
+        width: 140px;
+        text-align: right;
+        margin-right: 5px;
+    }
+
+    input, textarea {
+        flex:1;
+    }
+
+
+}
+
+.ascii-art {
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 0.4rem; 
+    white-space: pre;
 }

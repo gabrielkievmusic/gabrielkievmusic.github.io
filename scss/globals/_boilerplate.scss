@@ -9,6 +9,13 @@ html {
     box-sizing: inherit;
 }
 
+p {
+    font-family:  $font-system;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: var(--text-color)
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -19,5 +26,7 @@ body {
 
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: grayscale;
-    font-smooth: never;
+    //font-smooth: never;
 }
+
+

@@ -6,7 +6,6 @@
         content: url("../images/icons/folder1-icon.png"); // Open folder
     }
 }
-
 #soundcloud-icon {
     &:hover img{
         transform: scale(1.1); // Scale
@@ -19,4 +18,28 @@
         content: url("../images/icons/folder2-icon.png");
     }
 }
+
+
+@keyframes open-mail {
+    0% {
+        content: url("../images/icons/mail-icon.png"); // Closed folder
+    }
+    100% {
+        content: url("../images/icons/mail-open-icon.png"); // Open folder
+    }
+}
+#mail-icon {
+    &:hover img{
+        transform: scale(1.08) translateY(-10px); // Scale
+
+        animation: open-mail 0.2s 0.1s forwards; // Delays icon change
+    }
+    
+    // Reset icon when not hovered
+    &:not(:hover) img {
+        transition: transform 0.1s ease-in-out;
+        content: url("../images/icons/mail-icon.png");
+    }
+}
+
 
