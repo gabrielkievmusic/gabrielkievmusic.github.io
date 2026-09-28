@@ -25,6 +25,53 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+  background-color: var(--background-color);
+  border: 1px solid var(--text-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-color);
+}
+
+::-webkit-scrollbar-thumb:active {
+  border: 1px solid var(--background-color);
+}
+
+/* Buttons */
+::-webkit-scrollbar-button:single-button {
+  background-color: var(--background-color);
+  display: block;
+  border-style: solid;
+  height: 14px;
+  width: 16px;
+}
+
+/* Up */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-width: 0 8px 14px 8px;
+  border-color: transparent transparent var(--text-color) transparent;
+}
+
+::-webkit-scrollbar-button:vertical:single-button:decrement:active {
+  border-width: 0 8px 12px 8px;
+}
+
+/* Down */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-width: 14px 8px 0 8px;
+  border-color: var(--text-color) transparent transparent transparent;
+}
+
+::-webkit-scrollbar-button:vertical:single-button:increment:active {
+  border-width: 12px 8px 0 8px;
+}
+
 h1, h2, h3 {
   font-family: "Courier New", Courier, monospace;
   font-weight: 700;
@@ -99,7 +146,7 @@ a, a:visited, a:active {
   color: var(--text-color);
   grid-template-rows: repeat(auto-fill, 120px);
   grid-auto-columns: 100px;
-  gap: 20px;
+  gap: 10px;
 }
 
 #about-window {
@@ -130,6 +177,22 @@ a, a:visited, a:active {
   overflow-y: auto;
   flex-grow: 1;
   font-family: "Courier New", Courier, monospace;
+}
+
+#radio-window {
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -30%);
+}
+
+#radio-content {
+  padding: 20px;
+  color: var(--text-color);
+  justify-content: center;
+  text-align: start;
+  overflow-y: auto;
+  flex-grow: 1;
+  font-family: "VT323", monospace;
 }
 
 .desktop-icon {
@@ -286,9 +349,16 @@ a, a:visited, a:active {
 }
 
 .ascii-art {
-  font-family: "Courier New", Courier, monospace;
+  font-family: "VT323", monospace;
   font-size: 0.4rem;
+  line-height: 0.6rem;
   white-space: pre;
+}
+.ascii-art pre {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
 }
 
 @keyframes blink {

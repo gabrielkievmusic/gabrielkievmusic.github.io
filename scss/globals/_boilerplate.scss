@@ -29,25 +29,47 @@ body {
     //font-smooth: never;
 }
 
+a {
+    color: inherit;
+}
+
 
 // Scrollbar
 ::-webkit-scrollbar {
     width: 16px;
     background-color: var(--background-color);
-    border-left: 1px solid var(--text-color);
+    border: 1px solid var(--text-color);
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--text-color);
 }
-
-::-webkit-scrollbar-button {
-    background-color: var(--text-color);
-    color: var(--background-color);
+::-webkit-scrollbar-thumb:active{
+    border: 1px solid var(--background-color);
 }
-::-webkit-scrollbar-button:active {
+
+/* Buttons */
+::-webkit-scrollbar-button:single-button {
     background-color: var(--background-color);
-    color: var(--text-color);
+    display: block;
+    border-style: solid;
+    height: 14px;
+    width: 16px;
+}
+/* Up */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+    border-width: 0 8px 14px 8px;
+    border-color: transparent transparent var(--text-color) transparent;
+    }
+::-webkit-scrollbar-button:vertical:single-button:decrement:active {
+    border-width: 0 8px 12px 8px;
 }
 
-
+/* Down */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+    border-width: 14px 8px 0 8px;
+    border-color: var(--text-color) transparent transparent transparent;
+}
+::-webkit-scrollbar-button:vertical:single-button:increment:active {
+    border-width: 12px 8px 0 8px;
+}

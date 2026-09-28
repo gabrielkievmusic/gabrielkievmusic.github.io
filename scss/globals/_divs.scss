@@ -76,7 +76,7 @@
     // Grid
     grid-template-rows: repeat(auto-fill, 120px);
     grid-auto-columns: 100px;
-    gap: 20px;
+    gap: 10px;
 }
 
 #about-window {
@@ -109,8 +109,8 @@
 }
 
 #radio-window {
-    width: 40%;
-    height: 50%;
+    //width: 40%;
+    //height: 50%;
     top: 50%;
     left: 70%;
     transform: translate(-50%, -30%);
