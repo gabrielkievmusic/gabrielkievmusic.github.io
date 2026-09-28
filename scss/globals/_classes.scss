@@ -178,7 +178,14 @@
 }
 
 .ascii-art {
-    font-family: 'Courier New', Courier, monospace; 
-    font-size: 0.4rem; 
+    font-family: $font-system; 
+    font-size: 0.4rem;
+    line-height: 0.6rem;
     white-space: pre;
+    pre {
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+    }
 }

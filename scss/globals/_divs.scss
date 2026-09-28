@@ -107,3 +107,19 @@
     flex-grow: 1;
     font-family: $font-lucida;
 }
+
+#radio-window {
+    width: 40%;
+    height: 50%;
+    top: 50%;
+    left: 70%;
+}
+#radio-content {
+    padding: 20px;
+    color: var(--text-color);
+    justify-content: center;
+    text-align: start;
+    overflow-y: auto; 
+    flex-grow: 1;
+    font-family: $font-system;
+}
