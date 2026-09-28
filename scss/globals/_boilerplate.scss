@@ -30,3 +30,24 @@ body {
 }
 
 
+// Scrollbar
+::-webkit-scrollbar {
+    width: 16px;
+    background-color: var(--background-color);
+    border-left: 1px solid var(--text-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--text-color);
+}
+
+::-webkit-scrollbar-button {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+::-webkit-scrollbar-button:active {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+
