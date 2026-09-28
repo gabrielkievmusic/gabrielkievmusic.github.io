@@ -22,7 +22,7 @@ const bootMessages = [
     '|',
     '|Loading desktop environment...',
     '|Starting Graphical User Interface...',
-    '|All systems operational. Welcome to GKM OS ' + OSversion + '!'
+    '|All systems operational. Welcome to Gabriel Kiev\'s Music Operating System ' + OSversion + '!'
 ];
 const bootTransitionScreen = document.getElementById('boot-transition');
 const terminalOutput = document.getElementById('terminal-output');

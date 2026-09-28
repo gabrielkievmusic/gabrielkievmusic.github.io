@@ -41,6 +41,7 @@ export function initWindows() {
     closeMailBtn.addEventListener('click', () => {
         mailWindow.style.display = 'none';
     });
+    
     // --- 'Settings' window
     const settingsIcon = document.getElementById('settings-icon');
     const settingsWindow = document.getElementById('settings-window');
@@ -52,5 +53,18 @@ export function initWindows() {
     
     closeSettingsBtn.addEventListener('click', () => {
         settingsWindow.style.display = 'none';
+    });
+
+    // --- 'Radio' window
+    const radioIcon = document.getElementById('radio-icon');
+    const radioWindow = document.getElementById('radio-window');
+    const closeRadioBtn = document.getElementById('close-radio');
+    
+    radioIcon.addEventListener('click', () => {
+        radioWindow.style.display = 'flex'; 
+    });
+    
+    closeRadioBtn.addEventListener('click', () => {
+        radioWindow.style.display = 'none';
     });
 }

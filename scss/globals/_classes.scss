@@ -189,3 +189,9 @@
         letter-spacing: inherit;
     }
 }
+
+.link {
+    &:hover {
+        font-weight: 700;
+    }
+}
