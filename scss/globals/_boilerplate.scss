@@ -24,6 +24,8 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
 
+    overflow: hidden;
+
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: grayscale;
     //font-smooth: never;

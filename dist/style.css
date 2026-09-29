@@ -21,6 +21,7 @@ body {
   font-weight: 400;
   background-color: var(--background-color);
   color: var(--text-color);
+  overflow: hidden;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -439,4 +440,38 @@ a, a:visited, a:active {
 #mail-icon:not(:hover) img {
   transition: transform 0.1s ease-in-out;
   content: url("../images/icons/mail-icon.png");
+}
+
+/* CRT Filters */
+body {
+  /* CRT flickering */
+  filter: brightness(var(--flicker-brightness, 1));
+  transition: filter 0.05 ease-out;
+}
+
+#crt-lens {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  backdrop-filter: url(#crt-aberration);
+  -webkit-backdrop-filter: url(#crt-aberration);
+  mask-image: radial-gradient(circle at center, transparent 60%, black 100%);
+  -webkit-mask-image: radial-gradient(circle at center, transparent 60%, black 100%);
+}
+
+/* CRT overlay div */
+#crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  /* Filters */
+  background: radial-gradient(circle at center, transparent 70%, rgba(0, 0, 0, 0.35) 120%), repeating-linear-gradient(0deg, transparent 0px, transparent 4px, rgba(0, 0, 0, 0.1) 4px, rgba(0, 0, 0, 0.1) 7px);
 }/*# sourceMappingURL=style.css.map */

@@ -21,6 +21,7 @@ export function initWindows() {
     // Open window when clicking the icon
     aboutIcon.addEventListener('click', () => {
         aboutWindow.style.display = 'flex'; // Usamos flex para respeitar o layout interno
+        bringToFront(aboutWindow);
     });
 
     // Close button
@@ -35,7 +36,8 @@ export function initWindows() {
     const closeMailBtn = document.getElementById('close-mail');
     
     mailIcon.addEventListener('click', () => {
-        mailWindow.style.display = 'flex'; 
+        mailWindow.style.display = 'flex';
+        bringToFront(mailWindow);
     });
     
     closeMailBtn.addEventListener('click', () => {
@@ -48,7 +50,8 @@ export function initWindows() {
     const closeSettingsBtn = document.getElementById('close-settings');
     
     settingsIcon.addEventListener('click', () => {
-        settingsWindow.style.display = 'flex'; 
+        settingsWindow.style.display = 'flex';
+        bringToFront(settingsWindow);
     });
     
     closeSettingsBtn.addEventListener('click', () => {
@@ -61,7 +64,8 @@ export function initWindows() {
     const closeRadioBtn = document.getElementById('close-radio');
     
     radioIcon.addEventListener('click', () => {
-        radioWindow.style.display = 'flex'; 
+        radioWindow.style.display = 'flex';
+        bringToFront(radioWindow);
     });
     
     closeRadioBtn.addEventListener('click', () => {

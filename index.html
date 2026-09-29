@@ -13,6 +13,27 @@
 
 </head>
 <body>
+    <!-- SVG filter - Chromatic aberration -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="crt-aberration">
+                <!-- Isolate RGB colors -->
+                <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="Red" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="Green" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" in="SourceGraphic" result="Blue" />
+
+                <!-- Shift Red and Blue -->
+                <feOffset in="Red" dx="-0.5" dy="0" result="RedShifted" />
+                <feOffset in="Blue" dx="0.5" dy="0" result="BlueShifted" />
+
+                <!-- Mix back RGB -->
+                <feBlend mode="screen" in="RedShifted" in2="Green" result="RedGreen" />
+                <feBlend mode="screen" in="RedGreen" in2="BlueShifted" />
+            </filter>
+        </defs>
+    </svg>
+
+
     <!-- Boot screen div -->
     <div id="boot-screen">
         <img src="./images/icons/code_icon.png" alt="Boot Logo">
@@ -198,12 +219,24 @@
                 <h2>Settings</h2>
                 
             </div>
-         </div>
+        </div>
 
 
+        <!---------------------------------------------------------------------------------------------------------------------->
+        <!-- Cymatic Easel -->
+        
 
+        
+    </div>
 
+    <!---------------------------------------------------------------------------------------------------------------------->
+    <!-- CRT 'glass' radial lens -->
+    <div id="crt-lens"></div>
+
+    <!-- CRT Overlay -->
+    <div id="crt-overlay"></div>
+
+    
     <script type="module" src="js/main.js"></script>
-
 </body>
 </html>
