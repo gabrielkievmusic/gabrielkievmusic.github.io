@@ -143,10 +143,12 @@ a, a:visited, a:active {
   border-radius: 15px;
   margin: 20px;
   padding: 20px;
+  box-sizing: border-box;
   background-color: var(--background-color);
   color: var(--text-color);
   grid-template-rows: repeat(auto-fill, 120px);
   grid-auto-columns: 100px;
+  grid-auto-flow: column;
   gap: 10px;
 }
 
@@ -459,8 +461,8 @@ body {
   z-index: 9998;
   backdrop-filter: url(#crt-aberration);
   -webkit-backdrop-filter: url(#crt-aberration);
-  mask-image: radial-gradient(circle at center, transparent 60%, black 100%);
-  -webkit-mask-image: radial-gradient(circle at center, transparent 60%, black 100%);
+  mask-image: radial-gradient(circle at center, transparent 70%, black 100%);
+  -webkit-mask-image: radial-gradient(circle at center, transparent 70%, black 100%);
 }
 
 /* CRT overlay div */

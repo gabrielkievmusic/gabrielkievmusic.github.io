@@ -21,8 +21,8 @@ body {
     -webkit-backdrop-filter: url(#crt-aberration);
 
     // Radial vignette for applying filter only on borders
-    mask-image: radial-gradient(circle at center, transparent 60%, black 100%);
-    -webkit-mask-image: radial-gradient(circle at center, transparent 60%, black 100%);
+    mask-image: radial-gradient(circle at center, transparent 70%, black 100%);
+    -webkit-mask-image: radial-gradient(circle at center, transparent 70%, black 100%);
 }
 
 /* CRT overlay div */
@@ -35,6 +35,8 @@ body {
 
     pointer-events: none;
     z-index: 9999;
+
+    
 
     /* Filters */
     background: 

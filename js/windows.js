@@ -12,63 +12,29 @@ export function initWindows() {
         win.addEventListener('mousedown', () => bringToFront(win));
     });
 
-    
-    // --- 'About Me' window
-    const aboutIcon = document.getElementById('about-icon');
-    const aboutWindow = document.getElementById('about-window');
-    const closeAboutBtn = document.getElementById('close-about');
 
-    // Open window when clicking the icon
-    aboutIcon.addEventListener('click', () => {
-        aboutWindow.style.display = 'flex'; // Usamos flex para respeitar o layout interno
-        bringToFront(aboutWindow);
-    });
+    // Window opening/closing logic
+    const desktopIcons = document.querySelectorAll('.desktop-icon');
+    desktopIcons.forEach(icon => {
+        // Gets program name
+        const appName = icon.id.replace('-icon', '');
 
-    // Close button
-    closeAboutBtn.addEventListener('click', () => {
-        aboutWindow.style.display = 'none';
-    });
+        // Gets elements by naming convention
+        const win = document.getElementById(`${appName}-window`);
+        const closeBtn = document.getElementById(`close-${appName}`);
 
+        // Null case
+        if (!win || !closeBtn) return;
 
-    // --- 'Mail' window
-    const mailIcon = document.getElementById('mail-icon');
-    const mailWindow = document.getElementById('mail-window');
-    const closeMailBtn = document.getElementById('close-mail');
-    
-    mailIcon.addEventListener('click', () => {
-        mailWindow.style.display = 'flex';
-        bringToFront(mailWindow);
-    });
-    
-    closeMailBtn.addEventListener('click', () => {
-        mailWindow.style.display = 'none';
-    });
-    
-    // --- 'Settings' window
-    const settingsIcon = document.getElementById('settings-icon');
-    const settingsWindow = document.getElementById('settings-window');
-    const closeSettingsBtn = document.getElementById('close-settings');
-    
-    settingsIcon.addEventListener('click', () => {
-        settingsWindow.style.display = 'flex';
-        bringToFront(settingsWindow);
-    });
-    
-    closeSettingsBtn.addEventListener('click', () => {
-        settingsWindow.style.display = 'none';
+        // Listeners
+        icon.addEventListener('click', () => {
+            win.style.display = 'flex';
+            bringToFront(win);
+        });
+        closeBtn.addEventListener('click', () => {
+            win.style.display = 'none';
+        });
     });
 
-    // --- 'Radio' window
-    const radioIcon = document.getElementById('radio-icon');
-    const radioWindow = document.getElementById('radio-window');
-    const closeRadioBtn = document.getElementById('close-radio');
-    
-    radioIcon.addEventListener('click', () => {
-        radioWindow.style.display = 'flex';
-        bringToFront(radioWindow);
-    });
-    
-    closeRadioBtn.addEventListener('click', () => {
-        radioWindow.style.display = 'none';
-    });
+
 }
