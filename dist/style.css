@@ -444,8 +444,8 @@ a, a:visited, a:active {
 
 /* CRT Filters */
 body {
-  /* CRT flickering */
-  filter: brightness(var(--flicker-brightness, 1));
+  /* CRT flickering + bloom */
+  filter: brightness(var(--flicker-brightness, 1)) url(#crt-bloom);
   transition: filter 0.05 ease-out;
 }
 

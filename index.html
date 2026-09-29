@@ -13,9 +13,10 @@
 
 </head>
 <body>
-    <!-- SVG filter - Chromatic aberration -->
+    <!-- SVG filters -->
     <svg style="display: none;">
         <defs>
+            <!-- Chromatic aberration -->
             <filter id="crt-aberration">
                 <!-- Isolate RGB colors -->
                 <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="Red" />
@@ -29,6 +30,12 @@
                 <!-- Mix back RGB -->
                 <feBlend mode="screen" in="RedShifted" in2="Green" result="RedGreen" />
                 <feBlend mode="screen" in="RedGreen" in2="BlueShifted" />
+            </filter>
+
+            <!-- Bloom -->
+            <filter id="crt-bloom">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="Bloom" />
+                <feBlend  mode="screen" in="Bloom" in2="SourceGraphic" />
             </filter>
         </defs>
     </svg>
