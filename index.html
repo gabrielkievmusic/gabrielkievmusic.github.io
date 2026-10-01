@@ -231,24 +231,30 @@
 
         <!---------------------------------------------------------------------------------------------------------------------->
         <!-- Cymatic Easel -->
-        <div class="desktop-icon" id="cymatic-easel-icon">
-            <img src="./images/icons/cymatic-easel-icon.png" alt="Cymatic Easel">
+        <div class="desktop-icon" id="easel-icon">
+            <img src="./images/icons/easel-icon.png" alt="Cymatic Easel">
             <p>Cymatic Easel</p>
         </div>
         <!-- Cymatic Easel window -->
-        <div class="window" id="cymatic-easel-window" style="display: none;">
+        <div class="window" id="easel-window" style="display: none;">
             <!-- Window header -->
             <div class="window-header">
                 <span class="window-title">Cymatic Easel</span>
                 <div class="window-controls">
-                    <button class="close-btn" id="close-cymatic-easel">X</button>
+                    <button class="close-btn" id="close-easel">X</button>
                 </div>
             </div>
 
             <!-- Window content -->
-            <div class="window-content" id="cymatic-easel-content">
-                <h2>Cymatic Easel</h2>
-                
+            <div class="window-content" id="easel-content">
+                <div id="easel-oscillators">
+                    <div class="easel-osc">
+                        <input type="range" min="20" max="2000" step="0.1" value="440" class="slider" id="osc1-freq">
+                        <output class="digital-output" for="osc1-freq">440</output>
+                        <input type="range" min="0" max="1" step="0.01" value="0.5" class="knob" id="osc1-gain">
+                        <output class="digital-output" for="osc1-gain">0.5</output>
+                    </div>
+                </div>
             </div>
         </div>
 
