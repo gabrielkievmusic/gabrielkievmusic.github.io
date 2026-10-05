@@ -73,6 +73,53 @@ a {
   border-width: 12px 8px 0 8px;
 }
 
+input[type=range].hslider {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  width: 100%;
+  height: 20px;
+  background: var(--background-color);
+  border: 1px solid var(--text-color);
+  outline: none;
+}
+
+input[type=range].hslider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 22px;
+  background: var(--text-color);
+  cursor: pointer;
+  box-shadow: 0px 0px 2px black;
+}
+
+input[type=range].hslider::-moz-range-thumb {
+  width: 15px;
+  height: 22px;
+  background: var(--text-color);
+  cursor: pointer;
+  box-shadow: 0px 0px 2px black;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0px;
+  width: 300px;
+  height: 20px;
+}
+.slider-group .slider-value {
+  width: 70px;
+  height: inherit;
+  text-align: right;
+  border: 2px solid var(--text-color);
+  font-family: "VT323", monospace;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
 h1, h2, h3 {
   font-family: "Courier New", Courier, monospace;
   font-weight: 700;
@@ -256,7 +303,7 @@ a, a:visited, a:active {
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .window-controls button {
@@ -479,7 +526,7 @@ body {
 }
 
 #easel-window {
-  width: 90%;
+  width: 80%;
   height: 90%;
   top: 50%;
   left: 50%;

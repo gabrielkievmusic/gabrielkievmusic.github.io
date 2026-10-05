@@ -249,10 +249,12 @@
             <div class="window-content" id="easel-content">
                 <div id="easel-oscillators">
                     <div class="easel-osc">
-                        <input type="range" min="20" max="2000" step="0.1" value="440" class="slider" id="osc1-freq">
-                        <output class="digital-output" for="osc1-freq">440</output>
+                        <div class="slider-group">
+                            <input type="range" min="20" max="2000" step="0.1" value="440" class="hslider" id="osc1-freq">
+                            <output class="slider-value" for="osc1-freq">440</output>
+                        </div>
                         <input type="range" min="0" max="1" step="0.01" value="0.5" class="knob" id="osc1-gain">
-                        <output class="digital-output" for="osc1-gain">0.5</output>
+                        <output class="slider-value" for="osc1-gain">0.5</output>
                     </div>
                 </div>
             </div>
