@@ -1,5 +1,5 @@
 export function initSliders() {
-    const sliders = docume.querySelectorAll('.hslider');
+    const sliders = document.querySelectorAll('.hslider');
 
     sliders.forEach(slider => {
         const output = slider.parentElement.querySelector('.slider-value');
