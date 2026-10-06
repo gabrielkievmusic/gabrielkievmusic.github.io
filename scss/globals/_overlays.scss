@@ -52,8 +52,8 @@ body {
             0deg, /* Line angle */
             transparent 0px, /* Start transparent */
             transparent 4px, /* Transparent until this pixel */
-            rgba(0, 0, 0, 0.3) 4px, /* Start black alpha=0.1 */
-            rgba(0, 0, 0, 0.3) 5px, /* Continue until this pixel */
+            rgba(0, 0, 0, 0.25) 4px, /* Start black alpha=0.1 */
+            rgba(0, 0, 0, 0.25) 5px, /* Continue until this pixel */
             /* And repeats */
         );
 }
