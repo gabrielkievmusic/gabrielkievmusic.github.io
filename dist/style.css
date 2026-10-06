@@ -534,9 +534,12 @@ body {
 }
 
 #easel-content {
+  display: flex;
+  flex-direction: row;
   padding: 0px;
 }
 
+/* Left - Oscillators -------------------------------- */
 #easel-oscillators {
   display: flex;
   flex-direction: column;
@@ -556,6 +559,24 @@ body {
   gap: 10px;
 }
 
+/* 
 #osc1-gain {
-  width: 100px;
+    width: 100px;
+} */
+/* Right - Cymatic canvas -------------------------------- */
+#easel-canvas-container {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  border: 1px solid var(--text-color);
+}
+
+#cymatic-canvas {
+  aspect-ratio: 1/1;
+  width: 90%;
+  max-height: 90%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }/*# sourceMappingURL=style.css.map */
