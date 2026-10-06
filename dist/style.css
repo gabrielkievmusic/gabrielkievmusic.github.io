@@ -492,7 +492,7 @@ a, a:visited, a:active {
 }
 
 /* CRT Filters */
-body {
+#os-container {
   /* CRT flickering + bloom */
   filter: brightness(var(--flicker-brightness, 1)) url(#crt-bloom);
   transition: filter 0.05 ease-out;
@@ -574,9 +574,19 @@ body {
   border: 1px solid var(--text-color);
 }
 
-#cymatic-canvas {
+#canvas-placeholder {
   aspect-ratio: 1/1;
-  width: 90%;
-  max-height: 90%;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 100%;
+}
+
+#cymatic-canvas {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+  filter: url(#crt-blom);
 }/*# sourceMappingURL=style.css.map */

@@ -1,5 +1,5 @@
 /* CRT Filters */
-body {
+#os-container {
     /* CRT flickering + bloom */
     filter: brightness(var(--flicker-brightness, 1)) url(#crt-bloom);
 

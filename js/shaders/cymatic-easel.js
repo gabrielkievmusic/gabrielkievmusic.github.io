@@ -24,7 +24,7 @@ const fragmentShaderSource = `
    }
 `;
 
-/* Shader compilation auxiliary functions */
+/* Shader compilation */
 export function initCymaticCanvas() {
     const canvas = document.getElementById('cymatic-canvas');
     canvas.width = 512;
@@ -83,4 +83,30 @@ export function initCymaticCanvas() {
     /* Render */
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+
+    /* "Portal" canvas up through the layers -------------------*/
+    const placeholder = document.getElementById('canvas-placeholder');
+
+    /* Make it follow the window */
+    function syncCanvasPortal() {
+        if (placeholder && canvas) {
+            /* Get position */
+            const rect = placeholder.getBoundingClientRect();
+
+            /* Hide if window closed */
+            if (rect.width > 0) {
+                canvas.style.display = 'block';
+                canvas.style.left = `${rect.left}px`;
+                canvas.style.top = `${rect.top}px`;
+                canvas.style.width = `${rect.width}px`;
+                canvas.style.height = `${rect.height}px`;
+            } else {
+                canvas.style.display = 'none';
+            }
+        }
+        /* Update every frame */
+        requestAnimationFrame(syncCanvasPortal);
+    }
+    syncCanvasPortal();
 }
