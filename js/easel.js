@@ -79,7 +79,7 @@ export function initEasel() {
                 const ctx = getAudioContext();
                 const oscNode = activeOscillators[oscId].oscNode;
 
-                oscNode.frequency.setValueAtTime(currentValue, ctx.currentTime, 0.02);
+                oscNode.frequency.setTargetAtTime(currentValue, ctx.currentTime, 0.02);
             }
 
             console.log(`Oscillator ${oscId} frequency changed to: ${currentValue}`);
@@ -99,7 +99,7 @@ export function initEasel() {
                 const ctx = getAudioContext();
                 const gainNode = activeOscillators[oscId].gainNode;
 
-                gainNode.gain.setValueAtTime(currentValue, ctx.currentTime, 0.02);
+                gainNode.gain.setTargetAtTime(currentValue, ctx.currentTime, 0.02);
             }
 
             console.log(`Oscillator ${oscId} gain changed to: ${currentValue}`);
