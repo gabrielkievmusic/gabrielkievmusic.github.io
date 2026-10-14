@@ -585,6 +585,6 @@ a, a:visited, a:active {
   display: block;
   margin: 0;
   padding: 0;
-  box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.75);
   filter: url(#crt-blom);
 }/*# sourceMappingURL=style.css.map */
