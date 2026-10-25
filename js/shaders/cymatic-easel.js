@@ -1,5 +1,40 @@
+/* Function to convert osc freq to HSL color and then to RGB */
+function getFreqColor(freq) {
+    /* Define freq scale */
+    const minFreq = 20;
+    const maxFreq = 10000;
+    const clampedFreq = Math.max(minFreq, Math.min(freq, maxFreq));
+
+    /* Get normalized position in scale */
+    let norm = (clampedFreq - minFreq) / (maxFreq - minFreq);
+
+    /* Use exponential curve to map colors */
+    let t = Math.pow(norm, 1.8);
+
+
+    /* Map to HSL */
+    let h = t * 0.85;  // stop it on magenta before turning red
+    let s = 1.0;  // max saturation
+    let l = 0.5;  // mid lightness
+
+    /* Standard algorithm to convert HSL to RGB */
+    const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+    };
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    
+    return [hue2rgb(p, q, h + 1/3), hue2rgb(p, q, h), hue2rgb(p, q, h - 1/3)];
+}
+
 /* VERTEX SHADER */
-const vertexShaderSource = `
+const vertexShaderSource =/* glsl */ `
     attribute vec2 a_position;
     void main() {
         gl_Position = vec4(a_position, 0.0, 1.0);
@@ -7,7 +42,7 @@ const vertexShaderSource = `
 `;
 
 /* FRAGMENT SHADER */
-const fragmentShaderSource = `
+const fragmentShaderSource = /* glsl */ `
     precision mediump float;
 
     #define PI 3.14159265359
@@ -26,7 +61,8 @@ const fragmentShaderSource = `
     
     void main() {
         /* Normalize coordinates */
-        vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+        //vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+        vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / u_resolution.xy;
 
         /* Black background */
         vec3 col = vec3(0.0);
@@ -170,15 +206,59 @@ export function initCymaticCanvas() {
         const currentTime = (performance.now() - startTime) / 1000.0;  // in seconds
         gl.uniform1f(timeLocation, currentTime);
 
-        /* TEMP - Mockup for oscillator data */
-        const oscData = new Float32Array([
-            4.0, 2.0, 1.0, 1.0,
-            0.0, 0.0, 0.0, 0.0,
-            7.0, 4.0, 0.8, -1.0,
-            0.0, 0.0, 0.0, 0.0,
-            11.0, 6.0, 0.6, -1.0
-        ]);
+        /* Get data from the oscillators */
+        const oscData = new Float32Array(5 * 4);  // 5 osc, 4 properties (n, m, gain, sign)
+        const colorsData = new Float32Array(5 * 3);  // 5 osc, 3 channels (RGB)
+
+        /* Get fundamental frequency */
+        const fundamentalInput = document.getElementById('osc1-freq');
+        const fundamentalFreq = fundamentalInput ? parseFloat(fundamentalInput.value) : 440;
+
+        /* iterate through all oscillators */
+        for (let i = 0; i < 5; i++) {
+            const id = `osc${i + 1}`;
+            const freqInput = document.getElementById(`${id}-freq`);
+            const gainInput = document.getElementById(`${id}-gain`);
+
+            if (!freqInput || !gainInput) continue;
+
+            let sliderValue = parseFloat(freqInput.value);
+            let gain = parseFloat(gainInput.value);
+
+            /* Frequency logic */
+            /* if Osc1, sliderValue is the frequency; else, sliderValue is multiplier of Osc1 freq */
+            let trueFreq = (i === 0) ? sliderValue : (fundamentalFreq * sliderValue);
+
+            /* Logic to fake oscillation modes as continuous values */
+            /* Get square root dependency (f = C(n^2 + m^2)) */
+            let k = Math.sqrt(trueFreq) * 0.15;
+
+            /* TEMP: define a single mode ratio (3:2) */
+            /* TODO: turn m and n into controllable variables later */
+            let n = k * 3.0;
+            let m = k * 2.0;
+
+            /* TEMP: alternate sign for each osc */
+            /* TODO: add toggle to oscillator to choose sign */
+            let pm = (i % 2 === 0) ? 1.0 : -1.0;
+
+            /* Fill arrays */
+            oscData[i * 4 + 0] = n;
+            oscData[i * 4 + 1] = m;
+            oscData[i * 4 + 2] = gain;
+            oscData[i * 4 + 3] = pm;
+
+            /* Apply color */
+            const rgb = getFreqColor(trueFreq);
+            colorsData[i * 3 + 0] = rgb[0];
+            colorsData[i * 3 + 1] = rgb[1];
+            colorsData[i * 3 + 2] = rgb[2];
+
+        }
+
+        /* Send data to GPU */
         gl.uniform4fv(oscLocation, oscData);
+        gl.uniform3fv(colorsLocation, colorsData);
 
         /* Redraw */
         gl.drawArrays(gl.TRIANGLES, 0, 6);
