@@ -9,7 +9,7 @@ function getFreqColor(freq) {
     let norm = (clampedFreq - minFreq) / (maxFreq - minFreq);
 
     /* Use exponential curve to map colors */
-    let t = Math.pow(norm, 1.8);
+    let t = Math.pow(norm, 0.9);
 
 
     /* Map to HSL */
@@ -77,8 +77,22 @@ const fragmentShaderSource = /* glsl */ `
             
             if (gain <= 0.0) continue;
             
-            // Calculate Chladni pattern
-            float w = chladni(uv, n, m, pm);
+            /* Calculate Chladni pattern */
+            // Find nearest integer modes
+            float nf = floor(n); float nc = ceil(n);
+            float mf = floor(m); float mc = ceil(m);
+
+            // Calculate the four "neighboring" patterns
+            float wff = chladni(uv, nf, mf, pm);
+            float wcf = chladni(uv, nc, mf, pm);
+            float wfc = chladni(uv, nf, mc, pm);
+            float wcc = chladni(uv, nc, mc, pm);
+
+            // Interpolate between them to get the fake intermediary modes
+            float tn = fract(n); float tm = fract(m);
+            float w_ff_cf = mix(wff, wcf, tn);
+            float w_fc_cc = mix(wfc, wcc, tn);
+            float w = mix(w_ff_cf, w_fc_cc, tm);
             
             // Calculate a multiplier for the 'thickness' based on the oscillator number
             // TODO: change so it is based solely on the frequency of the oscillator
@@ -181,7 +195,7 @@ export function initCymaticCanvas() {
     /* Start time */
     let startTime = performance.now();
 
-    /* Loop */
+    /* --- LOOP --- */
     function syncCanvasPortal() {
         /* Make it follow the window */
         if (placeholder && canvas) {
@@ -214,6 +228,10 @@ export function initCymaticCanvas() {
         const fundamentalInput = document.getElementById('osc1-freq');
         const fundamentalFreq = fundamentalInput ? parseFloat(fundamentalInput.value) : 440;
 
+        /* Variables for ambient light around canvas */
+        let ambientR = 0, ambientG = 0, ambientB = 0;
+        let totalGain = 0;
+
         /* iterate through all oscillators */
         for (let i = 0; i < 5; i++) {
             const id = `osc${i + 1}`;
@@ -230,13 +248,13 @@ export function initCymaticCanvas() {
             let trueFreq = (i === 0) ? sliderValue : (fundamentalFreq * sliderValue);
 
             /* Logic to fake oscillation modes as continuous values */
-            /* Get square root dependency (f = C(n^2 + m^2)) */
-            let k = Math.sqrt(trueFreq) * 0.15;
+            /* Get square root dependency (f = C(n^2 + m^2))  =>  C=10, n=m=1 <=> f=20Hz */
+            let R = Math.sqrt(trueFreq / 10.0);  // circle of radius R in the modal plane
 
-            /* TEMP: define a single mode ratio (3:2) */
-            /* TODO: turn m and n into controllable variables later */
-            let n = k * 3.0;
-            let m = k * 2.0;
+            /* Get n and m by going around the circle in the modal plane */
+            let angle = Math.PI / 4.0 + 0.4 * Math.sin(R - Math.SQRT2);
+            let n = R * Math.cos(angle);
+            let m = R * Math.sin(angle);
 
             /* TEMP: alternate sign for each osc */
             /* TODO: add toggle to oscillator to choose sign */
@@ -254,6 +272,35 @@ export function initCymaticCanvas() {
             colorsData[i * 3 + 1] = rgb[1];
             colorsData[i * 3 + 2] = rgb[2];
 
+            // Apply color to ambient lighting variables
+            if (gain > 0) {
+                ambientR += rgb[0] * gain;
+                ambientG += rgb[1] * gain;
+                ambientB += rgb[2] * gain;
+                totalGain += gain;
+            }
+
+        }
+
+        /* Send ambient light to CSS box-shadow */
+        if (totalGain > 0) {
+            // adjust range
+            let r = Math.min(255, Math.round(ambientR * 255));
+            let g = Math.min(255, Math.round(ambientG * 255));
+            let b = Math.min(255, Math.round(ambientB * 255));
+
+            // Pulsing effect
+            let pulse = 0.6 + 0.05 * Math.sin(currentTime);
+            
+            // Ajust opacity and length based on total gain
+            let shadowAlpha = Math.min(1.0, totalGain * pulse);
+            let shadowLength = Math.max(40, Math.min(totalGain*pulse*150, 250));
+
+            // Update CSS shadow
+            canvas.style.boxShadow = `0 0 ${shadowLength}px rgba(${r}, ${g}, ${b}, ${shadowAlpha})`;
+        } else {
+            // No light if gain is 0
+            canvas.style.boxShadow = "none";
         }
 
         /* Send data to GPU */
