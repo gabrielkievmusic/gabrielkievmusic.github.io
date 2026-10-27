@@ -178,7 +178,7 @@ export function initEasel() {
     const masterBus = getMasterBus();
 
     if(!easelReverb) {
-        easelReverb = createReverbEffect(ctx, 2.5, 3.0);
+        easelReverb = createReverbEffect(ctx, 3.0, 3.0);
         easelReverb.output.connect(masterBus);
     }
 }
