@@ -1,9 +1,11 @@
 /* Get audio context */
-import { getAudioContext, getMasterBus } from './audio.js';
+import { getAudioContext, getMasterBus, createReverbEffect } from './audio.js';
 
 import { initSliders } from './sliders.js';
 
-/* HTML configuration */
+
+
+/* HTML configuration -------------------------------------- */
 const oscConfigs = [
     { id: 'osc1', name: 'FUNDAMENTAL', min: 20, max: 2000, step: 0.1, default: 440, isMultiplier: false },
     { id: 'osc2', name: 'HARMONIC 2', min: 0.1, max: 10, step: 0.01, default: 2.0, isMultiplier: true },
@@ -44,6 +46,9 @@ function renderOscillators() {
 /* Dictionary to store oscillator states */
 const activeOscillators = {};
 
+/* Reverb state */
+let easelReverb = null;
+
 /* Initialization function */
 export function initEasel() {
     /* Generate HTML and initialize sliders */
@@ -80,10 +85,9 @@ export function initEasel() {
                 oscNode.frequency.value = finalFreq;
                 gainNode.gain.value = gainValue;
 
-                /* Osc -> Gain -> Master Bus */
+                /* Osc -> Gain -> Reverb */
                 oscNode.connect(gainNode);
-                const masterBus = getMasterBus();
-                gainNode.connect(masterBus);
+                gainNode.connect(easelReverb.input);
 
                 /* Start oscillator */
                 oscNode.start();
@@ -168,4 +172,13 @@ export function initEasel() {
             //console.log(`Oscillator ${oscId} gain changed to: ${currentValue}`);
         });
     });
+
+    /* Create reverb */
+    const ctx = getAudioContext();
+    const masterBus = getMasterBus();
+
+    if(!easelReverb) {
+        easelReverb = createReverbEffect(ctx, 2.5, 3.0);
+        easelReverb.output.connect(masterBus);
+    }
 }
