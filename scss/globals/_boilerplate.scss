@@ -42,14 +42,12 @@ a {
     background-color: var(--background-color);
     border: 1px solid var(--text-color);
 }
-
 ::-webkit-scrollbar-thumb {
     background-color: var(--text-color);
 }
 ::-webkit-scrollbar-thumb:active{
     border: 1px solid var(--background-color);
 }
-
 /* Buttons */
 ::-webkit-scrollbar-button:single-button {
     background-color: var(--background-color);
@@ -66,7 +64,6 @@ a {
 ::-webkit-scrollbar-button:vertical:single-button:decrement:active {
     border-width: 0 8px 12px 8px;
 }
-
 /* Down */
 ::-webkit-scrollbar-button:single-button:vertical:increment {
     border-width: 14px 8px 0 8px;
@@ -78,7 +75,7 @@ a {
 
 
 
-// Range slider
+// Range slider -----------------------------------------------------------------------------------------
 input[type="range"].hslider {
     -webkit-appearance: none;
     appearance: none;
@@ -105,7 +102,6 @@ input[type="range"].hslider::-moz-range-thumb {
     cursor: pointer;
     box-shadow: 0px 0px 2px black;
 }
-
 .slider-group {
     display: flex;
     flex-direction: row;

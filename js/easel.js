@@ -19,10 +19,10 @@ function renderOscillators() {
     oscConfigs.forEach(conf => {
         const unit = conf.isMultiplier ? 'x' : 'Hz'; 
 
-        container.innerHTML += `
+        container.innerHTML += /* html */ `
             <div class="easel-osc">
-                <div style="font-size: 10px; margin-bottom: 5px;">${conf.name}</div>
-                <button class="osc-toggle" id="${conf.id}-toggle">POWER</button>
+                <div style="font-size: 10px; margin-bottom: 5px;"></div>
+                <button class="osc-toggle" id="${conf.id}-toggle" data-active="false"></button>
                 
                 <div class="slider-group">
                     <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq" id="${conf.id}-freq">
@@ -92,7 +92,7 @@ export function initEasel() {
                 activeOscillators[oscId] = { oscNode, gainNode };
 
                 /* Visual feedback */
-                e.target.textContent = 'ON';
+                e.target.setAttribute('data-active', 'true');
 
                 console.log(`Oscillator ${oscId} toggled: Freq = ${finalFreq}, Gain = ${gainValue}`);
 
@@ -110,7 +110,7 @@ export function initEasel() {
                 delete activeOscillators[oscId];
 
                 /* Visual feedback */
-                e.target.textContent = 'OFF';
+                e.target.setAttribute('data-active', 'false');
 
                 console.log(`Oscillator ${oscId} toggled OFF`);
             }            
@@ -171,7 +171,7 @@ export function initEasel() {
                 gainNode.gain.setTargetAtTime(currentValue, ctx.currentTime, 0.02);
             }
 
-            console.log(`Oscillator ${oscId} gain changed to: ${currentValue}`);
+            //console.log(`Oscillator ${oscId} gain changed to: ${currentValue}`);
         });
     });
 }

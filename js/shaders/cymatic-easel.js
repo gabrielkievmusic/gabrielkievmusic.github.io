@@ -34,7 +34,7 @@ function getFreqColor(freq) {
 }
 
 /* VERTEX SHADER */
-const vertexShaderSource =/* glsl */ `
+const vertexShaderSource = /* glsl */ `
     attribute vec2 a_position;
     void main() {
         gl_Position = vec4(a_position, 0.0, 1.0);
@@ -181,16 +181,6 @@ export function initCymaticCanvas() {
     const timeLocation = gl.getUniformLocation(program, "u_time");
     const oscLocation = gl.getUniformLocation(program, "u_oscillators");
     const colorsLocation = gl.getUniformLocation(program, "u_colors");
-
-    /* TEMP - color palette */
-    const colorsData = new Float32Array([
-        1.0, 0.2, 0.2,  
-        1.0, 0.8, 0.2,  
-        0.2, 1.0, 0.2,  
-        0.2, 0.8, 1.0,  
-        1.0, 0.2, 1.0   
-    ]);
-    gl.uniform3fv(colorsLocation, colorsData);
 
     /* Start time */
     let startTime = performance.now();
