@@ -120,3 +120,42 @@ input[type="range"].hslider::-moz-range-thumb {
         font-weight: 400;
     }
 }
+
+
+
+// Buttons ----------------------------------------------------------------------------------------------
+.square-toggle {
+    // Reset default button style
+    appearance: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+
+    // Square button style
+    width: 20px;
+    height: 20px;
+    background-color: var(--background-color);
+    border: 1px solid var(--text-color);
+
+    // Inner square
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    &::after {
+        // Config
+        content: '';
+        width: 15px;
+        height: 15px;
+        background-color: var(--text-color);
+
+        // Start hidden
+        opacity: 0;
+    }
+    
+    // Button ON
+    &[data-active="true"]::after {
+        opacity: 1;
+    }
+}

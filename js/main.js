@@ -1,6 +1,7 @@
 import { initBoot } from "./boot.js";
 import { initWindows } from "./windows.js";
 import { initCRT } from "./crt.js";
+import { initUIComponents } from "./ui-components.js"
 import { initSliders } from "./sliders.js";
 import { initEasel } from "./easel.js";
 import { initCymaticCanvas } from "./shaders/cymatic-easel.js";
@@ -8,6 +9,7 @@ import { initCymaticCanvas } from "./shaders/cymatic-easel.js";
 initBoot();
 initWindows();
 initCRT();
+initUIComponents()
 initSliders();
 initEasel();
 initCymaticCanvas();

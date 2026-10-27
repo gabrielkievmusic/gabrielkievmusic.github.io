@@ -22,7 +22,7 @@ function renderOscillators() {
         container.innerHTML += /* html */ `
             <div class="easel-osc">
                 <div style="font-size: 10px; margin-bottom: 5px;"></div>
-                <button class="osc-toggle" id="${conf.id}-toggle" data-active="false"></button>
+                <button class="square-toggle easel-power-btn" id="${conf.id}-toggle" data-active="false"></button>
                 
                 <div class="slider-group">
                     <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq" id="${conf.id}-freq">
@@ -51,10 +51,10 @@ export function initEasel() {
     initSliders();
 
     /* Get power buttons */
-    const powerBtn = document.querySelectorAll('.osc-toggle');
+    const powerBtn = document.querySelectorAll('.easel-power-btn');
 
     powerBtn.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('toggleChange', (e) => {
             const oscId = e.target.id.replace('-toggle', '');
 
             const ctx = getAudioContext();
@@ -91,10 +91,7 @@ export function initEasel() {
                 /* Update state dictionary */
                 activeOscillators[oscId] = { oscNode, gainNode };
 
-                /* Visual feedback */
-                e.target.setAttribute('data-active', 'true');
-
-                console.log(`Oscillator ${oscId} toggled: Freq = ${finalFreq}, Gain = ${gainValue}`);
+                console.log(`Oscillator ${oscId} toggled ON: Freq = ${finalFreq}, Gain = ${gainValue}`);
 
             } else {
                 /* If osc is on, turn it off */
@@ -108,9 +105,6 @@ export function initEasel() {
 
                 /* Deletes from dictionary */
                 delete activeOscillators[oscId];
-
-                /* Visual feedback */
-                e.target.setAttribute('data-active', 'false');
 
                 console.log(`Oscillator ${oscId} toggled OFF`);
             }            
