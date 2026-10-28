@@ -103,6 +103,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    padding-right: 10%;
 
     label {
         color: var(--text-color);
@@ -181,7 +182,7 @@
     width: fit-content;
     margin: 0 auto;
     font-family: $font-system; 
-    font-size: 10px;
+    font-size: 6px;
     line-height: 0.8;
     letter-spacing: 1px;
     white-space: pre;

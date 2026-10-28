@@ -8,10 +8,10 @@ import { initSliders } from './sliders.js';
 /* HTML configuration -------------------------------------- */
 const oscConfigs = [
     { id: 'osc1', name: 'FUNDAMENTAL', min: 20, max: 2000, step: 0.1, default: 440, isMultiplier: false },
-    { id: 'osc2', name: 'HARMONIC 2', min: 0.1, max: 10, step: 0.01, default: 2.0, isMultiplier: true },
-    { id: 'osc3', name: 'HARMONIC 3', min: 0.1, max: 10, step: 0.01, default: 3.0, isMultiplier: true },
-    { id: 'osc4', name: 'HARMONIC 4', min: 0.1, max: 10, step: 0.01, default: 4.0, isMultiplier: true },
-    { id: 'osc5', name: 'HARMONIC 5', min: 0.1, max: 10, step: 0.01, default: 5.0, isMultiplier: true }
+    { id: 'osc2', name: 'HARMONIC 2', min: 0.1, max: 5, step: 0.01, default: 2.0, isMultiplier: true },
+    { id: 'osc3', name: 'HARMONIC 3', min: 0.1, max: 5, step: 0.01, default: 3.0, isMultiplier: true },
+    { id: 'osc4', name: 'HARMONIC 4', min: 0.1, max: 5, step: 0.01, default: 4.0, isMultiplier: true },
+    { id: 'osc5', name: 'HARMONIC 5', min: 0.1, max: 5, step: 0.01, default: 5.0, isMultiplier: true }
 ];
 
 function renderOscillators() {
@@ -23,8 +23,10 @@ function renderOscillators() {
 
         container.innerHTML += /* html */ `
             <div class="easel-osc">
-                <div style="font-size: 10px; margin-bottom: 5px;"></div>
-                <button class="square-toggle easel-power-btn" id="${conf.id}-toggle" data-active="false"></button>
+                <div class="button-group">
+                    <button class="square-toggle easel-power-btn" id="${conf.id}-toggle" data-active="false"></button>
+                    <label class="button-label" for="${conf.id}-toggle">SOUND</label>
+                </div>
                 
                 <div class="slider-group">
                     <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq" id="${conf.id}-freq">

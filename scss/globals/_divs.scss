@@ -111,6 +111,16 @@
     flex-grow: 1;
     font-family: $font-lucida;
 }
+#mail-header-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding-left: 16%;
+    padding-right: 10%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
 
 #radio-window {
     width: 60%;

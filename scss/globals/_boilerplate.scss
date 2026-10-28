@@ -124,6 +124,21 @@ input[type="range"].hslider::-moz-range-thumb {
 
 
 // Buttons ----------------------------------------------------------------------------------------------
+.button-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.button-label {
+    position: absolute;
+    top: 100%;
+    margin-top: 5px;
+    white-space: nowrap;
+    font-size: 10px; 
+}
+
 .square-toggle {
     // Reset default button style
     appearance: none;
