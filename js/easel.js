@@ -1,7 +1,7 @@
 /* Get audio context */
 import { getAudioContext, getMasterBus, createReverbEffect } from './audio.js';
 
-import { initSliders } from './sliders.js';
+import { initUIComponents } from './ui-components.js';
 
 
 
@@ -28,15 +28,42 @@ function renderOscillators() {
                     <label class="button-label" for="${conf.id}-toggle">SOUND</label>
                 </div>
                 
-                <div class="slider-group">
+                <!-- <div class="slider-group">
                     <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq" id="${conf.id}-freq">
                     <output class="slider-value" for="${conf.id}-freq">${conf.default}${unit}</output>
+                </div> -->
+
+                <!-- Freq knob -->
+                <div class="ui-knob-group">
+                    <output class="knob-value" for="${conf.id}-freq">${conf.default}${unit}</output>
+
+                    <div class="ui-knob">
+                        <div class="knob-dial">
+                            <div class="knob-pointer"></div>
+                        </div>
+                    </div>
+
+                    <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq hidden-input" id="${conf.id}-freq">
+                    <label for="${conf.id}-freq" class="knob-label">FREQUENCY</label>
                 </div>
 
-                <div class="slider-group">
+                <!-- <div class="slider-group">
                     <input type="range" min="0" max="1" step="0.01" value="0.0" class="hslider osc-gain" id="${conf.id}-gain">
                     <output class="slider-value" for="${conf.id}-gain">0.0</output>
+                </div> -->
+
+                <!-- Gain knob -->
+                <div class="ui-knob-group">
+                    <div class="ui-knob">
+                        <div class="knob-dial">
+                            <div class="knob-pointer"></div>
+                        </div>
+                    </div>
+
+                    <input type="range" min="0" max="1" step="0.01" value="0.0" class="hslider osc-gain hidden-input" id="${conf.id}-gain">
+                    <label for="${conf.id}-gain" class="knob-label">GAIN</label>
                 </div>
+
             </div>
         `;
     });
@@ -55,7 +82,7 @@ let easelReverb = null;
 export function initEasel() {
     /* Generate HTML and initialize sliders */
     renderOscillators();
-    initSliders();
+    initUIComponents();
 
     /* Get power buttons */
     const powerBtn = document.querySelectorAll('.easel-power-btn');
