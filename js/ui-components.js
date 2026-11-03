@@ -42,7 +42,7 @@ export function initUIComponents() {
     // On mousedown
     // Get the knob element, link to the corresponding hidden range input, store its initial position and value, and lock the cursor icon
     document.addEventListener('mousedown', (e) => {
-        const knob = e.target.closest('.ui-knob');
+        const knob = e.target.closest('.ui-knob, .ui-knob-small');
         if (knob) {
             activeKnob = knob;
             startY = e.clientY;  // Store initial Y position
@@ -64,7 +64,9 @@ export function initUIComponents() {
         if (!activeKnob || !linkedInput) return;  // Exit if no active knob
 
         const deltaY = startY - e.clientY;  // Calculate vertical movement
-        const sensitivity = 0.01;  // Sensitivity
+        
+        const customSens = activeKnob.getAttribute('knob-sensitivity');
+        const sensitivity = customSens ? parseFloat(customSens) : 0.005;
 
         const min = parseFloat(linkedInput.min);
         const max = parseFloat(linkedInput.max);
@@ -75,12 +77,12 @@ export function initUIComponents() {
         
         if (linkedInput.value !== newValue.toString()) {
             linkedInput.value = newValue;  // Update the hidden input
-            
-            // Trigger input event
-            linkedInput.dispatchEvent(new Event('input', { bubbles: true }));
 
             // Rotate the knob pointer
             updateKnobPointer(activeKnob, newValue, min, max, linkedInput);
+            
+            // Trigger input event
+            linkedInput.dispatchEvent(new Event('input', { bubbles: true }));           
         }
     });
 
@@ -119,4 +121,21 @@ export function initUIComponents() {
             }
         }
     }
+
+    const allKnobs = document.querySelectorAll('.ui-knob, .ui-knob-small');
+    
+    // Initialize all knob pointers based on initial values of their linked inputs
+    allKnobs.forEach(knob => {
+        // Identify knob and linked input
+        const group = knob.closest('.ui-knob-group');
+        const linkedInput = group.querySelector('.hidden-input');
+        
+        if (linkedInput) {
+            const val = parseFloat(linkedInput.value);
+            const min = parseFloat(linkedInput.min);
+            const max = parseFloat(linkedInput.max);
+            
+            updateKnobPointer(knob, val, min, max, linkedInput);
+        }
+    });
 }

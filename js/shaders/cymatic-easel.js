@@ -1,3 +1,6 @@
+/* Import easel frequency state */
+import { easelState } from '../easel.js';
+
 /* Function to convert osc freq to HSL color and then to RGB */
 function getFreqColor(freq) {
     /* Define freq scale */
@@ -215,8 +218,7 @@ export function initCymaticCanvas() {
         const colorsData = new Float32Array(5 * 3);  // 5 osc, 3 channels (RGB)
 
         /* Get fundamental frequency */
-        const fundamentalInput = document.getElementById('osc1-freq');
-        const fundamentalFreq = fundamentalInput ? parseFloat(fundamentalInput.value) : 440;
+        const fundamentalFreq = easelState['osc1'].freq;
 
         /* Variables for ambient light around canvas */
         let ambientR = 0, ambientG = 0, ambientB = 0;
@@ -225,13 +227,17 @@ export function initCymaticCanvas() {
         /* iterate through all oscillators */
         for (let i = 0; i < 5; i++) {
             const id = `osc${i + 1}`;
-            const freqInput = document.getElementById(`${id}-freq`);
             const gainInput = document.getElementById(`${id}-gain`);
+            const powerBtn = document.getElementById(`${id}-toggle`);
+            const phaseBtn = document.getElementById(`${id}-phase`);
 
-            if (!freqInput || !gainInput) continue;
+            if (!gainInput || !powerBtn) continue;
 
-            let sliderValue = parseFloat(freqInput.value);
-            let gain = parseFloat(gainInput.value);
+            let sliderValue = easelState[id].freq;
+
+            let isPoweredOn = powerBtn.getAttribute('data-active') === 'true';
+
+            let gain = isPoweredOn ? parseFloat(gainInput.value) : 0.0;
 
             /* Frequency logic */
             /* if Osc1, sliderValue is the frequency; else, sliderValue is multiplier of Osc1 freq */
@@ -246,9 +252,9 @@ export function initCymaticCanvas() {
             let n = R * Math.cos(angle);
             let m = R * Math.sin(angle);
 
-            /* TEMP: alternate sign for each osc */
-            /* TODO: add toggle to oscillator to choose sign */
-            let pm = (i % 2 === 0) ? 1.0 : -1.0;
+            /* Get phase */
+            let isPhaseActive = phaseBtn && phaseBtn.getAttribute('data-active') === 'true';
+            let pm = isPhaseActive ? -1.0 : 1.0;
 
             /* Fill arrays */
             oscData[i * 4 + 0] = n;

@@ -6,8 +6,10 @@ import { initEasel } from "./easel.js";
 import { initCymaticCanvas } from "./shaders/cymatic-easel.js";
 
 initBoot();
-initWindows();
 initCRT();
-initUIComponents()
+initWindows();
+
 initEasel();
 initCymaticCanvas();
+
+initUIComponents();

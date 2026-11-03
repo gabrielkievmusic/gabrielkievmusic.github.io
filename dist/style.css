@@ -580,7 +580,15 @@ input[type=range].hslider::-moz-range-thumb {
   opacity: 1;
 }
 
+.ui-knob-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
 .ui-knob-group {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -589,6 +597,8 @@ input[type=range].hslider::-moz-range-thumb {
   display: none;
 }
 .ui-knob-group .knob-value {
+  position: absolute;
+  bottom: 100%;
   width: 30px;
   height: inherit;
   margin-bottom: 5px;
@@ -597,6 +607,7 @@ input[type=range].hslider::-moz-range-thumb {
   font-family: "VT323", monospace;
   font-size: 12px;
   font-weight: 300;
+  white-space: nowrap;
 }
 .ui-knob-group::after {
   content: attr(data-unit);
@@ -623,6 +634,22 @@ input[type=range].hslider::-moz-range-thumb {
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
+.ui-knob-small {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--background-color);
+  border: 2px solid var(--text-color);
+  cursor: ns-resize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.ui-knob-small:hover {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
 .knob-dial {
   width: 100%;
   height: 100%;
@@ -643,7 +670,18 @@ input[type=range].hslider::-moz-range-thumb {
 }
 
 .knob-label {
+  position: absolute;
+  top: 100%;
+  white-space: nowrap;
   font-size: 10px;
+  margin-top: 5px;
+}
+
+.knob-label-small {
+  position: absolute;
+  top: 100%;
+  white-space: nowrap;
+  font-size: 7px;
   margin-top: 5px;
 }
 

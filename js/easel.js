@@ -1,8 +1,6 @@
 /* Get audio context */
 import { getAudioContext, getMasterBus, createReverbEffect } from './audio.js';
 
-import { initUIComponents } from './ui-components.js';
-
 
 
 /* HTML configuration -------------------------------------- */
@@ -23,28 +21,77 @@ function renderOscillators() {
 
         container.innerHTML += /* html */ `
             <div class="easel-osc">
+                <!-- Power button -->
                 <div class="button-group">
                     <button class="square-toggle easel-power-btn" id="${conf.id}-toggle" data-active="false"></button>
-                    <label class="button-label" for="${conf.id}-toggle">SOUND</label>
+                    <label class="button-label" for="${conf.id}-toggle">POWER</label>
                 </div>
-                
+
+                <!-- Phase button -->
+                <div class="button-group">
+                    <button class="square-toggle easel-phase-btn" id="${conf.id}-phase" data-active="false"></button>
+                    <label class="button-label" for="${conf.id}-phase">PHASE</label>
+                </div>
+
                 <!-- <div class="slider-group">
                     <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq" id="${conf.id}-freq">
                     <output class="slider-value" for="${conf.id}-freq">${conf.default}${unit}</output>
                 </div> -->
 
-                <!-- Freq knob -->
-                <div class="ui-knob-group">
-                    <output class="knob-value" for="${conf.id}-freq">${conf.default}${unit}</output>
-
-                    <div class="ui-knob">
-                        <div class="knob-dial">
-                            <div class="knob-pointer"></div>
+                <!-- Freq knob container -->
+                <div class="ui-knob-container">
+                    <!-- Freq knob -->
+                    <div class="ui-knob-group">
+                        <output class="knob-value" for="${conf.id}-freq">${conf.default}${unit}</output>
+    
+                        <div class="ui-knob">
+                            <div class="knob-dial">
+                                <div class="knob-pointer"></div>
+                            </div>
                         </div>
+    
+                        <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq hidden-input" id="${conf.id}-freq">
+                        <label for="${conf.id}-freq" class="knob-label">FREQ.</label>
                     </div>
 
-                    <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq hidden-input" id="${conf.id}-freq">
-                    <label for="${conf.id}-freq" class="knob-label">FREQUENCY</label>
+                    <!-- Freq fine knob -->
+                    <div class="ui-knob-group">
+                        
+                        <div class="ui-knob-small">
+                            <div class="knob-dial">
+                                <div class="knob-pointer"></div>
+                            </div>
+                        </div>
+                        
+                        <label for="${conf.id}-freq-fine" class="knob-label-small">FINE</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="0.0" class="hslider osc-freq-fine hidden-input" id="${conf.id}-freq-fine">
+                    </div>
+
+                    <!-- Freq CV depth knob -->
+                    <div class="ui-knob-group">
+                        
+                        <div class="ui-knob-small">
+                            <div class="knob-dial">
+                                <div class="knob-pointer"></div>
+                            </div>
+                        </div>
+                        
+                        <label for="${conf.id}-freq-cv-depth" class="knob-label-small">MOD</label>
+                        <input type="range" min="0" max="1" step="0.01" value="0.0" class="hslider osc-freq-cv-depth hidden-input" id="${conf.id}-freq-cv-depth">
+                    </div>
+
+                    <!-- Freq CV rate knob -->
+                    <div class="ui-knob-group">
+                        
+                        <div class="ui-knob-small">
+                            <div class="knob-dial">
+                                <div class="knob-pointer"></div>
+                            </div>
+                        </div>
+                        
+                        <label for="${conf.id}-freq-cv-rate" class="knob-label-small">RATE</label>
+                        <input type="range" min="0" max="20" step="0.01" value="0.0" class="hslider osc-freq-cv-rate hidden-input" id="${conf.id}-freq-cv-rate">
+                    </div>
                 </div>
 
                 <!-- <div class="slider-group">
@@ -52,17 +99,48 @@ function renderOscillators() {
                     <output class="slider-value" for="${conf.id}-gain">0.0</output>
                 </div> -->
 
-                <!-- Gain knob -->
-                <div class="ui-knob-group">
-                    <div class="ui-knob">
-                        <div class="knob-dial">
-                            <div class="knob-pointer"></div>
-                        </div>
-                    </div>
+                <!-- Gain knob container -->
+                <div class="ui-knob-container">
 
-                    <input type="range" min="0" max="1" step="0.01" value="0.0" class="hslider osc-gain hidden-input" id="${conf.id}-gain">
-                    <label for="${conf.id}-gain" class="knob-label">GAIN</label>
+                    <!-- Gain knob -->
+                    <div class="ui-knob-group">
+                        <div class="ui-knob">
+                            <div class="knob-dial">
+                                <div class="knob-pointer"></div>
+                            </div>
+                        </div>
+    
+                        <input type="range" min="0" max="1" step="0.01" value="0.0" class="hslider osc-gain hidden-input" id="${conf.id}-gain">
+                        <label for="${conf.id}-gain" class="knob-label">GAIN</label>
+                    </div>
+    
+                    <!-- Gain CV depth knob -->
+                        <div class="ui-knob-group">
+                            
+                            <div class="ui-knob-small">
+                                <div class="knob-dial">
+                                    <div class="knob-pointer"></div>
+                                </div>
+                            </div>
+                            
+                            <label for="${conf.id}-gain-cv-depth" class="knob-label-small">MOD</label>
+                            <input type="range" min="0" max="1" step="0.01" value="0.0" class="hslider osc-gain-cv-depth hidden-input" id="${conf.id}-gain-cv-depth">
+                        </div>
+    
+                        <!-- Gain CV rate knob -->
+                        <div class="ui-knob-group">
+                            
+                            <div class="ui-knob-small">
+                                <div class="knob-dial">
+                                    <div class="knob-pointer"></div>
+                                </div>
+                            </div>
+                            
+                            <label for="${conf.id}-gain-cv-rate" class="knob-label-small">RATE</label>
+                            <input type="range" min="0" max="20" step="0.01" value="0.0" class="hslider osc-gain-cv-rate hidden-input" id="${conf.id}-gain-cv-rate">
+                        </div>
                 </div>
+
 
             </div>
         `;
@@ -78,11 +156,35 @@ const activeOscillators = {};
 /* Reverb state */
 let easelReverb = null;
 
+
+export const easelState = {
+    // Starting values
+    osc1: { freq: 440 }, 
+    osc2: { freq: 2.0 },
+    osc3: { freq: 3.0 },
+    osc4: { freq: 4.0 },
+    osc5: { freq: 5.0 }
+};
+
+/* Helper function to combine Coarse and Fine values */
+function getOscCombinedValue(oscId) {
+    const coarseInput = document.getElementById(`${oscId}-freq`);
+    const fineInput = document.getElementById(`${oscId}-freq-fine`);
+    
+    let total = 0;
+    if (coarseInput) total += parseFloat(coarseInput.value);
+    if (fineInput) total += parseFloat(fineInput.value);
+    
+    // Salva o resultado matematicamente pronto na memória!
+    easelState[oscId].freq = total; 
+    
+    return total;
+}
+
 /* Initialization function */
 export function initEasel() {
     /* Generate HTML and initialize sliders */
     renderOscillators();
-    initUIComponents();
 
     /* Get power buttons */
     const powerBtn = document.querySelectorAll('.easel-power-btn');
@@ -96,10 +198,10 @@ export function initEasel() {
             /* If osc is off, turn it on */
             if (!activeOscillators[oscId]) {
                 /* Read fundamental frequency from osc1 */
-                const fundamental = parseFloat(document.getElementById('osc1-freq').value);
+                const fundamental = getOscCombinedValue('osc1');
 
                 /* Reads freq and gain values for given oscillator */
-                const freqValue = parseFloat(document.getElementById(`${oscId}-freq`).value);
+                const freqValue = getOscCombinedValue(oscId);
                 const gainValue = parseFloat(document.getElementById(`${oscId}-gain`).value);
 
                 /* Determine the actual frequency if it's a harmonic */
@@ -144,43 +246,55 @@ export function initEasel() {
         });
     });
 
-    /* Get oscillator freqs */
-    const oscFreqSliders = document.querySelectorAll('.osc-freq');
+    /* Get oscillator freqs (Coarse and Fine) */
+    const oscFreqSliders = document.querySelectorAll('.osc-freq, .osc-freq-fine');
 
     oscFreqSliders.forEach(slider => {
-    slider.addEventListener('input', (e) => {
-        const currentValue = parseFloat(e.target.value);
-        const oscId = e.target.id.replace('-freq', '');
-        const ctx = getAudioContext();
+        slider.addEventListener('input', (e) => {
+            // Get id and context
+            const oscId = e.target.id.split('-')[0];
+            const ctx = getAudioContext();
 
-        if (oscId === 'osc1') {
-            /* If it's the fundamental oscillator, update its frequency... */
-            if (activeOscillators['osc1']) {
-                activeOscillators['osc1'].oscNode.frequency.setTargetAtTime(currentValue, ctx.currentTime, 0.015);
+            // Calculate combined value (coarse + fine)
+            const currentValue = getOscCombinedValue(oscId);
+            
+            // Update the output display
+            const output = document.querySelector(`.knob-value[for="${oscId}-freq"]`);
+            if (output) {
+                const coarseInput = document.getElementById(`${oscId}-freq`);
+                const stepStr = coarseInput.getAttribute('step') || '1';
+                const decimals = stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
+                output.textContent = currentValue.toFixed(decimals);
             }
 
-            /* ... and also update all harmonics */
-            Object.keys(activeOscillators).forEach(activeId => {
-                if (activeId !== 'osc1') {
-                    /* Get current multiplier */
-                    const multiplier = parseFloat(document.getElementById(`${activeId}-freq`).value);
-                    const newFreq = currentValue * multiplier;
-                    
-                    activeOscillators[activeId].oscNode.frequency.setTargetAtTime(newFreq, ctx.currentTime, 0.015);
+            if (oscId === 'osc1') {
+                /* If it's the fundamental oscillator, update its frequency... */
+                if (activeOscillators['osc1']) {
+                    activeOscillators['osc1'].oscNode.frequency.setTargetAtTime(currentValue, ctx.currentTime, 0.015);
                 }
-            });
 
-        } else {
-            /* If it's a harmonic, only change its own multiplier */
-            if (activeOscillators[oscId]) {
-                const fundamental = parseFloat(document.getElementById('osc1-freq').value);
-                const newFreq = fundamental * currentValue;
-                
-                activeOscillators[oscId].oscNode.frequency.setTargetAtTime(newFreq, ctx.currentTime, 0.015);
+                /* ... and also update all harmonics */
+                Object.keys(activeOscillators).forEach(activeId => {
+                    if (activeId !== 'osc1') {
+                        /* Get current multiplier */
+                        const multiplier = getOscCombinedValue(activeId);;
+                        const newFreq = currentValue * multiplier;
+                        
+                        activeOscillators[activeId].oscNode.frequency.setTargetAtTime(newFreq, ctx.currentTime, 0.015);
+                    }
+                });
+
+            } else {
+                /* If it's a harmonic, only change its own multiplier */
+                if (activeOscillators[oscId]) {
+                    const fundamental = getOscCombinedValue('osc1');
+                    const newFreq = fundamental * currentValue;
+                    
+                    activeOscillators[oscId].oscNode.frequency.setTargetAtTime(newFreq, ctx.currentTime, 0.015);
+                }
             }
-        }
+        });
     });
-});
 
     /* Get oscillator gains */
     const oscGainSliders = document.querySelectorAll('.osc-gain');
