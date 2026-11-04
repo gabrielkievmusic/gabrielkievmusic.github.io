@@ -1,8 +1,16 @@
-$radio-bg: var(--text-color);
-$radio-fg: var(--background-color);
+@use '../utils' as *;
 
-.radio-window {
+$radio-fg: var(--text-color);
+$radio-bg: var(--background-color);
+
+#radio-window {
+    display: none;
     position: fixed;
+    top: auto;
+    left: auto;
+    transform: none;
+    border: none;
+
     bottom: 20px;
     right: 20px;
 
@@ -19,9 +27,10 @@ $radio-fg: var(--background-color);
     height: 100%;
 
     background-color: $radio-bg;
+    border-radius: 20px;
     border: 3px solid $radio-fg;
 
-    box-shadow: 8px 8px 0px 0px $radio-fg;
+    box-shadow: 5px 5px 0px 4px $radio-fg;
 
     display: flex;
     flex-direction: column;
@@ -30,12 +39,61 @@ $radio-fg: var(--background-color);
     gap: 12px;
 }
 
-.radio-top {
+/* ---------- Top section ---------- */
+.radio-top-section {
     position: relative;
     width: 100%;
 
-    flex: 0 0 45%;
+    flex: 0 0 35%;
 
-    background-color: $radio-fg;
+    background-color: $radio-bg;
     border: 2px solid $radio-fg;
+    border-radius: 14px;
+}
+
+.radio-grille {
+    border-radius: 10px;
+    background-color: $radio-fg;
+    background-image: radial-gradient(circle, $radio-bg 2px, transparent 2px);
+    background-size: 6px 6px;
+
+    margin: 4px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+}
+
+.magic-eye-tube {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+
+    background-color: $radio-bg;
+    border: 3px solid $radio-fg;
+    box-shadow: 0 0 0 2px $radio-bg;
+}
+
+
+/* ---------- Middle section ---------- */
+.radio-dial-section {
+    width: 100%;
+
+    display: flex;
+    flex: 0 0 80px;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.dial-side-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    padding: 6px 0;
+
+    font-family: $font-system;
+    font-size: 14px;
 }
