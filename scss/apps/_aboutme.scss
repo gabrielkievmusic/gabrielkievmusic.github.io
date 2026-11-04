@@ -1,0 +1,16 @@
+@use '../utils' as *;
+
+#about-window {
+    width: 50%;
+    height: 90%;
+}
+#about-content {
+    font-family: $font-lucida;
+    font-size: 1.0rem;
+    color: var(--text-color);
+    
+    p {
+        font-family: inherit;
+        font-size: inherit;
+    }
+}

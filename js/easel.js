@@ -50,7 +50,7 @@ function renderOscillators() {
                             </div>
                         </div>
     
-                        <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq hidden-input" id="${conf.id}-freq">
+                        <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" data-scale="log" class="hslider osc-freq hidden-input" id="${conf.id}-freq">
                         <label for="${conf.id}-freq" class="knob-label">FREQ.</label>
                     </div>
 
@@ -90,7 +90,7 @@ function renderOscillators() {
                         </div>
                         
                         <label for="${conf.id}-freq-cv-rate" class="knob-label-small">RATE</label>
-                        <input type="range" min="0" max="20" step="0.01" value="0.0" class="hslider osc-freq-cv-rate hidden-input" id="${conf.id}-freq-cv-rate">
+                        <input type="range" min="0.01" max="8" step="0.01" value="0.0" data-scale="log" class="hslider osc-freq-cv-rate hidden-input" id="${conf.id}-freq-cv-rate">
                     </div>
                 </div>
 
@@ -137,7 +137,7 @@ function renderOscillators() {
                             </div>
                             
                             <label for="${conf.id}-gain-cv-rate" class="knob-label-small">RATE</label>
-                            <input type="range" min="0" max="20" step="0.01" value="0.0" class="hslider osc-gain-cv-rate hidden-input" id="${conf.id}-gain-cv-rate">
+                            <input type="range" min="0.01" max="20" step="0.01" value="0.0" data-scale="log" class="hslider osc-gain-cv-rate hidden-input" id="${conf.id}-gain-cv-rate">
                         </div>
                 </div>
 
@@ -152,6 +152,8 @@ function renderOscillators() {
 /* AUDIO --------------------------------------------------- */
 /* Dictionary to store oscillator states */
 const activeOscillators = {};
+
+const modScale = 10; // Scale factor for modulation depth
 
 /* Reverb state */
 let easelReverb = null;
@@ -202,7 +204,8 @@ export function initEasel() {
 
                 /* Reads freq and gain values for given oscillator */
                 const freqValue = getOscCombinedValue(oscId);
-                const gainValue = parseFloat(document.getElementById(`${oscId}-gain`).value);
+                const uiGainValue = parseFloat(document.getElementById(`${oscId}-gain`).value);
+                const gainValue = Math.pow(uiGainValue, 2); // Apply quadratic scaling
 
                 /* Determine the actual frequency if it's a harmonic */
                 const finalFreq = (oscId === 'osc1') ? freqValue : fundamental * freqValue;
@@ -212,36 +215,82 @@ export function initEasel() {
                 oscNode.type = 'sine';
                 const gainNode = ctx.createGain();
 
+                /* Create frequency modulation nodes */
+                const fmOsc = ctx.createOscillator();
+                fmOsc.type = 'sine';
+                const fmDepth = ctx.createGain();
+
+                // Read values
+                const fmRateVal = parseFloat(document.getElementById(`${oscId}-freq-cv-rate`).value);
+                const fmDepthVal = parseFloat(document.getElementById(`${oscId}-freq-cv-depth`).value);
+
+                fmOsc.frequency.value = fmRateVal;
+                fmDepth.gain.value = fmDepthVal * modScale;
+
+                /* LFO -> Gain (Mod depth) -> Oscillator Frequency */
+                fmOsc.connect(fmDepth);
+                fmDepth.connect(oscNode.frequency);
+
+                /* Create amplitude modulation nodes */
+                const amOsc = ctx.createOscillator();
+                amOsc.type = 'sine';
+                const amDepth = ctx.createGain();
+
+                // Read values
+                const amRateVal = parseFloat(document.getElementById(`${oscId}-gain-cv-rate`).value);
+                const amDepthVal = parseFloat(document.getElementById(`${oscId}-gain-cv-depth`).value);
+
+                amOsc.frequency.value = amRateVal;
+                amDepth.gain.value = amDepthVal;
+
+                /* LFO -> Gain (Mod depth) -> Oscillator Gain */
+                amOsc.connect(amDepth);
+                amDepth.connect(gainNode.gain);
+
+
                 /* Initial setup */
                 oscNode.frequency.value = finalFreq;
                 gainNode.gain.value = gainValue;
 
                 /* Osc -> Gain -> Reverb */
                 oscNode.connect(gainNode);
-                gainNode.connect(easelReverb.input);
+                if (easelReverb && easelReverb.input) {
+                    gainNode.connect(easelReverb.input);
+                } else {
+                    gainNode.connect(getMasterBus()); 
+                }
 
-                /* Start oscillator */
+                /* Start oscillators */
                 oscNode.start();
+                fmOsc.start();
+                amOsc.start();
 
                 /* Update state dictionary */
-                activeOscillators[oscId] = { oscNode, gainNode };
+                activeOscillators[oscId] = { oscNode, gainNode, fmOsc, fmDepth, amOsc, amDepth };
 
-                console.log(`Oscillator ${oscId} toggled ON: Freq = ${finalFreq}, Gain = ${gainValue}`);
+                // console.log(`Oscillator ${oscId} toggled ON: Freq = ${finalFreq}, Gain = ${gainValue}`);
 
             } else {
                 /* If osc is on, turn it off */
                 /* Get nodes */
-                const { oscNode, gainNode } = activeOscillators[oscId];
+                const { oscNode, gainNode, fmOsc, fmDepth, amOsc, amDepth } = activeOscillators[oscId];
 
                 /* Stops sound and disconnects nodes */
                 oscNode.stop();
+                fmOsc.stop();
+                amOsc.stop();
+
                 oscNode.disconnect();
                 gainNode.disconnect();
+                fmOsc.disconnect();
+                fmDepth.disconnect();
+                amOsc.disconnect();
+                amDepth.disconnect();
 
                 /* Deletes from dictionary */
                 delete activeOscillators[oscId];
 
-                console.log(`Oscillator ${oscId} toggled OFF`);
+                // console.log(`Oscillator ${oscId} toggled OFF`);
             }            
         });
     });
@@ -277,7 +326,7 @@ export function initEasel() {
                 Object.keys(activeOscillators).forEach(activeId => {
                     if (activeId !== 'osc1') {
                         /* Get current multiplier */
-                        const multiplier = getOscCombinedValue(activeId);;
+                        const multiplier = getOscCombinedValue(activeId);
                         const newFreq = currentValue * multiplier;
                         
                         activeOscillators[activeId].oscNode.frequency.setTargetAtTime(newFreq, ctx.currentTime, 0.015);
@@ -309,10 +358,45 @@ export function initEasel() {
                 const ctx = getAudioContext();
                 const gainNode = activeOscillators[oscId].gainNode;
 
-                gainNode.gain.setTargetAtTime(currentValue, ctx.currentTime, 0.02);
+                const audioGain = Math.pow(currentValue, 2); // Apply quadratic scaling for smoother control
+
+                gainNode.gain.setTargetAtTime(audioGain, ctx.currentTime, 0.02);
             }
 
             //console.log(`Oscillator ${oscId} gain changed to: ${currentValue}`);
+        });
+    });
+
+    /* Event listeners for modulation parameters */
+    const modKnobs = document.querySelectorAll('.osc-freq-cv-depth, .osc-freq-cv-rate, .osc-gain-cv-depth, .osc-gain-cv-rate');
+
+    modKnobs.forEach(slider => {
+        slider.addEventListener('input', (e) => {
+            const parts = e.target.id.split('-');
+            const oscId = parts[0]; // 'osc1'
+            const target = parts[1]; // 'freq' or 'gain'
+            const param = parts[3]; // 'depth' or 'rate'
+
+            const val = parseFloat(e.target.value);
+            const ctx = getAudioContext();
+
+            if (activeOscillators[oscId]) {
+                const nodes = activeOscillators[oscId];
+
+                if (target === 'freq') {
+                    if (param === 'depth') {
+                        nodes.fmDepth.gain.setTargetAtTime(val * modScale, ctx.currentTime, 0.02);
+                    } else if (param === 'rate') {
+                        nodes.fmOsc.frequency.setTargetAtTime(val, ctx.currentTime, 0.02);
+                    }
+                } else if (target === 'gain') {
+                    if (param === 'depth') {
+                        nodes.amDepth.gain.setTargetAtTime(val, ctx.currentTime, 0.02);
+                    } else if (param === 'rate') {
+                        nodes.amOsc.frequency.setTargetAtTime(val, ctx.currentTime, 0.02);
+                    }
+                }
+            }
         });
     });
 
@@ -321,7 +405,7 @@ export function initEasel() {
     const masterBus = getMasterBus();
 
     if(!easelReverb) {
-        easelReverb = createReverbEffect(ctx, 3.0, 3.0);
+        easelReverb = createReverbEffect(ctx, 3.0, 2.5, 0.8);
         easelReverb.output.connect(masterBus);
     }
 }

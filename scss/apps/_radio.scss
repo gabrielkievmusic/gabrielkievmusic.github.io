@@ -1,0 +1,41 @@
+$radio-bg: var(--text-color);
+$radio-fg: var(--background-color);
+
+.radio-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    width: 260px;
+    height: 480px;
+
+    z-index: 999;
+
+    transition: transform 0.3s ease;
+}
+
+.radio-chassis {
+    width: 100%;
+    height: 100%;
+
+    background-color: $radio-bg;
+    border: 3px solid $radio-fg;
+
+    box-shadow: 8px 8px 0px 0px $radio-fg;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 12px;
+    gap: 12px;
+}
+
+.radio-top {
+    position: relative;
+    width: 100%;
+
+    flex: 0 0 45%;
+
+    background-color: $radio-fg;
+    border: 2px solid $radio-fg;
+}

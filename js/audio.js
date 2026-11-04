@@ -74,7 +74,7 @@ export function getMasterBus() {
  * ---------------------------------------------------------- */
 
 /* Reverb */
-export function createReverbEffect(context, duration=2.5, decay=3.0) {
+export function createReverbEffect(context, duration=2.5, decay=3.0, initialMix=0.3) {
     const input = context.createGain();
     const output = context.createGain();
 
@@ -83,8 +83,10 @@ export function createReverbEffect(context, duration=2.5, decay=3.0) {
 
     const dryGain = context.createGain();
     const wetGain = context.createGain();
-    dryGain.gain.value = 0.7;
-    wetGain.gain.value = 0.3;
+    const wet = Math.max(0, Math.min(1, initialMix));
+    const dry = 1.0 - wet;
+    dryGain.gain.value = dry;
+    wetGain.gain.value = wet;
 
     /* Internal connections */
     // Input -> dryGain 

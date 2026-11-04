@@ -71,9 +71,25 @@ export function initUIComponents() {
         const min = parseFloat(linkedInput.min);
         const max = parseFloat(linkedInput.max);
 
+        const isLog = linkedInput.getAttribute('data-scale') === 'log';
+        let norm = 0;
+
+        if (isLog) {
+            norm = Math.log(startValue / min) / Math.log(max / min);
+        } else {
+            norm = (startValue - min) / (max - min);
+        }
+
         // Calculate new value
-        let newValue = startValue + (deltaY * sensitivity * (max - min));
-        newValue = Math.max(min, Math.min(max, newValue));  // Clamp value within range
+        norm += deltaY * sensitivity;
+        norm = Math.max(0, Math.min(1, norm));  // Clamp value within range
+
+        let newValue;
+        if (isLog) {
+            newValue = min * Math.pow(max / min, norm);
+        } else {
+            newValue = min + norm * (max - min);
+        }
         
         if (linkedInput.value !== newValue.toString()) {
             linkedInput.value = newValue;  // Update the hidden input
@@ -97,8 +113,21 @@ export function initUIComponents() {
 
     // Function to map input value [0, 1] to rotation angle [-135, +135]
     function updateKnobPointer(knob, value, min, max, inputElement) {
-        const percent = (value - min) / (max - min);
-        const angle = -135 + (percent * 270);
+        const isLog = inputElement ? inputElement.getAttribute('data-scale') === 'log' : false;
+        let norm;
+
+        if (isLog) {
+            if (min <= 0) {
+                console.warn('Zero or negative value detected in log scale');
+            } else {
+                norm = Math.log(value / min) / Math.log(max / min);
+            }
+        } else {
+            norm = (value - min) / (max - min);
+        }
+
+        const angle = -135 + (norm * 270);
+        
         const dial = knob.querySelector('.knob-dial');
         if (dial) dial.style.transform = `rotate(${angle}deg)`;
 

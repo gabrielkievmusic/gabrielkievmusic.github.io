@@ -12,7 +12,7 @@ function getFreqColor(freq) {
     let norm = (clampedFreq - minFreq) / (maxFreq - minFreq);
 
     /* Use exponential curve to map colors */
-    let t = Math.pow(norm, 0.8);
+    let t = Math.pow(norm, 0.7);
 
 
     /* Map to HSL */
@@ -226,22 +226,42 @@ export function initCymaticCanvas() {
 
         /* iterate through all oscillators */
         for (let i = 0; i < 5; i++) {
-            const id = `osc${i + 1}`;
-            const gainInput = document.getElementById(`${id}-gain`);
-            const powerBtn = document.getElementById(`${id}-toggle`);
-            const phaseBtn = document.getElementById(`${id}-phase`);
+            const id = `osc${i + 1}`;  // Get the corresponding easelState entry
+            const gainInput = document.getElementById(`${id}-gain`);  // Gain
+            const powerBtn = document.getElementById(`${id}-toggle`);  // Power toggle
+            const phaseBtn = document.getElementById(`${id}-phase`);  // Phase toggle
+
+            const fmDepthInput = document.getElementById(`${id}-freq-cv-depth`);
+            const fmRateInput = document.getElementById(`${id}-freq-cv-rate`);
+            const amDepthInput = document.getElementById(`${id}-gain-cv-depth`);
+            const amRateInput = document.getElementById(`${id}-gain-cv-rate`);
+
+            const fmDepthVal = fmDepthInput ? parseFloat(fmDepthInput.value) || 0 : 0;  // FM depth
+            const fmRateVal = fmRateInput ? parseFloat(fmRateInput.value) || 0 : 0;  // FM rate
+            const amDepthVal = amDepthInput ? parseFloat(amDepthInput.value) || 0 : 0; // AM depth
+            const amRateVal = amRateInput ? parseFloat(amRateInput.value) || 0 : 0;  // AM rate
+
+            const modScale = 10; // Scale factor for modulation depth
 
             if (!gainInput || !powerBtn) continue;
 
             let sliderValue = easelState[id].freq;
 
-            let isPoweredOn = powerBtn.getAttribute('data-active') === 'true';
-
-            let gain = isPoweredOn ? parseFloat(gainInput.value) : 0.0;
-
             /* Frequency logic */
-            /* if Osc1, sliderValue is the frequency; else, sliderValue is multiplier of Osc1 freq */
-            let trueFreq = (i === 0) ? sliderValue : (fundamentalFreq * sliderValue);
+            // Get the frequency and gain values with modulation applied
+            const fmOsc = Math.sin(currentTime * Math.PI * 2.0 * fmRateVal) * (fmDepthVal * modScale);  // Frequency modulation
+            const amOsc = Math.sin(currentTime * Math.PI * 2.0 * amRateVal) * amDepthVal;  // Amplitude modulation
+
+            // if Osc1, sliderValue is the frequency; else, sliderValue is multiplier of Osc1 freq
+            let baseFreq = (i === 0) ? sliderValue : (fundamentalFreq * sliderValue);
+            // Apply vibrato
+            let trueFreq = Math.max(1.0, baseFreq + fmOsc);
+
+            /* Gain logic */
+            let isPoweredOn = powerBtn && powerBtn.getAttribute('data-active') === 'true';
+            let baseGain = isPoweredOn ? parseFloat(gainInput.value) : 0.0;
+            // Apply tremolo
+            let gain = isPoweredOn ? Math.max(0.0, Math.min(1.0, baseGain + amOsc)) : 0.0;
 
             /* Logic to fake oscillation modes as continuous values */
             /* Get square root dependency (f = C(n^2 + m^2))  =>  C=10, n=m=1 <=> f=20Hz */
