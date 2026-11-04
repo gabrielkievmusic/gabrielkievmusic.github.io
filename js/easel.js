@@ -5,11 +5,11 @@ import { getAudioContext, getMasterBus, createReverbEffect } from './audio.js';
 
 /* HTML configuration -------------------------------------- */
 const oscConfigs = [
-    { id: 'osc1', name: 'FUNDAMENTAL', min: 20, max: 2000, step: 0.1, default: 440, isMultiplier: false },
-    { id: 'osc2', name: 'HARMONIC 2', min: 0.1, max: 5, step: 0.01, default: 2.0, isMultiplier: true },
-    { id: 'osc3', name: 'HARMONIC 3', min: 0.1, max: 5, step: 0.01, default: 3.0, isMultiplier: true },
-    { id: 'osc4', name: 'HARMONIC 4', min: 0.1, max: 5, step: 0.01, default: 4.0, isMultiplier: true },
-    { id: 'osc5', name: 'HARMONIC 5', min: 0.1, max: 5, step: 0.01, default: 5.0, isMultiplier: true }
+    { id: 'osc1', name: 'FUNDAMENTAL', min: 20, max: 2000, step: 0.1, default: 440, isMultiplier: false, fineMin: -10, fineMax: 10, fineStep: 0.1 },
+    { id: 'osc2', name: 'HARMONIC 2', min: 0.1, max: 5, step: 0.01, default: 2.0, isMultiplier: true, fineMin: -1, fineMax: 1, fineStep: 0.01 },
+    { id: 'osc3', name: 'HARMONIC 3', min: 0.1, max: 5, step: 0.01, default: 3.0, isMultiplier: true, fineMin: -1, fineMax: 1, fineStep: 0.01 },
+    { id: 'osc4', name: 'HARMONIC 4', min: 0.1, max: 5, step: 0.01, default: 4.0, isMultiplier: true, fineMin: -1, fineMax: 1, fineStep: 0.01 },
+    { id: 'osc5', name: 'HARMONIC 5', min: 0.1, max: 5, step: 0.01, default: 5.0, isMultiplier: true, fineMin: -1, fineMax: 1, fineStep: 0.01 }
 ];
 
 function renderOscillators() {
@@ -42,7 +42,7 @@ function renderOscillators() {
                 <div class="ui-knob-container">
                     <!-- Freq knob -->
                     <div class="ui-knob-group">
-                        <output class="knob-value" for="${conf.id}-freq">${conf.default}${unit}</output>
+                        <output class="knob-value" for="${conf.id}-freq" data-unit="${unit}">${conf.default}</output>
     
                         <div class="ui-knob">
                             <div class="knob-dial">
@@ -64,7 +64,7 @@ function renderOscillators() {
                         </div>
                         
                         <label for="${conf.id}-freq-fine" class="knob-label-small">FINE</label>
-                        <input type="range" min="-10" max="10" step="0.1" value="0.0" class="hslider osc-freq-fine hidden-input" id="${conf.id}-freq-fine">
+                        <input type="range" min="${conf.fineMin}" max="${conf.fineMax}" step="${conf.fineStep}" value="0.0" class="hslider osc-freq-fine hidden-input" id="${conf.id}-freq-fine">
                     </div>
 
                     <!-- Freq CV depth knob -->

@@ -113,11 +113,8 @@ export function initUIComponents() {
                 const step = inputElement.getAttribute('step') || '1';
                 const decimalPlaces = step.includes('.') ? step.split('.')[1].length : 0;
                 
-                // Get the unit, default to empty string if none
-                const unit = output.getAttribute('data-unit') || '';
-                
                 // Formats number and appends unit
-                output.textContent = value.toFixed(decimalPlaces) + unit;
+                output.textContent = value.toFixed(decimalPlaces);
             }
         }
     }

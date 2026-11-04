@@ -12,7 +12,7 @@ function getFreqColor(freq) {
     let norm = (clampedFreq - minFreq) / (maxFreq - minFreq);
 
     /* Use exponential curve to map colors */
-    let t = Math.pow(norm, 0.9);
+    let t = Math.pow(norm, 0.8);
 
 
     /* Map to HSL */
