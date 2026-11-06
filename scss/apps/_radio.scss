@@ -4,7 +4,7 @@ $radio-fg: var(--text-color);
 $radio-bg: var(--background-color);
 $radio-texture-spacing: 10px; 
 
-#radio-window {
+#radio-widget {
     position: fixed;
     top: auto;
     left: auto;
@@ -17,9 +17,13 @@ $radio-texture-spacing: 10px;
     width: 260px;
     height: 480px;
 
+    display: none;
     z-index: 999;
-
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+#radio-widget.radio-minimized {
+    transform: translateY(calc(100% - 65px));
+    cursor: pointer;
 }
 
 /* ---------- Chassis ---------- */
@@ -60,6 +64,8 @@ $radio-texture-spacing: 10px;
     background-color: $radio-bg;
     border: 2px solid $radio-fg;
     border-radius: 14px;
+
+    cursor: pointer;
 }
 
 .radio-grille {
@@ -85,17 +91,64 @@ $radio-texture-spacing: 10px;
     background-color: $radio-bg;
     border: 3px solid $radio-fg;
     box-shadow: 0 0 0 2px $radio-bg;
+
+    transition: 0.1s linear;
+}
+#radio-widget.is-powered-on .magic-eye-tube {
+    box-shadow: 
+        inset 0 0 var(--eye-glow, 30px) color-mix(in srgb, #{$radio-fg} 50%, transparent),
+        0 0 var(--eye-glow, 15px) color-mix(in srgb, #{$radio-fg} 50%, transparent);
 }
 
 
 /* ---------- Middle section ---------- */
 .radio-dial-section {
+    position: relative;
     width: 100%;
 
     display: flex;
     flex: 0 0 80px;
     flex-direction: row;
     gap: 8px;
+}
+
+.band-selector {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    margin-right: 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 12px;
+    height: 100%;
+    padding: 3px;
+
+    background-color: $radio-bg;
+
+    cursor: pointer;
+}
+
+.band-selector-switch {
+    width: 100%;
+    height: 30px;
+
+    background-color: $radio-fg;
+    border-radius: 4px 0 0 4px;
+
+    background-image: repeating-linear-gradient(
+        to bottom,
+        $radio-fg,
+        $radio-fg 2px,
+        $radio-bg 2px,
+        $radio-bg 4px
+    );
+
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.band-selector.is-am .band-selector-switch {
+    transform: translateY(44px); 
 }
 
 .dial-side-labels {
@@ -113,13 +166,14 @@ $radio-texture-spacing: 10px;
 .band-label {
     background-color: $radio-bg;
     color: $radio-fg;
-    opacity: 0.7;
+    opacity: 0.6;
+    transition: all 0.3s ease;
 }
-
-.band-label.active {
+#radio-widget.is-powered-on .band-label.active {
     opacity: 1;
-    text-shadow: 0 0 7px $radio-fg ;
-    background-color: $radio-bg;
+    text-shadow:
+        0 0 4px $radio-fg,
+        0 0 12px $radio-fg;
 }
 
 .dial-glass {
@@ -130,12 +184,24 @@ $radio-texture-spacing: 10px;
     justify-content: space-between;
 
     background-color: $radio-bg;
+    color: $radio-fg;
     border: 2px solid $radio-fg;
     border-radius: 10px;
     box-shadow: inset 1px 1px 0px 0px $radio-fg;
 
     padding: 4px 8px;
     overflow: hidden;
+}
+#radio-widget.is-powered-on .dial-glass {
+    background-image: radial-gradient(
+        circle at 50% 50%,
+        color-mix(in srgb, #{$radio-fg} 40%, transparent) 0%,
+        color-mix(in srgb, #{$radio-fg} 5%, transparent) 100%
+    );
+
+    box-shadow: 
+        inset 0 0 10px color-mix(in srgb, #{$radio-fg} 35%, transparent),
+        0 0 8px color-mix(in srgb, #{$radio-fg} 40%, transparent);
 }
 
 .dial-band {
@@ -151,19 +217,22 @@ $radio-texture-spacing: 10px;
 
     font-size: 10px;
     font-weight: 500;
-    color: $radio-fg;
+    color: color-mix(in srgb, #{$radio-fg} 70%, transparent);
     font-family: $font-system;
 }
 
 .scale-ticks {
-    width: 100%;
+    width: calc(100% - 4px);
     height: 8px;
+    margin-left: 4px;
 
     background-image: repeating-linear-gradient(
         to right,
-        $radio-fg,
-        $radio-fg 2px,
-        transparent 2px,
+        color-mix(in srgb, #{$radio-fg} 70%, transparent),
+        color-mix(in srgb, #{$radio-fg} 70%, transparent) 2px,
+        color-mix(in srgb, #{$radio-bg} 20%, transparent) 2px,
+        color-mix(in srgb, #{$radio-bg} 20%, transparent) 3px,
+        transparent 3px,
         transparent 10px
     );
 }
@@ -311,11 +380,17 @@ $radio-texture-spacing: 10px;
     font-size: 12px;
 
     cursor: pointer;
-}
 
-.bank-btn:active, .link-btn:active {
-    box-shadow: 0 0 0 0 $radio-fg;
-    transform: translateY(2px) translateX(1px);
-    background-color: $radio-bg;
-    color: $radio-fg;
+    transition: all 0.05s ease;
+}
+.bank-btn:active, .link-btn:active, .bank-btn.active, .link-btn.active {
+        box-shadow: 0 0 0 0 $radio-fg;
+        transform: translateY(2px) translateX(1px);
+    }
+#radio-widget.is-powered-on {
+    .bank-btn:active, .link-btn:active, .bank-btn.active, .link-btn.active {
+        background-color: color-mix(in srgb, #{$radio-fg} 40%, transparent);
+        color: $radio-fg;
+        box-shadow: 0 0 15px 2px color-mix(in srgb, #{$radio-fg} 40%, transparent);
+    }
 }

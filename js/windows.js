@@ -1,11 +1,11 @@
-let highestZIndex = 10;
+// Z-Index logic    
+export let highestZIndex = 10;
+export function bringToFront(windowElement) {
+    highestZIndex++;
+    windowElement.style.zIndex = highestZIndex;
+}
 
 export function initWindows() {
-    // Z-Index logic    
-    function bringToFront(windowElement) {
-        highestZIndex++;
-        windowElement.style.zIndex = highestZIndex;
-    }
 
     const allWindows = document.querySelectorAll('.window');
     allWindows.forEach(win => {
