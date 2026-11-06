@@ -749,7 +749,6 @@ input[type=range].hslider::-moz-range-thumb {
 }
 
 #radio-window {
-  display: none;
   position: fixed;
   top: auto;
   left: auto;
@@ -763,13 +762,18 @@ input[type=range].hslider::-moz-range-thumb {
   transition: transform 0.3s ease;
 }
 
+/* ---------- Chassis ---------- */
 .radio-chassis {
   width: 100%;
   height: 100%;
-  background-color: var(--background-color);
   border-radius: 20px;
   border: 3px solid var(--text-color);
-  box-shadow: 5px 5px 0px 4px var(--text-color);
+  box-shadow: 5px 5px 0px 4.5px var(--text-color), inset 1px 0 8px var(--background-color), inset -6px 0 12px var(--background-color);
+  /* Dithering */
+  background-color: var(--background-color);
+  background-image: radial-gradient(circle, var(--text-color) 1px, transparent 1px), radial-gradient(circle, var(--text-color) 1px, transparent 1px);
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
   display: flex;
   flex-direction: column;
   padding: 12px;
@@ -780,7 +784,7 @@ input[type=range].hslider::-moz-range-thumb {
 .radio-top-section {
   position: relative;
   width: 100%;
-  flex: 0 0 35%;
+  flex: 0 0 40%;
   background-color: var(--background-color);
   border: 2px solid var(--text-color);
   border-radius: 14px;
@@ -820,8 +824,191 @@ input[type=range].hslider::-moz-range-thumb {
 .dial-side-labels {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 6px 0;
+  justify-content: space-around;
   font-family: "VT323", monospace;
   font-size: 14px;
+  text-shadow: 1px 1px 0px var(--background-color);
+}
+
+.band-label {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.band-label.active {
+  opacity: 1;
+  text-shadow: 0 0 7px var(--text-color);
+  background-color: var(--background-color);
+}
+
+.dial-glass {
+  position: relative;
+  display: flex;
+  flex: 0.9;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--background-color);
+  border: 2px solid var(--text-color);
+  border-radius: 10px;
+  box-shadow: inset 1px 1px 0px 0px var(--text-color);
+  padding: 4px 8px;
+  overflow: hidden;
+}
+
+.dial-band {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 9px;
+  margin-top: 1px;
+}
+
+.scale-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-color);
+  font-family: "VT323", monospace;
+}
+
+.scale-ticks {
+  width: 100%;
+  height: 8px;
+  background-image: repeating-linear-gradient(to right, var(--text-color), var(--text-color) 2px, transparent 2px, transparent 10px);
+}
+
+.dial-needle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 45%;
+  width: 2px;
+  background-color: var(--text-color);
+  z-index: 10;
+  box-shadow: -2px 0 0 var(--background-color), 2px 0 0 var(--background-color);
+}
+
+/* ---------- Bottom section ---------- */
+.radio-controls {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 10px 10px 0 5px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 2px solid var(--text-color);
+}
+
+.radio-control-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-control-label {
+  font-family: "VT323", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  padding-left: 4px;
+}
+
+.radio-controls-knobs {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 10px 0 10px;
+}
+
+.radio-knob {
+  position: relative;
+  width: 66px;
+  height: 66px;
+  background-color: var(--background-color);
+  border-radius: 50%;
+  border: 2px solid var(--text-color);
+  box-shadow: 4px 4px 0 0 var(--text-color);
+}
+
+.radio-knob-dial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-image: repeating-conic-gradient(var(--text-color) 0deg, var(--text-color) 10deg, transparent 10deg, transparent 20deg);
+}
+
+.radio-knob-cap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-color: var(--background-color);
+  border-radius: 50%;
+  border: 2px solid var(--text-color);
+}
+
+.radio-knob-pointer {
+  position: absolute;
+  top: 10%;
+  left: 47%;
+  width: 6%;
+  height: 25%;
+  background-color: var(--text-color);
+  border-radius: 2px;
+}
+
+.vol-knob {
+  transform: rotate(-135deg);
+}
+
+.radio-controls-btns {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 10px 20px;
+}
+
+.radio-center-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.bank-btn, .link-btn {
+  width: 32px;
+  height: 24px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  border: 2px solid var(--text-color);
+  box-shadow: 1px 2px 0 0 var(--text-color);
+  font-family: "VT323", monospace;
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.bank-btn:active, .link-btn:active {
+  box-shadow: 0 0 0 0 var(--text-color);
+  transform: translateY(2px) translateX(1px);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }/*# sourceMappingURL=style.css.map */
