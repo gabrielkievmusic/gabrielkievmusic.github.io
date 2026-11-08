@@ -10,6 +10,7 @@ export function initRadio() {
     const fmLabel = radioWidget.querySelector('.band-label:nth-child(1)');
     const amLabel = radioWidget.querySelector('.band-label:nth-child(2)');
 
+    const volInput = radioWidget.querySelector('.radio-volume-input');
 
     if (!radioIcon || !radioWidget) return;
 
@@ -35,6 +36,27 @@ export function initRadio() {
         }
     });
 
+    
+    /* Volume + Power */
+    if (volInput) {
+        volInput.addEventListener('input', (e) => {
+            const volume = parseFloat(e.target.value);
+
+            if (volume > 0.05) {
+                if (!radioWidget.classList.contains('is-powered-on')) {
+                    radioWidget.classList.add('is-powered-on');
+                    // TODO: PLAY MUSIC
+                }
+                // TODO: SET MUSIC VOLUME
+            } else {
+                if (radioWidget.classList.contains('is-powered-on')) {
+                    radioWidget.classList.remove('is-powered-on');
+                    // TODO: SET VOLUME 0 + STOP MUSIC
+                }
+            }
+        });
+    }
+
 
     /* AM/FM Selector */
     if (bandSwitch && fmLabel && amLabel) {
@@ -50,6 +72,28 @@ export function initRadio() {
             }
 
             // TODO - Change band functionality
+        });
+    }
+
+
+    /* Needle position */
+    const tuneInput = radioWidget.querySelector('.radio-freq-input');
+    const needle = radioWidget.querySelector('.dial-needle');
+
+
+    if (tuneInput && needle) {
+        tuneInput.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            const min = parseFloat(e.target.min);
+            const max = parseFloat(e.target.max);
+
+            const progress = (val - min) / (max - min);
+            let percent = progress * 100;
+            // Clamp to fit glass
+            percent = Math.max(2, Math.min(98, percent));
+
+            needle.style.left = `${percent}%`;
+
         });
     }
 }

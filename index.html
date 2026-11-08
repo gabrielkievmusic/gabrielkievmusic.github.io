@@ -196,7 +196,7 @@
                 <p>Radio</p>
             </div>
             <!-- Radio window -->
-            <div id="radio-widget" class="is-powered-on">
+            <div id="radio-widget">
                 <!-- Radio chassis -->
                 <div class="radio-chassis">
 
@@ -259,24 +259,26 @@
                         <!-- Knobs -->
                         <div class="radio-controls-knobs">
                             <!-- Frequency knob -->
-                            <div class="radio-control-group">
-                                <div class="radio-knob">
-                                    <div class="radio-knob-dial tune-knob">
+                            <div class="radio-control-group ui-knob-group">
+                                <div class="radio-knob ui-knob" data-infinite="true" knob-sensitivity="0.001">
+                                    <div class="radio-knob-dial knob-dial tune-knob">
                                         <div class="radio-knob-cap"></div>
                                     </div>
                                 </div>
                                 <span class="radio-control-label">TUNE</span>
+                                <input type="range" class="hidden-input radio-freq-input" min="54" max="160" value="100" step="1" style="display: none;">
                             </div>
 
                             <!-- Volume knob -->
-                            <div class="radio-control-group">
-                                <div class="radio-knob">
-                                    <div class="radio-knob-dial vol-knob">
+                            <div class="radio-control-group ui-knob-group">
+                                <div class="radio-knob ui-knob" data-snap="0.05">
+                                    <div class="radio-knob-dial knob-dial vol-knob">
                                         <div class="radio-knob-cap"></div>
                                         <div class="radio-knob-pointer"></div>
                                     </div>
                                 </div>
                                 <span class="radio-control-label">VOLUME</span>
+                                <input type="range" class="hidden-input radio-volume-input" min="0" max="1" value="0" step="0.01" style="display: none;">
                             </div>
                         </div>
 

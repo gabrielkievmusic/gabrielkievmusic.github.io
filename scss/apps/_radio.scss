@@ -301,6 +301,12 @@ $radio-texture-spacing: 10px;
     border: 2px solid $radio-fg;
     box-shadow: 4px 4px 0 0 $radio-fg;  
 }
+.radio-knob.ui-knob:hover,
+.radio-knob.ui-knob:active {
+    // Override ui-knob hover effect
+    box-shadow: 4px 4px 0 0 $radio-fg !important;
+}
+
 .radio-knob-dial {
     position: absolute;
     top: 0;
@@ -345,6 +351,7 @@ $radio-texture-spacing: 10px;
 .vol-knob {
     transform: rotate(-135deg);
 }
+
 
 // Buttons
 .radio-controls-btns {

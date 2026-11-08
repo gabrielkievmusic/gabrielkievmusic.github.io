@@ -84,6 +84,12 @@ export function initUIComponents() {
         norm += deltaY * sensitivity;
         norm = Math.max(0, Math.min(1, norm));  // Clamp value within range
 
+        /* Snap effect */
+        const snapThreshold = activeKnob.getAttribute('data-snap');
+        if (snapThreshold) {
+            if (norm < parseFloat(snapThreshold)) norm = 0;
+        }
+
         let newValue;
         if (isLog) {
             newValue = min * Math.pow(max / min, norm);
@@ -114,6 +120,9 @@ export function initUIComponents() {
     // Function to map input value [0, 1] to rotation angle [-135, +135]
     function updateKnobPointer(knob, value, min, max, inputElement) {
         const isLog = inputElement ? inputElement.getAttribute('data-scale') === 'log' : false;
+        
+        const isInfinite = knob.hasAttribute('data-infinite');
+        
         let norm;
 
         if (isLog) {
@@ -126,7 +135,12 @@ export function initUIComponents() {
             norm = (value - min) / (max - min);
         }
 
-        const angle = -135 + (norm * 270);
+        let angle;
+        if (isInfinite) {
+            angle = norm * 1800;
+        } else {
+            angle = -135 + (norm * 270);
+        }
         
         const dial = knob.querySelector('.knob-dial');
         if (dial) dial.style.transform = `rotate(${angle}deg)`;
