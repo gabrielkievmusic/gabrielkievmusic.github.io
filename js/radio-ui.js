@@ -1,4 +1,5 @@
 /* Imports */
+import { RadioAudio } from './radio-audio.js';
 import { bringToFront } from './windows.js';
 
 export function initRadio() {
@@ -37,6 +38,30 @@ export function initRadio() {
     });
 
 
+    /* Volume + Power */
+    if (volInput) {
+        volInput.addEventListener('input', (e) => {
+            const volume = parseFloat(e.target.value);
+
+            if (volume > 0.05) {
+                RadioAudio.setVolume(volume);
+
+                if (!radioWidget.classList.contains('is-powered-on')) {
+                    radioWidget.classList.add('is-powered-on');
+                    RadioAudio.play();
+                }
+            
+            } else {
+                if (radioWidget.classList.contains('is-powered-on')) {
+                    radioWidget.classList.remove('is-powered-on');
+                    RadioAudio.setVolume(0);
+                    RadioAudio.pause();
+                }
+            }
+        });
+    }
+
+
     /* User guide button */
     const infoBtn = radioWidget.querySelector('.info-btn');
     console.log(`Info button acquired: ${infoBtn}`)
@@ -60,27 +85,6 @@ export function initRadio() {
                 tocItem.click();
             } else {
                 console.warn(`Guide page not found for target ID "${targetId}"`);
-            }
-        });
-    }
-
-    
-    /* Volume + Power */
-    if (volInput) {
-        volInput.addEventListener('input', (e) => {
-            const volume = parseFloat(e.target.value);
-
-            if (volume > 0.05) {
-                if (!radioWidget.classList.contains('is-powered-on')) {
-                    radioWidget.classList.add('is-powered-on');
-                    // TODO: PLAY MUSIC
-                }
-                // TODO: SET MUSIC VOLUME
-            } else {
-                if (radioWidget.classList.contains('is-powered-on')) {
-                    radioWidget.classList.remove('is-powered-on');
-                    // TODO: SET VOLUME 0 + STOP MUSIC
-                }
             }
         });
     }
@@ -122,6 +126,13 @@ export function initRadio() {
 
             needle.style.left = `${percent}%`;
 
+            // Send freq value to radio-audio
+            RadioAudio.setFrequency(val);
         });
+    }
+    
+    // Initialize needle position
+    if (tuneInput) {
+        tuneInput.dispatchEvent(new Event('input'));
     }
 }
