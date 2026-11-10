@@ -36,6 +36,34 @@ export function initRadio() {
         }
     });
 
+
+    /* User guide button */
+    const infoBtn = radioWidget.querySelector('.info-btn');
+    console.log(`Info button acquired: ${infoBtn}`)
+    if (infoBtn) {
+        infoBtn.addEventListener('click', () => {
+            if (!radioWidget.classList.contains('is-powered-on')) return;
+
+            const guideWindow = document.getElementById('user-guide-window');
+            if (!guideWindow) return;
+
+            // Open User Guide and Bring to Front
+            guideWindow.style.display = 'flex';
+            bringToFront(guideWindow);
+
+            // Get the target guide page via info button 'data-target' attribute or appName as a fallback
+            const targetId = infoBtn.getAttribute('data-target') || `guide-${appName}`;
+
+            // Selects the corresponding User Guide entry
+            const tocItem = document.querySelector(`.toc-item[data-target="${targetId}"]`);
+            if (tocItem) {
+                tocItem.click();
+            } else {
+                console.warn(`Guide page not found for target ID "${targetId}"`);
+            }
+        });
+    }
+
     
     /* Volume + Power */
     if (volInput) {

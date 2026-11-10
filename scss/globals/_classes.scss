@@ -1,19 +1,35 @@
 @use '../utils' as *;
 
+/* Animation to swap icon image when hovering */
+@keyframes hover-icon-swap {
+    0% {
+        content: var(--icon-default); // Closed folder
+    }
+    100% {
+        content: var(--icon-hover); // Open folder
+    }
+}
+
 .desktop-icon {
     width: 100px;
-    height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px; 
+    height: 120px;
+
+    display: grid;
+    grid-template-rows: 64px 1fr;
+    gap: 8px;
+    justify-items: center;
+    align-items: start;
+    
     cursor: pointer;
 
     img {
         width: 64px;
         height: 64px;
         object-fit: contain;
+
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+
         transition: all 0.2s ease-in-out;
     }
 
@@ -32,6 +48,14 @@
 
     &:active img {
         transform: scale(1.05);
+    }
+}
+.desktop-icon.hover-change-img {
+    &:hover img {
+        animation: hover-icon-swap 0.2s forwards
+    }
+    &:not(:hover) img {
+        transition: transform 0.1s ease-in-out;
     }
 }
 
@@ -86,96 +110,6 @@
     flex-grow: 1;
     font-family: $font-lucida;
     font-size:1rem;
-}
-
-.about-img {
-    float: right;
-
-    width: 200px;
-    height: auto;
-
-    margin: 50px 20px 20px 20px;
-
-    border: 1px solid var(--text-color);
-}
-
-.mail-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-right: 10%;
-
-    label {
-        color: var(--text-color);
-        font-family: $font-system;
-        font-weight: 200;
-        font-size: 1.2rem;
-
-        width: 140px;
-        text-align: right;
-        margin-right: none;
-        margin-top: 8px;
-    }
-
-    input, textarea {
-        flex: 1;
-        width: 60%;
-        background-color: var(--background-color);
-        color: var(--text-color);
-        border: 2px solid var(--text-color);
-        padding: 8px;
-        font-family: $font-system;
-        font-weight: 100;
-        font-size: 1rem;
-
-        &:focus {
-            outline: none;
-        }
-    }
-
-    textarea {
-        width: 200px;
-        resize: none;
-    }
-
-    .submit-btn {
-        margin-left: 145px; // 140px do label + 15px de margem
-        width: 100px;
-        background-color: var(--background-color);
-        color: var(--text-color);
-        border: 2px solid var(--text-color);
-        padding: 10px;
-        font-family: $font-system;
-        font-weight: 200;
-        font-size: 1.2rem;
-        cursor: pointer;
-
-        &:hover {
-            background-color: var(--text-color);
-            color: var(--background-color);
-        }
-
-        &:active {
-            border-color: var(--background-color);
-        }
-    }
-}
-
-.form-group {
-    display:flex;
-    align-items: flex-start;
-
-    label {
-        width: 140px;
-        text-align: right;
-        margin-right: 5px;
-    }
-
-    input, textarea {
-        flex:1;
-    }
-
-
 }
 
 .ascii-art {

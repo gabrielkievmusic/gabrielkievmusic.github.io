@@ -67,8 +67,8 @@
 
 #cymatic-canvas {
     position: fixed;
-    z-index: 99999;
     pointer-events: none;
+    z-index: 99999;
 
     display: block;
     margin: 0;
@@ -77,5 +77,4 @@
     box-shadow: 0 0 50px rgba(255, 255, 255, 0.75);
 
     filter: url(#crt-blom);
-
 }

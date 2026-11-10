@@ -195,6 +195,8 @@ export function initCymaticCanvas() {
             /* Get position */
             const rect = placeholder.getBoundingClientRect();
 
+            const easelWindow = document.getElementById('easel-window');
+
             /* Hide if window closed */
             if (rect.width > 0) {
                 canvas.style.display = 'block';
@@ -202,6 +204,15 @@ export function initCymaticCanvas() {
                 canvas.style.top = `${rect.top}px`;
                 canvas.style.width = `${rect.width}px`;
                 canvas.style.height = `${rect.height}px`;
+
+                /* Adjust Z-index */
+                if (easelWindow) {
+                    if (easelWindow.classList.contains('is-active-window')) {
+                        canvas.style.mixBlendMode = 'normal';
+                    } else {
+                        canvas.style.mixBlendMode = 'difference';
+                    }
+                }
             } else {
                 canvas.style.display = 'none';
             }

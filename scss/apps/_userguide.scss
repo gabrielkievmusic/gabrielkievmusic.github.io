@@ -1,0 +1,69 @@
+@use '../utils' as *;
+
+#user-guide-window {
+    width: 55%;
+    height: 75%;
+}
+
+#user-guide-content {
+    display: flex;
+    flex-direction: row;
+
+    padding: 0;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+/* Table of Contents */
+.side-toc {
+    flex: 0.3;
+    padding: 20px;
+
+    border-right: 2px solid var(--text-color);
+
+    overflow-y: auto;
+
+    font-family: $font-system;
+}
+.toc-list {
+    list-style: none;
+    padding-left: 0;
+}
+.toc-item {
+    cursor: pointer;
+    transition: font-weight 0.2s;
+
+    &:hover {
+        text-shadow: 0 0 5px var(--text-color);
+    }
+}
+.toc-item.active {
+    font-weight: bold;
+}
+
+
+/* Entry pages */
+.entry-page {
+    flex: 1;
+    padding: 20px;
+
+    font-family: $font-lucida;
+
+    overflow-y: auto;
+
+    p {
+        font-size: 0.9rem;
+        font-family: $font-lucida;
+    }
+    ul {
+        font-size: 0.9rem;
+        font-family: $font-lucida;
+    }
+}
+.guide-section {
+    display: none;
+}
+.guide-section.active {
+    display: block
+}

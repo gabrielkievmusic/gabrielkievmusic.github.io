@@ -14,3 +14,24 @@
         font-size: inherit;
     }
 }
+
+#about-img1 {
+    float: right;
+
+    width: 200px;
+    height: auto;
+
+    margin: 50px 20px 10px 20px;
+
+    border: 1px solid var(--text-color);
+}
+#about-img2 {
+    float: left;
+
+    width: 200px;
+    height: auto;
+
+    margin: 0px 20px 10px 20px;
+
+    border: 1px solid var(--text-color);
+}

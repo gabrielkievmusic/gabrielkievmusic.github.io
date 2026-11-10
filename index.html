@@ -42,7 +42,6 @@
             </defs>
         </svg>
     
-    
         <!-- Boot screen div -->
         <div id="boot-screen">
             <img src="./images/icons/code_icon.png" alt="Boot Logo">
@@ -71,32 +70,66 @@
                         <button class="close-btn" id="close-about">X</button>
                     </div>
                 </div>
-    
                 <!-- Window content -->
                 <div class="window-content" id="about-content">
-                    <img src="./images/dithered-pic.png" alt="Profile Picture" class="about-img">
+                    <img src="./images/dithered-pic.png" alt="Profile Picture" id="about-img1">
                     <h2>About Me</h2>
                     <p>My name is Gabriel Kiev, I am a brazilian physicist, musician and sound designer, currently living in Portugal. As an artist, I am mostly passionate about sound synthesis and experimental music production. My work is quite ecclectic, ranging from generative ambient soundscapes to progressive rock compositions, film scoring and sound design, and beyond.</p>
                     <p>My education is in Physics Engineering at the University of Porto, and I am now working on my Master's degree with a focus on the intersection of physics and music technology. If you wish to talk to me, you can send me an e-mail straight through the Mail app.</p>
                     <p>This website is both a digital portfolio and a way for me to learn web development as a hobby. Around here, most programs are a way for me to showcase a bit of sound design or music programming while having some fun. I hope you'll have fun with them as well! On the Radio, you can listen to a more varied selection of songs, including some of my unreleased tracks and a few songs by my friends and fellow artists, among which I include my own prog-rock/post-punk/no-wave band ANOMNIA, which you should definitely check out!</p>
+                    <img src="./images/dithered-boom.png" alt="Mic Picture" id="about-img2">
                     <p>Beyond my personal projects, I have also worked as:</p>
                     <ul>
                         <a href="https://www.instagram.com/reel/DTp2mb5jFQD/?stkn=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" style="text-decoration: none;" class="link">
                             <li>Sound Designer for a promotional video</li>
                         </a>
                         <a href="https://www.instagram.com/linhadeespera/" target="_blank" rel="noopener noreferrer " style="text-decoration: none;" class="link">
-                            <li>Sound Director, Recordist, Mixer, Designer, Soundtrack Composer and Foley Artist for upcoming short film "Linha de Espera"</li>
+                            <li>Sound Director, Recordist, Mixer, Designer, Foley Artist and Soundtrack Composer for upcoming short film "Linha de Espera"</li>
                         </a>
                     </ul>
                 </div>
     
             </div>
+
+
+            <!---------------------------------------------------------------------------------------------------------------------->
+            <!-- Cymatic Easel -->
+            <div class="desktop-icon" id="easel-icon">
+                <img src="./images/icons/easel-icon.png" alt="Cymatic Easel">
+                <p>Cymatic Easel</p>
+            </div>
+            <!-- Cymatic Easel window -->
+            <div class="window" id="easel-window" style="display: none;">
+                <!-- Window header -->
+                <div class="window-header">
+                    <span class="window-title">Cymatic Easel</span>
+                    <div class="window-controls">
+                        <button class="info-btn" data-target="guide-easel">i</button>
+                        <button class="close-btn" id="close-easel">X</button>
+                    </div>
+                </div>
     
+                <!-- Window content -->
+                <div class="window-content" id="easel-content">
+                    <!-- Left - Oscillators -->
+                    <div id="easel-oscillators"></div>
+                        <!-- This div is generated in the easel.js script -->
     
+                    <!-- Right - Cymatic canvas -->
+                    <div id="easel-canvas-container">
+                        <div id="canvas-placeholder"></div>
+                    </div>
+                </div>
+                
+            </div>
+    
+
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- Mail -->
-            <div class="desktop-icon" id="mail-icon">
-                <img src="./images/icons/mail-icon.png" alt="Mail">
+            <div class="desktop-icon hover-change-img" id="mail-icon"
+                 style="--icon-default: url('/images/icons/mail-icon.png');
+                        --icon-hover: url('/images/icons/mail-open-icon.png');">
+                <img src="/images/icons/mail-icon.png" alt="Mail">
                 <p>Mail</p>
             </div>
             <!-- Mail window -->
@@ -187,7 +220,7 @@
                 </div>
     
             </div>
-    
+            
     
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- Radio -->
@@ -195,7 +228,7 @@
                 <img src="./images/icons/radio-icon.png" alt="Radio Icon">
                 <p>Radio</p>
             </div>
-            <!-- Radio window -->
+            <!-- Radio widget -->
             <div id="radio-widget">
                 <!-- Radio chassis -->
                 <div class="radio-chassis">
@@ -266,12 +299,12 @@
                                     </div>
                                 </div>
                                 <span class="radio-control-label">TUNE</span>
-                                <input type="range" class="hidden-input radio-freq-input" min="54" max="160" value="100" step="1" style="display: none;">
+                                <input type="range" class="hidden-input radio-freq-input" min="52" max="162" value="100" step="1" style="display: none;">
                             </div>
 
                             <!-- Volume knob -->
                             <div class="radio-control-group ui-knob-group">
-                                <div class="radio-knob ui-knob" data-snap="0.05">
+                                <div class="radio-knob ui-knob" data-snap="0.075">
                                     <div class="radio-knob-dial knob-dial vol-knob">
                                         <div class="radio-knob-cap"></div>
                                         <div class="radio-knob-pointer"></div>
@@ -282,17 +315,16 @@
                             </div>
                         </div>
 
-
                         <!-- Buttons -->
                         <div class="radio-controls-btns">
                             <button class="bank-btn">&lt;</button>
                             <!-- Center buttons -->
                             <div class="radio-center-btns">
-                                <button class="link-btn">
-                                    <span class="link-icon">*</span>
+                                <button class="link-btn info-btn" data-target="guide-radio">
+                                    <span>i</span>
                                 </button>
                                 <button class="link-btn">
-                                    <span class="link-icon">*</span>
+                                    <span>SRC</span>
                                 </button>
                             </div>
                             <button class="bank-btn">&gt;</button>
@@ -300,7 +332,6 @@
 
                         
                     </div>
-
 
                 </div>
             </div>
@@ -310,8 +341,10 @@
             <!-- Soundcloud -->
             <a href="https://soundcloud.com/gabriel-kiev-375092820" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
                 <!-- Demo folder -->
-                <div class="desktop-icon" id="soundcloud-icon">
-                    <img src="./images/icons/folder2-icon.png" alt="Demo Folder">
+                <div class="desktop-icon hover-change-img" id="soundcloud-icon"
+                     style="--icon-default: url('/images/icons/folder2-icon.png');
+                            --icon-hover: url('/images/icons/folder1-icon.png');">
+                    <img src="/images/icons/folder2-icon.png" alt="Demo Folder">
                     <p>Soundcloud</p>
                 </div>
             </a>
@@ -339,37 +372,69 @@
                     
                 </div>
             </div>
-    
-    
+
+
             <!---------------------------------------------------------------------------------------------------------------------->
-            <!-- Cymatic Easel -->
-            <div class="desktop-icon" id="easel-icon">
-                <img src="./images/icons/easel-icon.png" alt="Cymatic Easel">
-                <p>Cymatic Easel</p>
+            <!-- User Guide -->
+            <div class="desktop-icon hover-change-img" id="user-guide-icon"
+                 style="--icon-default: url('/images/icons/closed-book-icon.png');
+                        --icon-hover: url('/images/icons/open-book-icon.png');">
+                <img src="/images/icons/closed-book-icon.png" alt="User Guide">
+                <p>User Guide</p>
             </div>
-            <!-- Cymatic Easel window -->
-            <div class="window" id="easel-window" style="display: none;">
+            <!-- User Guide window -->
+            <div class="window" id="user-guide-window" style="display: none;">
                 <!-- Window header -->
                 <div class="window-header">
-                    <span class="window-title">Cymatic Easel</span>
+                    <span class="window-title">User Guide</span>
                     <div class="window-controls">
-                        <button class="close-btn" id="close-easel">X</button>
+                        <button class="close-btn" id="close-user-guide">X</button>
                     </div>
                 </div>
-    
                 <!-- Window content -->
-                <div class="window-content" id="easel-content">
-                    <!-- Left - Oscillators -->
-                    <div id="easel-oscillators"></div>
-                        <!-- This div is generated in the easel.js script -->
-    
-                    <!-- Right - Cymatic canvas -->
-                    <div id="easel-canvas-container">
-                        <div id="canvas-placeholder"></div>
+                <div class="window-content" id="user-guide-content">
+                    <div class="side-toc" id="user-guide-toc">
+                        <h2>Index</h2>
+                        <ul class="toc-list">
+                            <li class="toc-item active" data-target="guide-landing">1. Introduction</li>
+                            <li class="toc-item" data-target="guide-license">2. License & Copyright</li>
+                            <li class="toc-item" data-target="guide-system-info">3. System Info</li>
+                            <li class="toc-item" data-target="guide-radio">4. Radio</li>
+                            <li class="toc-item" data-target="guide-easel">5. Cymatic Easel</li>                      
+                        </ul>
+                    </div>
+                    <div class="entry-page">
+
+                        <div id="guide-landing" class="guide-section active">
+                            <h1>Introduction</h1>
+                            <p>Welcome to my Musical Operating System.</p>
+                            <p>The MOS is a collection of musical experiments and audiovisual coding projects. By navigating the desktop you will see a few diferent programs. They range from visual interpretations of my musical work to interactable soundscapes and even some experimental digital synthesizers.</p>
+                            <p>This guide is designed to provide information on all the programs currently present. Most of them have a direct link to their corresponding guide section via the [i] button on the top right of their windows. </p>
+                            <p>Please note that the Musical Operating System is in constant development, with many updates being released frequently and many more to come. Since I am not deeply trained in web development, you may experience bugs. If that does happen, you are encouraged to send a bug report via the Mail app.</p>
+                            <p>Explore around, create some sounds and leave them playing on the background or use them for your own projects!</p>
+                        </div>
+
+                        <div id="guide-license" class="guide-section">
+                            <h1>License & Copyright</h1>
+                            <p>This webpage/repository contains a mix of open-source code and proprietary artistic content. Please read the specific usage rights for each carefully:</p>
+                            <h3>1. Code & Functionality</h3>
+                            <p>All programming code, scripts, and shaders are released under the <b>MIT License</b>. You are completely free to use, study, modify, and distribute the technical implementation to build your own projects or generate your own music.</p>
+                            <h3>2. Music, Audio and Artwork</h3>
+                            <p>All pre-recorded audio files, compositions, branding, and original visual art are <b>Copyright © [2026] [Gabriel Kiev]. All Rights Reserved</b>, with the following specific exceptions:</p>
+                            <ul>
+                                <li><b>Showcasing allowed:</b> You are highly encouraged and permitted to record, stream, or publish videos or other form of content showcasing this website, interacting with its features, and playing the music that you find or create here. You will not face copyright strikes for showcasing the site's experience.</li>
+                                <li><b>No plagiarism:</b> You may not copy, re-upload, or distribute my original music files or compositions under your own name or claim them as your own work.</li>
+                                <li><b>Remixes & sampling:</b> If you wish to remix, sample, or incorporate my specific audio files and compositions into your own musical projects, while encouraged, you must obtain explicit written permission from me first. Please contact me at gabrielkievmusic@gmail.com to discuss.</li>
+                            </ul>
+                            
+
+                        </div>
+
                     </div>
                 </div>
-    
+
             </div>
+
     
         </div>
     
@@ -385,7 +450,6 @@
     <!-- Cymatic Easel canvas -->
     <canvas id="cymatic-canvas"></canvas>
 
-    
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
