@@ -698,6 +698,7 @@ input[type=range].hslider::-moz-range-thumb {
 }
 
 .toc-item {
+  text-align: left;
   cursor: pointer;
   transition: font-weight 0.2s;
 }

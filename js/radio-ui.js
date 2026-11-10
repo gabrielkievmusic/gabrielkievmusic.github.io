@@ -173,7 +173,7 @@ export function initRadio() {
 
     /* Warmup Logic */
     let warmupStartTime = 0;
-    const WARMUP_DURATION = 30000;
+    const WARMUP_DURATION = 20000;
     let isWarmingUp = false;
     let isEyeActive = false;
 
