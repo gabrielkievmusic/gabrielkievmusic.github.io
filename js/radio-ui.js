@@ -49,13 +49,29 @@ export function initRadio() {
                 if (!radioWidget.classList.contains('is-powered-on')) {
                     radioWidget.classList.add('is-powered-on');
                     RadioAudio.play();
+
+                    // Start magic-eye warmup
+                    warmupStartTime = Date.now();
+                    isWarmingUp = true;
+
+                    currentGap = 300;
+                    currentGlow = 4;
+                    currentIntensity = 0;
+
+                    if (!isEyeActive) {
+                        isEyeActive = true;
+                        requestAnimationFrame(animateEye);
+                    }
                 }
-            
             } else {
                 if (radioWidget.classList.contains('is-powered-on')) {
                     radioWidget.classList.remove('is-powered-on');
                     RadioAudio.setVolume(0);
                     RadioAudio.pause();
+                    
+                    isWarmingUp = false;
+                    isEyeActive = false;
+                    if (magicEye) magicEye.style.setProperty('--eye-intensity', '0');
                 }
             }
         });
@@ -94,6 +110,7 @@ export function initRadio() {
     if (bandSwitch && fmLabel && amLabel) {
         bandSwitch.addEventListener('click', () => {
             const isAM = bandSwitch.classList.toggle('is-am');
+            const newBand = isAM ? 'am' : 'fm';
 
             if (isAM) {
                 fmLabel.classList.remove('active');
@@ -103,7 +120,22 @@ export function initRadio() {
                 fmLabel.classList.add('active');
             }
 
-            // TODO - Change band functionality
+            RadioAudio.setBand(newBand);
+
+            /* Adjust needle position to stay the same when switching bands */
+            if (tuneInput) {
+                const oldMin = parseFloat(tuneInput.min);
+                const oldMax = parseFloat(tuneInput.max);
+                const currentProgress = (parseFloat(tuneInput.value) - oldMin) / (oldMax - oldMin);
+
+                const newMin = isAM ? 52 : 86;
+                const newMax = isAM ? 162 : 110;
+                tuneInput.min = newMin;
+                tuneInput.max = newMax;
+                tuneInput.value = (currentProgress * (newMax - newMin)) + newMin;
+
+                tuneInput.dispatchEvent(new Event('input'));
+            }
         });
     }
 
@@ -135,4 +167,63 @@ export function initRadio() {
     if (tuneInput) {
         tuneInput.dispatchEvent(new Event('input'));
     }
+
+    /* -- Magic Eye Logic -- */
+    const magicEye = radioWidget.querySelector('.magic-eye-tube');
+
+    /* Warmup Logic */
+    let warmupStartTime = 0;
+    const WARMUP_DURATION = 30000;
+    let isWarmingUp = false;
+    let isEyeActive = false;
+
+    let targetGap = 300;
+    let targetGlow = 4;
+    let targetIntensity = 1.0;
+
+    let currentGap = 300;
+    let currentGlow = 4;
+    let currentIntensity = 0;
+
+    // Animation loop
+    function animateEye() {
+        if (!isEyeActive) return;
+
+        // Warmup curve
+        let thermalCurve = 1.0;
+        if (isWarmingUp) {
+            const elapsed = Date.now() - warmupStartTime;
+            let progress = Math.min(1.0, elapsed / WARMUP_DURATION);
+            thermalCurve = Math.pow(progress, 3);
+            if (progress >= 1.0) isWarmingUp = false;
+        }
+
+        // Current state calculation
+        const frameTargetGap = 300 - ((300 - targetGap) * thermalCurve);
+        const frameTargetGlow = 4 + ((targetGlow - 4) * thermalCurve);
+        const frameTargetIntensity = targetIntensity * thermalCurve;
+
+        // Analog inertia
+        let inertiaScale = 0.05
+        currentGap += (frameTargetGap - currentGap) * inertiaScale;
+        currentGlow += (frameTargetGlow - currentGlow) * inertiaScale;
+        currentIntensity += (frameTargetIntensity - currentIntensity) * inertiaScale;
+
+        // Apply to CSS
+        if (magicEye) {
+            magicEye.style.setProperty('--eye-gap', `${currentGap}deg`);
+            magicEye.style.setProperty('--eye-glow', `${currentGlow}px`);
+            magicEye.style.setProperty('--eye-intensity', currentIntensity.toString());
+        }
+
+        requestAnimationFrame(animateEye);
+    }
+
+    document.addEventListener('radio-tuning', (e) => {
+        const tuneFactor = e.detail; 
+        
+        // Target values
+        targetGap = 300 - (tuneFactor * 305);
+        targetGlow = 4 + (tuneFactor * 50);
+    });
 }

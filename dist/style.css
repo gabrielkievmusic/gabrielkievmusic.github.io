@@ -873,12 +873,33 @@ input[type=range].hslider::-moz-range-thumb {
   border-radius: 50%;
   background-color: var(--background-color);
   border: 3px solid var(--text-color);
-  box-shadow: 0 0 0 2px var(--background-color);
-  transition: 0.1s linear;
+  /* Magic-Eye effect */
+  --eye-intensity: 0;
+  --eye-gap: 300deg;
+  --eye-glow: 4px;
+  --eye-color: color-mix(in srgb, var(--text-color) calc(var(--eye-intensity) * 100%), transparent);
+  --eye-color-dim: color-mix(in srgb, var(--text-color) calc(var(--eye-intensity) * 30%), transparent);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.magic-eye-tube::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #080808;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  z-index: 2;
 }
 
 #radio-widget.is-powered-on .magic-eye-tube {
-  box-shadow: inset 0 0 var(--eye-glow, 30px) color-mix(in srgb, var(--text-color) 50%, transparent), 0 0 var(--eye-glow, 15px) color-mix(in srgb, var(--text-color) 50%, transparent);
+  box-shadow: 0 0 var(--eye-glow) var(--eye-color-dim), 0 0 calc(var(--eye-glow) * 1) var(--text-color);
+  background-color: color-mix(in srgb, var(--text-color) calc(var(--eye-intensity) * 10%), var(--background-color));
+  background-image: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.7) 100%), conic-gradient(from 180deg, transparent 0deg, transparent calc(var(--eye-gap) * 0.5), var(--eye-color) calc(var(--eye-gap) * 0.5 + 3deg), var(--eye-color) calc(360deg - var(--eye-gap) * 0.5 - 3deg), transparent calc(360deg - var(--eye-gap) * 0.5), transparent 360deg);
 }
 
 /* ---------- Middle section ---------- */

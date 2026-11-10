@@ -4,6 +4,7 @@ import { getAudioContext, getMasterBus } from './audio.js';
 /* --- RADIO STATIONS --- */
 /* Station mapping */
 const stationConfigs = [
+    /* FM */
     {
         id: 'fm-98',
         freq: 98,
@@ -23,7 +24,15 @@ const stationConfigs = [
             './audio/stations/fm-107/4 - locrian.mp3',
             './audio/stations/fm-107/5 - phrygian.mp3',
             //'./audio/stations/fm-107/6 - mixolydian.mp3',
-            './audio/stations/fm-107/7 - ionian.mp3',
+            './audio/stations/fm-107/7 - ionian.mp3'
+        ]
+    },
+    /* AM */
+    {
+        id: 'am-75',
+        freq: 75,
+        tracks: [
+            './audio/stations/am-75/ambient-test.mp3'
         ]
     }
 ];
@@ -31,6 +40,7 @@ const stationConfigs = [
 /* Station class */
 class RadioStation {
     constructor(config) {
+        this.band = config.id.split('-')[0];
         this.freq = config.freq;
         this.id = config.id;
         this.tracks = config.tracks;
@@ -120,9 +130,11 @@ class RadioStation {
         const tuningWindow = 2;
         const distance = Math.abs(currentFreq - this.freq);
 
+        let tuneFactor = 0;
+
         if (distance <= tuningWindow && masterVolume > 0) {
             /* Inside station window */
-            const tuneFactor = Math.pow(1 - (distance / tuningWindow), 2);
+            tuneFactor = Math.pow(1 - (distance / tuningWindow), 2);
             this.audio.volume = masterVolume * tuneFactor;
 
             if (!this.isPlaying) {
@@ -134,6 +146,8 @@ class RadioStation {
                 this.pauseAndStoreTime();
             }
         }
+
+        return tuneFactor;
     }
 
 }
@@ -144,6 +158,7 @@ const stations = stationConfigs.map(config => new RadioStation(config));
 
 let currentMasterVolume = 0;
 let currentFrequency = 90;
+let currentBand = 'fm';
 let isRadioPowered = false;
 
 export const RadioAudio = {
@@ -167,6 +182,11 @@ export const RadioAudio = {
         RadioAudio.updateAllStations();
     },
 
+    setBand: (band) => {
+        currentBand = band;
+        RadioAudio.updateAllStations();
+    },
+
     setFrequency: (freq) => {
         currentFrequency = freq;
         RadioAudio.updateAllStations();
@@ -176,10 +196,15 @@ export const RadioAudio = {
     updateAllStations: () => {
         if (!isRadioPowered) return;
 
-        stations.forEach(station => {
-            station.updateTuning(currentFrequency, currentMasterVolume);
-        });
+        let maxTuneFactor = 0;
 
-        console.log(`All stations updated: freq='${currentFrequency}', vol='${currentMasterVolume}'`)
+        stations.forEach(station => {
+            const effectiveFreq = (station.band === currentBand) ? currentFrequency : Infinity;
+            const tuneFactor = station.updateTuning(effectiveFreq, currentMasterVolume);
+            if (tuneFactor > maxTuneFactor) {
+                maxTuneFactor = tuneFactor;
+            }
+        });
+        document.dispatchEvent(new CustomEvent('radio-tuning', {detail: maxTuneFactor}));
     }
 };
