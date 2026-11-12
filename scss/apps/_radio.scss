@@ -2,7 +2,7 @@
 
 $radio-fg: var(--text-color);
 $radio-bg: var(--background-color);
-$radio-texture-spacing: 10px; 
+$radio-texture-spacing: 3.5px; 
 
 #radio-widget {
     position: fixed;
@@ -410,7 +410,7 @@ $radio-texture-spacing: 10px;
     gap: 10px;
 }
 
-.bank-btn, .link-btn {
+.bank-btn, .src-btn, .info-btn {
     width: 32px;
     height: 24px;
 
@@ -428,14 +428,21 @@ $radio-texture-spacing: 10px;
 
     transition: all 0.05s ease;
 }
-.bank-btn:active, .link-btn:active, .bank-btn.active, .link-btn.active {
+.bank-btn:active, .src-btn:active, .info-btn:active, .bank-btn.active, .src-btn.active, .info-btn.active {
         box-shadow: 0 0 0 0 $radio-fg;
         transform: translateY(2px) translateX(1px);
     }
 #radio-widget.is-powered-on {
-    .bank-btn:active, .link-btn:active, .bank-btn.active, .link-btn.active {
+    .bank-btn:active, .src-btn:active, .info-btn:active, .bank-btn.active, .src-btn.active, .info-btn.active {
         background-color: color-mix(in srgb, #{$radio-fg} 40%, transparent);
         color: $radio-fg;
         box-shadow: 0 0 15px 2px color-mix(in srgb, #{$radio-fg} 40%, transparent);
     }
+}
+.src-btn.has-source {
+    background-color: color-mix(in srgb, #{$radio-fg} 10%, transparent);
+        //text-shadow: 0 0 1px $radio-fg;
+        box-shadow:
+            1px 2px 0 0 $radio-fg,
+            0 0 2px 0 color-mix(in srgb, #{$radio-fg} 40%, transparent);
 }

@@ -322,10 +322,10 @@
                             <button class="bank-btn">&lt;</button>
                             <!-- Center buttons -->
                             <div class="radio-center-btns">
-                                <button class="link-btn info-btn" data-target="guide-radio">
+                                <button class="info-btn" data-target="guide-radio">
                                     <span>i</span>
                                 </button>
-                                <button class="link-btn">
+                                <button class="src-btn">
                                     <span>SRC</span>
                                 </button>
                             </div>
@@ -438,14 +438,27 @@
 
                         <div class="guide-section" id="guide-radio">
                             <h1>Radio</h1>
-                            <p>This is a two-band radio with adjustable volume, illuminated tuning indicator, automated frequency seeking and musical sourcing capabilities.  Given a few seconds to warm up, the valve tube at the upper right corner of the front panel, called the MAGIC EYE, is used to facilitate manual tuning - the closer the indicator is to full, the closer the frequency is to a station's emitting frequency.</p>
+                            <p>This is a two-band (AM/FM) radio with illuminated tuning indicator, automated frequency seeking and musical sourcing capabilities.</p>
                             <p>Turn the VOLUME knob to power up the radio and increase the volume. To power down the device, turn the VOLUME knob all the way down.</p>
-                            <p>Turn the TUNE knob to adjust the frequency and tune to different radio stations. As the TUNE knob is turned, the needle in the frequency dial tracks the current frequency in the two possible bands.</p>
+                            <p>Turn the TUNE knob to adjust the frequency and tune to different radio stations. As the TUNE knob is turned, the needle in the frequency dial simultaneously tracks the current frequency in the two possible bands.</p>
+                            <p>Given a few seconds to warm up, the valve tube at the upper right corner of the front panel, called the MAGIC EYE, is used to facilitate manual tuning - the closer the indicator is to full, the closer the frequency is to a station's emitting frequency.</p>
                             <p>Flip the selector on the side to switch between the FM and the AM bands. The indicators on the left of the frequency dial will light up indicating the active frequency band.</p>
-                            <p>When tuned to a station, press the SRC button to open a page from the artist of the song that is currently playing.</p>
+                            <p>When tuned to a station that is playing a song, the SRC button will light up slightly if the current song has an associated source link. If it does, press the button to open the source link in a new tab.</p>
                             <p>The radio does not connect to standard radio stations. Instead, it connects to a specific group of stations that are paired to the device. I've managed to broadcast and pair some "stations" with my music and the music from other fellow artists, populating some of the FM spectrum. The AM band has an inherently lower transmission quality, so it contains mostly demos, lo-fi recordings and unreleased material. It also seems to be more prone to connecting to unexpected stations which somehow bypass the radio's pairing system.</p>
                             <p>By manipulating the antenna, I seem to be able to reach more of these unpaired stations. More testing needs to be done, but I've mapped a few of them.</p>
-                            <!-- TODO: Station mapping table -->
+                            
+                            <h2 style="margin: 0">Known broadcasts</h2>
+                            <div class="radio-station-list-container">
+                                <ul class="radio-station-list" id="fm-station-list">
+                                    <h3>FM</h3>
+                                    <li>98.0 MHz - ANOMNIA</li>
+                                    <li>107.0 MHz - Ambient</li>
+                                </ul>
+                                <ul class="radio-station-list" id="am-station-list">
+                                    <h3>AM</h3>
+                                    <li>750 kHz - Ambient</li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="guide-section" id="guide-easel">

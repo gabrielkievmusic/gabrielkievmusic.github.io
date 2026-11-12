@@ -1,5 +1,35 @@
 /* Imports */
+import { PinkNoise } from './random.js'
 import { getAudioContext, getMasterBus } from './audio.js';
+
+/* Function to create the radio static from pink noise */
+function createStaticNoise(ctx) {
+    // Pink noise generator
+    const pinkGen = new PinkNoise();
+
+    // 5 second audio buffer that will be looped
+    const bufferSize = ctx.sampleRate * 5;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const output = buffer.getChannelData(0);
+
+    // Fill buffer
+    for (let i = 0; i < bufferSize; i++) {
+        output[i] = pinkGen.next();
+    }
+
+    const noiseSource = ctx.createBufferSource();
+    noiseSource.buffer = buffer;
+    noiseSource.loop = true;
+
+    // Gain control
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.value = 0;
+    /* Noise source -> Noise gain */
+    noiseSource.connect(noiseGain);
+
+    return { noiseSource, noiseGain };
+}
+
 
 /* --- RADIO STATIONS --- */
 /* Station mapping */
@@ -9,22 +39,22 @@ const stationConfigs = [
         id: 'fm-98',
         freq: 98,
         tracks: [
-            './audio/stations/fm-98/Anomnia - I Dont Wanna Be.mp3',
-            './audio/stations/fm-98/Anomnia - Bodies.mp3',
-            './audio/stations/fm-98/Anomnia - Wont You Say Anything.mp3'
+            {file: './audio/stations/fm-98/Anomnia - I Dont Wanna Be.mp3', link: 'https://linktr.ee/anomnia'},
+            {file: './audio/stations/fm-98/Anomnia - Bodies.mp3', link: 'https://linktr.ee/anomnia'},
+            {file: './audio/stations/fm-98/Anomnia - Wont You Say Anything.mp3', link: 'https://linktr.ee/anomnia'}
         ]
     },
     {
         id: 'fm-107',
         freq: 107,
         tracks: [
-            './audio/stations/fm-107/1 - dorian.mp3',
-            './audio/stations/fm-107/2 - lydian.mp3',
+            {file: './audio/stations/fm-107/1 - dorian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'},
+            {file: './audio/stations/fm-107/2 - lydian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'},
             //'./audio/stations/fm-107/3 - aeolian.mp3',
-            './audio/stations/fm-107/4 - locrian.mp3',
-            './audio/stations/fm-107/5 - phrygian.mp3',
+            {file: './audio/stations/fm-107/4 - locrian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'},
+            {file: './audio/stations/fm-107/5 - phrygian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'},
             //'./audio/stations/fm-107/6 - mixolydian.mp3',
-            './audio/stations/fm-107/7 - ionian.mp3'
+            {file: './audio/stations/fm-107/7 - ionian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'}
         ]
     },
     /* AM */
@@ -32,7 +62,7 @@ const stationConfigs = [
         id: 'am-75',
         freq: 75,
         tracks: [
-            './audio/stations/am-75/ambient-test.mp3'
+            {file: './audio/stations/am-75/ambient-test.mp3', link: null}
         ]
     }
 ];
@@ -78,8 +108,10 @@ class RadioStation {
         }
 
         this.currentTrackIndex = randomIndex;
-        this.audio.src = this.tracks[randomIndex];
+        this.audio.src = this.tracks[randomIndex].file;
+        this.audio.currentTime = 0;
         this.audio.play();
+        notifyLinkStatus();
     }
 
     /* Function to pause audio and store the currently playing track's time */
@@ -87,6 +119,12 @@ class RadioStation {
         this.audio.pause();
         this.lastPauseTime = Date.now();
         this.isPlaying = false;
+    }
+
+    /* Function to get the current track's source link */
+    getCurrentLink() {
+        if (this.currentTrackIndex === -1) return null;
+        return this.tracks[this.currentTrackIndex].link;
     }
 
     /* Function to play the simulated "broadcast" when tuning to radio */
@@ -122,6 +160,7 @@ class RadioStation {
         }
 
         this.isPlaying = true;
+        notifyLinkStatus();
     }
 
     /* Function to sync station volume and play/pause status to tuned freq */
@@ -156,16 +195,42 @@ class RadioStation {
 /* --- AUDIO PLAYER --- */
 const stations = stationConfigs.map(config => new RadioStation(config));
 
+let isRadioPowered = false;
 let currentMasterVolume = 0;
 let currentFrequency = 90;
 let currentBand = 'fm';
-let isRadioPowered = false;
+let currentStation = null;
+
+let staticSourceNode = null;
+let staticGainNode = null;
+let isStaticInitialized = false;
+
+/* Function to tell the UI if the current track has a source link or not */
+function notifyLinkStatus() {
+    const link = RadioAudio.getTunedTrackLink();
+    const hasLink = !!link;
+    document.dispatchEvent(new CustomEvent('radio-link-update', { detail: hasLink }));
+}
 
 export const RadioAudio = {
     play: () => {
         isRadioPowered = true;
+
+        // Initialize static noise
+        if (!isStaticInitialized) {
+            const ctx = getAudioContext();
+            const { noiseSource, noiseGain } = createStaticNoise(ctx);
+            staticSourceNode = noiseSource;
+            staticGainNode = noiseGain;
+
+            /* [Noise source -> Noise gain] -> Master Bus */
+            staticGainNode.connect(getMasterBus());
+            staticSourceNode.start();
+            isStaticInitialized = true;
+        }
+
         RadioAudio.updateAllStations();
-        console.log('Radio playing')
+        //console.log('Radio playing')
     },
 
     pause: () => {
@@ -174,7 +239,7 @@ export const RadioAudio = {
         stations.forEach(station => {
             if (station.isPlaying) station.pauseAndStoreTime();
         });
-        console.log('All stations paused')
+        //console.log('All stations paused')
     },
     
     setVolume: (val) => {
@@ -192,19 +257,44 @@ export const RadioAudio = {
         RadioAudio.updateAllStations();
     },
 
-    /* Function to link the volume and frequency changes into all stations */
+    /* Function to get the link from the current active station */
+    getTunedTrackLink: () => {
+        if (!isRadioPowered || !currentStation) return null;
+        return currentStation.getCurrentLink();
+    },
+
+    /* Function to send the volume and frequency changes into all stations */
     updateAllStations: () => {
         if (!isRadioPowered) return;
 
         let maxTuneFactor = 0;
+        currentStation = null;
 
         stations.forEach(station => {
             const effectiveFreq = (station.band === currentBand) ? currentFrequency : Infinity;
             const tuneFactor = station.updateTuning(effectiveFreq, currentMasterVolume);
+            
             if (tuneFactor > maxTuneFactor) {
                 maxTuneFactor = tuneFactor;
+                if (tuneFactor > 0.5) {
+                    currentStation = station;
+                }
             }
+
         });
+        
+        // Static noise crossfade
+        if (staticGainNode) {
+            const ctx = getAudioContext();
+            const staticPresence = 1.0 - maxTuneFactor;
+
+            const targetStaticVolume = currentMasterVolume * Math.pow(staticPresence, 2) * 0.15;
+
+            staticGainNode.gain.setTargetAtTime(targetStaticVolume, ctx.currentTime, 0.05);
+        }
+        
         document.dispatchEvent(new CustomEvent('radio-tuning', {detail: maxTuneFactor}));
+        notifyLinkStatus();
     }
+
 };

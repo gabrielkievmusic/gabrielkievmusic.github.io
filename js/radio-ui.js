@@ -18,12 +18,14 @@ export function initRadio() {
     /* Z-Index */
     radioWidget.addEventListener('mousedown', () => bringToFront(radioWidget));
 
+
     /* Open widget */
     radioIcon.addEventListener('click', () => {
         radioWidget.style.display = 'flex';
         radioWidget.classList.remove('radio-minimized');
         bringToFront(radioWidget);
     });
+
 
     /* Close vs minimize */
     radioTop.addEventListener('click', () => {
@@ -78,9 +80,9 @@ export function initRadio() {
     }
 
 
-    /* User guide button */
+    /* Info button */
     const infoBtn = radioWidget.querySelector('.info-btn');
-    console.log(`Info button acquired: ${infoBtn}`)
+
     if (infoBtn) {
         infoBtn.addEventListener('click', () => {
             if (!radioWidget.classList.contains('is-powered-on')) return;
@@ -101,6 +103,36 @@ export function initRadio() {
                 tocItem.click();
             } else {
                 console.warn(`Guide page not found for target ID "${targetId}"`);
+            }
+        });
+    }
+
+
+    /* Source button */
+    const srcBtn = radioWidget.querySelector('.src-btn');
+
+    if (srcBtn) {
+        // Light up if source link exists
+        document.addEventListener('radio-link-update', (e) => {
+            const hasLink = e.detail;
+            
+            if (hasLink && radioWidget.classList.contains('is-powered-on')) {
+                srcBtn.classList.add('has-source');
+            } else {
+                srcBtn.classList.remove('has-source');
+            }
+        });
+
+        // Click event listener
+        srcBtn.addEventListener('click', () => {
+            if (!radioWidget.classList.contains('is-powered-on')) return;
+
+            const link = RadioAudio.getTunedTrackLink();
+
+            if (link) {
+                window.open(link, '_blank');
+            } else {
+                console.log('No associated link or station out of tune');
             }
         });
     }
@@ -143,7 +175,6 @@ export function initRadio() {
     /* Needle position */
     const tuneInput = radioWidget.querySelector('.radio-freq-input');
     const needle = radioWidget.querySelector('.dial-needle');
-
 
     if (tuneInput && needle) {
         tuneInput.addEventListener('input', (e) => {

@@ -734,6 +734,19 @@ input[type=range].hslider::-moz-range-thumb {
   display: block;
 }
 
+/* Entry-specific */
+.radio-station-list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.radio-station-list {
+  list-style: none;
+  padding: 0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -836,8 +849,8 @@ input[type=range].hslider::-moz-range-thumb {
   /* Dithering */
   background-color: var(--background-color);
   background-image: radial-gradient(circle, var(--text-color) 1px, transparent 1px), radial-gradient(circle, var(--text-color) 1px, transparent 1px);
-  background-position: 0 0, 10px 10px;
-  background-size: 20px 20px;
+  background-position: 0 0, 3.5px 3.5px;
+  background-size: 7px 7px;
   display: flex;
   flex-direction: column;
   padding: 12px;
@@ -1123,7 +1136,7 @@ input[type=range].hslider::-moz-range-thumb {
   gap: 10px;
 }
 
-.bank-btn, .link-btn {
+.bank-btn, .src-btn, .info-btn {
   width: 32px;
   height: 24px;
   background-color: var(--background-color);
@@ -1138,13 +1151,18 @@ input[type=range].hslider::-moz-range-thumb {
   transition: all 0.05s ease;
 }
 
-.bank-btn:active, .link-btn:active, .bank-btn.active, .link-btn.active {
+.bank-btn:active, .src-btn:active, .info-btn:active, .bank-btn.active, .src-btn.active, .info-btn.active {
   box-shadow: 0 0 0 0 var(--text-color);
   transform: translateY(2px) translateX(1px);
 }
 
-#radio-widget.is-powered-on .bank-btn:active, #radio-widget.is-powered-on .link-btn:active, #radio-widget.is-powered-on .bank-btn.active, #radio-widget.is-powered-on .link-btn.active {
+#radio-widget.is-powered-on .bank-btn:active, #radio-widget.is-powered-on .src-btn:active, #radio-widget.is-powered-on .info-btn:active, #radio-widget.is-powered-on .bank-btn.active, #radio-widget.is-powered-on .src-btn.active, #radio-widget.is-powered-on .info-btn.active {
   background-color: color-mix(in srgb, var(--text-color) 40%, transparent);
   color: var(--text-color);
   box-shadow: 0 0 15px 2px color-mix(in srgb, var(--text-color) 40%, transparent);
+}
+
+.src-btn.has-source {
+  background-color: color-mix(in srgb, var(--text-color) 10%, transparent);
+  box-shadow: 1px 2px 0 0 var(--text-color), 0 0 2px 0 color-mix(in srgb, var(--text-color) 40%, transparent);
 }/*# sourceMappingURL=style.css.map */
