@@ -963,9 +963,10 @@ input[type=range].hslider::-moz-range-thumb {
 }
 
 .band-label {
+  height: 10px;
   background-color: var(--background-color);
-  color: var(--text-color);
-  opacity: 0.6;
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 1;
   transition: all 0.3s ease;
 }
 
@@ -1136,7 +1137,7 @@ input[type=range].hslider::-moz-range-thumb {
   gap: 10px;
 }
 
-.bank-btn, .src-btn, .info-btn {
+.bank-btn, .src-btn, .radio-info-btn {
   width: 32px;
   height: 24px;
   background-color: var(--background-color);
@@ -1151,12 +1152,12 @@ input[type=range].hslider::-moz-range-thumb {
   transition: all 0.05s ease;
 }
 
-.bank-btn:active, .src-btn:active, .info-btn:active, .bank-btn.active, .src-btn.active, .info-btn.active {
+.bank-btn:active, .src-btn:active, .radio-info-btn:active, .bank-btn.active, .src-btn.active, .radio-info-btn.active {
   box-shadow: 0 0 0 0 var(--text-color);
   transform: translateY(2px) translateX(1px);
 }
 
-#radio-widget.is-powered-on .bank-btn:active, #radio-widget.is-powered-on .src-btn:active, #radio-widget.is-powered-on .info-btn:active, #radio-widget.is-powered-on .bank-btn.active, #radio-widget.is-powered-on .src-btn.active, #radio-widget.is-powered-on .info-btn.active {
+#radio-widget.is-powered-on .bank-btn:active, #radio-widget.is-powered-on .src-btn:active, #radio-widget.is-powered-on .radio-info-btn:active, #radio-widget.is-powered-on .bank-btn.active, #radio-widget.is-powered-on .src-btn.active, #radio-widget.is-powered-on .radio-info-btn.active {
   background-color: color-mix(in srgb, var(--text-color) 40%, transparent);
   color: var(--text-color);
   box-shadow: 0 0 15px 2px color-mix(in srgb, var(--text-color) 40%, transparent);

@@ -322,7 +322,7 @@
                             <button class="bank-btn">&lt;</button>
                             <!-- Center buttons -->
                             <div class="radio-center-btns">
-                                <button class="info-btn" data-target="guide-radio">
+                                <button class="radio-info-btn" data-target="guide-radio">
                                     <span>i</span>
                                 </button>
                                 <button class="src-btn">
@@ -440,10 +440,11 @@
                             <h1>Radio</h1>
                             <p>This is a two-band (AM/FM) radio with illuminated tuning indicator, automated frequency seeking and musical sourcing capabilities.</p>
                             <p>Turn the VOLUME knob to power up the radio and increase the volume. To power down the device, turn the VOLUME knob all the way down.</p>
+                            <p>Flip the selector on the side to switch between the FM and the AM bands. The indicators on the left of the frequency dial will light up indicating the active frequency band.</p>
                             <p>Turn the TUNE knob to adjust the frequency and tune to different radio stations. As the TUNE knob is turned, the needle in the frequency dial simultaneously tracks the current frequency in the two possible bands.</p>
                             <p>Given a few seconds to warm up, the valve tube at the upper right corner of the front panel, called the MAGIC EYE, is used to facilitate manual tuning - the closer the indicator is to full, the closer the frequency is to a station's emitting frequency.</p>
-                            <p>Flip the selector on the side to switch between the FM and the AM bands. The indicators on the left of the frequency dial will light up indicating the active frequency band.</p>
                             <p>When tuned to a station that is playing a song, the SRC button will light up slightly if the current song has an associated source link. If it does, press the button to open the source link in a new tab.</p>
+                            <p>The Automated Frequency Control (AFC) buttons &lt; and &gt; will automatically tune to next station in the respective direction in the frequency range. Not all stations can be reached via this system, but once a station is tuned to, it will be stored in the memory. Please refrain from turning the TUNE knob while the motor is turning.</p>
                             <p>The radio does not connect to standard radio stations. Instead, it connects to a specific group of stations that are paired to the device. I've managed to broadcast and pair some "stations" with my music and the music from other fellow artists, populating some of the FM spectrum. The AM band has an inherently lower transmission quality, so it contains mostly demos, lo-fi recordings and unreleased material. It also seems to be more prone to connecting to unexpected stations which somehow bypass the radio's pairing system.</p>
                             <p>By manipulating the antenna, I seem to be able to reach more of these unpaired stations. More testing needs to be done, but I've mapped a few of them.</p>
                             
@@ -462,7 +463,22 @@
                         </div>
 
                         <div class="guide-section" id="guide-easel">
+                            <h1>Cymatic Easel</h1>
+                            <p>The Cymatic Easel is a visual additive synthesizer. Construct a timbre with up to five sine oscillators and watch the resonant patterns of flowing light.</p>
+                            <h3>The oscillators</h3>
+                            <p>On the left-hand side panel, there are five sine wave oscillators. To turn each of them on, press the POWER button. The first oscillator determines the fundamental frequency, the other four have their frequencies calculated as multiples of the fundamental.</p>
+                            <p>Turn the FREQUENCY knob to adjust the fundamental frequency (in Hz) or its multipliers. For more precision, use the FINE control knob.</p>
+                            <p>To hear the generated sound, increase the volume by turning the GAIN knob. Each oscillator has its own independet GAIN control. </p>
+                            <p>Both the FREQUENCY and the GAIN of each oscillator can be independently controlled via Low Frequency Oscillators (LFO's) adjusted via the MOD and RATE knobs. The MOD knob controls the depth of the modulation applied on the corresponding parameter. The RATE knob affects how quickly the modulation oscillates.</p>
+                            <p>By pressing the PHASE button, the oscillator's waveform will be inverted, corresponding to a 180 degree phase shift. This change does not create a noticeable impact on sound, but will generate different results in the Chladni visualizer.</p>
 
+                            <h3>Cymatics and Chladni Pattern Simulation</h3>
+                            <p>On the right-hand side panel, the program generates Chladni Patterns according to the configuration of the oscillators.</p>
+                            <p>Chladni Patterns are a notorious example in the field of Cymatics - the study of visualizing sound. In the physical world, it consists of a plate upon which is deposited a grainy material such as sand. The plate is then submitted to a vibration of controlled frequency. When this frequency matches the plate's resonant frequencies, the appearence of node lines (regions along which the plate does not vibrate) can be visualized by the accumulation of grains, forming symmetrical patterns.</p>
+                            <p>Usually, the formation of those patterns is conditioned to the material's properties, which determine the resonance frequencies and the plate's modes of vibration. In this program, we simulate what it would be like if those patterns were generated on a continuum. The minimum audible frequency of 20Hz is established as the fundamental resonance mode. For all other frequencies, the program calculates an interpolation between the two closest modes and outputs the corresponding pattern.</p>
+                            <p>Each oscillator will generate a distinct pattern based on its frequency. As the frequency increases, the simulation follows a spiral in the modal plane, passing through all resonance frequencies in the range and generating in-between states which are physically unrealizable, but nevertheless beautiful.</p>
+                            <p>The color of each pattern is also dependent on the frequency, with the audible range mapped to the visual spectrum of light, from red to blue and the violet beyond. The opacity of a pattern is determined by that oscillator's output amplitude.</p>
+                            <p>There are known bugs related to the visualizer that may generate visual artifacts. Please, be mindful that any disturbance caused by the simulation can be undone by switching off all oscillators and closing the program.</p>
                         </div>
 
                     </div>

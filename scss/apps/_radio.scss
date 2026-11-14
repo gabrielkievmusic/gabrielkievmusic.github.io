@@ -202,9 +202,10 @@ $radio-texture-spacing: 3.5px;
 }
 
 .band-label {
+    height: 10px;
     background-color: $radio-bg;
-    color: $radio-fg;
-    opacity: 0.6;
+    color: rgba(255,255,255,0.6);
+    opacity: 1;
     transition: all 0.3s ease;
 }
 #radio-widget.is-powered-on .band-label.active {
@@ -410,7 +411,7 @@ $radio-texture-spacing: 3.5px;
     gap: 10px;
 }
 
-.bank-btn, .src-btn, .info-btn {
+.bank-btn, .src-btn, .radio-info-btn {
     width: 32px;
     height: 24px;
 
@@ -428,12 +429,12 @@ $radio-texture-spacing: 3.5px;
 
     transition: all 0.05s ease;
 }
-.bank-btn:active, .src-btn:active, .info-btn:active, .bank-btn.active, .src-btn.active, .info-btn.active {
+.bank-btn:active, .src-btn:active, .radio-info-btn:active, .bank-btn.active, .src-btn.active, .radio-info-btn.active {
         box-shadow: 0 0 0 0 $radio-fg;
         transform: translateY(2px) translateX(1px);
     }
 #radio-widget.is-powered-on {
-    .bank-btn:active, .src-btn:active, .info-btn:active, .bank-btn.active, .src-btn.active, .info-btn.active {
+    .bank-btn:active, .src-btn:active, .radio-info-btn:active, .bank-btn.active, .src-btn.active, .radio-info-btn.active {
         background-color: color-mix(in srgb, #{$radio-fg} 40%, transparent);
         color: $radio-fg;
         box-shadow: 0 0 15px 2px color-mix(in srgb, #{$radio-fg} 40%, transparent);

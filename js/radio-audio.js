@@ -38,6 +38,7 @@ const stationConfigs = [
     {
         id: 'fm-98',
         freq: 98,
+        isBanked: true,
         tracks: [
             {file: './audio/stations/fm-98/Anomnia - I Dont Wanna Be.mp3', link: 'https://linktr.ee/anomnia'},
             {file: './audio/stations/fm-98/Anomnia - Bodies.mp3', link: 'https://linktr.ee/anomnia'},
@@ -47,6 +48,7 @@ const stationConfigs = [
     {
         id: 'fm-107',
         freq: 107,
+        isBanked: true,
         tracks: [
             {file: './audio/stations/fm-107/1 - dorian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'},
             {file: './audio/stations/fm-107/2 - lydian.mp3', link: 'https://soundcloud.com/gabriel-kiev-375092820'},
@@ -61,6 +63,7 @@ const stationConfigs = [
     {
         id: 'am-75',
         freq: 75,
+        isBanked: true,
         tracks: [
             {file: './audio/stations/am-75/ambient-test.mp3', link: null}
         ]
@@ -74,6 +77,7 @@ class RadioStation {
         this.freq = config.freq;
         this.id = config.id;
         this.tracks = config.tracks;
+        this.isBanked = config.isBanked;
 
         this.audio = new Audio();
         this.audio.crossOrigin = "anonymous";
@@ -88,12 +92,20 @@ class RadioStation {
 
     /* -- Auxiliary functions -- */
     /* Function to play a random track from the tracklist */
+    /* Includes Audio Context and low-pass filter connections */
     playRandomTrack() {
         // Route audio to mixer
         if (!this.isRoutedToMixer) {
             const ctx = getAudioContext();
             const trackSource = ctx.createMediaElementSource(this.audio);
-            trackSource.connect(getMasterBus());
+
+            // Low-pass filter
+            this.filterNode = ctx.createBiquadFilter();
+            this.filterNode.type = 'lowpass';
+
+            // Audio -> Filter -> Mixer
+            trackSource.connect(this.filterNode);
+            this.filterNode.connect(getMasterBus());
             this.isRoutedToMixer = true;
         }
 
@@ -164,9 +176,9 @@ class RadioStation {
     }
 
     /* Function to sync station volume and play/pause status to tuned freq */
-    updateTuning(currentFreq, masterVolume) {
+    updateTuning(currentFreq, masterVolume) {  // TODO: Add "hasBeenTunedTo" logic to AFC
         // Tuning window width
-        const tuningWindow = 2;
+        const tuningWindow = 3;
         const distance = Math.abs(currentFreq - this.freq);
 
         let tuneFactor = 0;
@@ -175,6 +187,25 @@ class RadioStation {
             /* Inside station window */
             tuneFactor = Math.pow(1 - (distance / tuningWindow), 2);
             this.audio.volume = masterVolume * tuneFactor;
+
+            // Low-pass filter logic
+            if (this.filterNode) {
+                const ctx = getAudioContext();
+
+                // Cutoff range
+                const maxCutoff = this.band === 'am' ? 5000 : 15000;
+                const minCutoff = 100;
+
+                // Exponential curve
+                const currentCutoff = minCutoff + (maxCutoff - minCutoff)*Math.pow(tuneFactor, 3);
+
+                // Resonance
+                const currentQ = 3.5 - (tuneFactor * 3.0);
+
+                // Apply smoothly
+                this.filterNode.frequency.setTargetAtTime(currentCutoff, ctx.currentTime, 0.05);
+                this.filterNode.Q.setTargetAtTime(currentQ, ctx.currentTime, 0.05);
+            }
 
             if (!this.isPlaying) {
                 this.resumeSimulatedBroadcast();
@@ -262,6 +293,26 @@ export const RadioAudio = {
         if (!isRadioPowered || !currentStation) return null;
         return currentStation.getCurrentLink();
     },
+
+    /* Function to seek the closest banked station in the given direction */
+    getNextBankedFrequency: (direction) => {
+        // Filter through "isBanked=true" stations in the current frequency band
+        const validStations = stations
+            .filter(s => s.band === currentBand && s.isBanked)
+            .map(s => s.freq)
+            .sort((a, b) => a - b);
+
+        if (validStations.length === 0) return null;
+
+        if (direction === 1) { // To the right
+            const nextFreq = validStations.find(f => f > currentFrequency + 0.1);
+            return nextFreq !== undefined ? nextFreq : null; 
+        } else { // Buscar para a Esquerda (Frequência Menor)
+            const prevFreq = [...validStations].reverse().find(f => f < currentFrequency - 0.1);
+            return prevFreq !== undefined ? prevFreq : null;
+        }
+    },
+
 
     /* Function to send the volume and frequency changes into all stations */
     updateAllStations: () => {

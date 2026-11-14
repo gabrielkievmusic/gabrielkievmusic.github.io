@@ -81,7 +81,7 @@ export function initRadio() {
 
 
     /* Info button */
-    const infoBtn = radioWidget.querySelector('.info-btn');
+    const infoBtn = radioWidget.querySelector('.radio-info-btn');
 
     if (infoBtn) {
         infoBtn.addEventListener('click', () => {
@@ -257,4 +257,70 @@ export function initRadio() {
         targetGap = 300 - (tuneFactor * 305);
         targetGlow = 4 + (tuneFactor * 50);
     });
+
+
+    /* Bank/AFC seek logic */
+    const bankBtns = radioWidget.querySelectorAll('.bank-btn');
+    let seekAnimationId = null;
+
+    if (bankBtns.length >= 2 && tuneInput) {
+        const btnDown = bankBtns[0]; // <
+        const btnUp = bankBtns[1];   // >
+
+        const visualKnob = radioWidget.querySelector('.tune-knob');
+        
+        const startSeek = (direction) => {
+            if (!radioWidget.classList.contains('is-powered-on')) return;
+            
+            const targetFreq = RadioAudio.getNextBankedFrequency(direction);
+            if (!targetFreq) return;
+
+            // Cancel with double-click
+            if (seekAnimationId) cancelAnimationFrame(seekAnimationId);
+
+            const startFreq = parseFloat(tuneInput.value);
+            const distance = targetFreq - startFreq;
+            
+            // Duration based on distance
+            const duration = Math.max(1500, Math.abs(distance) * 200);
+
+            const startTime = performance.now();
+            const animateSeek = (currentTime) => {
+                const elapsed = currentTime - startTime;
+                let progress = Math.min(elapsed / duration, 1.0);
+                
+                // Easing in-out
+                const ease = progress < 0.5 
+                    ? 2 * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+                const currentVal = startFreq + (distance * ease);
+
+                // Update input value
+                tuneInput.value = currentVal;
+                tuneInput.dispatchEvent(new Event('input'));
+
+                // Turning the knob
+                if (visualKnob) {
+                    const min = parseFloat(tuneInput.min);
+                    const max = parseFloat(tuneInput.max);
+                    const percent = (currentVal - min) / (max - min);
+
+                    const degrees = percent * 1800;
+                    visualKnob.style.transform = `rotate(${degrees}deg)`;
+                }
+
+                if (progress < 1.0) {
+                    seekAnimationId = requestAnimationFrame(animateSeek);
+                } else {
+                    seekAnimationId = null;
+                }
+            };
+            
+            seekAnimationId = requestAnimationFrame(animateSeek);
+        };
+
+        btnDown.addEventListener('click', () => startSeek(-1));
+        btnUp.addEventListener('click', () => startSeek(1));
+    }
 }
