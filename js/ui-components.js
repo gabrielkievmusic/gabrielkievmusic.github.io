@@ -56,7 +56,7 @@ export function initUIComponents() {
 
             // Prevent text selection while dragging
             e.preventDefault();
-        }
+        }   
     });
 
     // On mousemove

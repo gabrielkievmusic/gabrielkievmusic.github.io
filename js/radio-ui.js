@@ -1,6 +1,7 @@
 /* Imports */
 import { RadioAudio } from './radio-audio.js';
 import { bringToFront } from './windows.js';
+import { playSound } from './audio-samples.js';
 
 export function initRadio() {
     const radioIcon = document.getElementById('radio-icon');
@@ -49,6 +50,10 @@ export function initRadio() {
                 RadioAudio.setVolume(volume);
 
                 if (!radioWidget.classList.contains('is-powered-on')) {
+                    // Play sounds
+                    playSound('radio-switch', {volume: 0.9, pitchVar: 25});
+                    playSound('radio-startup', {volume: 0.75, pitchVar: 500});
+
                     radioWidget.classList.add('is-powered-on');
                     RadioAudio.play();
 
@@ -67,6 +72,9 @@ export function initRadio() {
                 }
             } else {
                 if (radioWidget.classList.contains('is-powered-on')) {
+                    // Play power switch sound
+                    playSound('radio-switch', {volume: 0.8, pitchVar: 25});
+
                     radioWidget.classList.remove('is-powered-on');
                     RadioAudio.setVolume(0);
                     RadioAudio.pause();

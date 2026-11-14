@@ -6,6 +6,7 @@ import { initRadio } from "./radio-ui.js";
 import { initEasel } from "./easel.js";
 import { initCymaticCanvas } from "./shaders/cymatic-easel.js";
 import { initUserGuide } from "./user-guide.js";
+import { initUISounds } from "./ui-sounds.js";
 
 initBoot();
 initCRT();
@@ -17,3 +18,4 @@ initCymaticCanvas();
 initUserGuide();
 
 initUIComponents();
+initUISounds();
