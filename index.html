@@ -57,7 +57,7 @@
         <div id="desktop">
     
             <!-- About Me-->
-            <div class="desktop-icon" id="about-icon">
+            <div class="desktop-icon" id="about-icon" data-hover="generative">
                 <img src="./images/icons/text-icon.png" alt="About Me">
                 <p>About Me</p>
             </div>
@@ -94,7 +94,7 @@
 
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- Cymatic Easel -->
-            <div class="desktop-icon hover-change-img" id="easel-icon"
+            <div class="desktop-icon hover-change-img" id="easel-icon" data-hover="generative"
                  style="--icon-default: url('/images/icons/easel-icon.png');
                         --icon-hover: url('/images/icons/easel-hover-icon.png');">
                 <img src="./images/icons/easel-icon.png" alt="Cymatic Easel">
@@ -128,7 +128,7 @@
 
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- Mail -->
-            <div class="desktop-icon hover-change-img" id="mail-icon"
+            <div class="desktop-icon hover-change-img" id="mail-icon" data-hover="generative"
                  style="--icon-default: url('/images/icons/mail-icon.png');
                         --icon-hover: url('/images/icons/mail-open-icon.png');">
                 <img src="/images/icons/mail-icon.png" alt="Mail">
@@ -226,7 +226,7 @@
     
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- Radio -->
-             <div class="desktop-icon" id="radio-icon">
+             <div class="desktop-icon" id="radio-icon" data-hover="generative">
                 <img src="./images/icons/radio-icon.png" alt="Radio Icon">
                 <p>Radio</p>
             </div>
@@ -339,7 +339,7 @@
     
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- Soundcloud -->
-            <a href="https://soundcloud.com/gabriel-kiev-375092820" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+            <a href="https://soundcloud.com/gabriel-kiev-375092820" target="_blank" rel="noopener noreferrer" style="text-decoration: none;" data-hover="generative">
                 <!-- Demo folder -->
                 <div class="desktop-icon hover-change-img" id="soundcloud-icon"
                      style="--icon-default: url('/images/icons/folder2-icon.png');
@@ -352,7 +352,7 @@
     
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- System settings -->
-            <div class="desktop-icon" id="settings-icon">
+            <div class="desktop-icon" id="settings-icon" data-hover="generative">
                 <img src="./images/icons/gears-icon.png" alt="System Settings">
                 <p>System Settings</p>
             </div>
@@ -368,22 +368,68 @@
     
                 <!-- Window content -->
                 <div class="window-content" id="settings-content">
-                    <div class="settings-options">
-                        <div class="settings-names">
-                            <p>System drone</p>
-                            <p>System scale</p>
-                        </div>
-                        <div class="settings-inputs">
 
+                    <!-- Mixer -->
+                    <div class="settings-section">
+                        <h3 class="settings-heading">System Mixer</h3>
+
+                        <div class="settings-mixer-container">
+                            <div class="vertical-slider-group">
+                                <label>Drone</label>
+                                <input type="range" min="0" max="1" step="0.01" value="0.5" class="vslider" id="settings-mixer-drone">
+                            </div>
+    
+                            <div class="vertical-slider-group">
+                                <label>UI</label>
+                                <input type="range" min="0" max="1" step="0.01" value="0.5" class="vslider" id="settings-mixer-ui">
+                            </div>
+    
+                            <div class="vertical-slider-group">
+                                <label>Master</label>
+                                <input type="range" min="0" max="1" step="0.01" value="0.8" class="vslider" id="settings-mixer-master">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Root note selector -->
+                    <div class="settings-section">
+                        <h3 class="settings-heading">System Root Note</h3>
+                        
+                        <div class="root-selector">
+                            <button id="root-prev" class="root-sel-btn">◄</button>
+                            <span id="root-display">C</span>
+                            <button id="root-next" class="root-sel-btn">►</button>
                         </div>
                     </div>
+
+                    <!-- Scale selector -->
+                    <div class="settings-section">
+                        <h3 class="settings-heading">System Scale</h3>
+
+                        <div class="scale-keyboard" id="settings-scale-keyboard">
+                            <div class="scale-circle white-key active is-root" data-note="0"></div> <!-- C -->
+                            <div class="scale-circle black-key" data-note="1"></div> <!-- C# -->
+                            <div class="scale-circle white-key active" data-note="2"></div> <!-- D -->
+                            <div class="scale-circle black-key" data-note="3"></div> <!-- D# -->
+                            <div class="scale-circle white-key active" data-note="4"></div> <!-- E -->
+                            <div class="scale-circle white-key" data-note="5"></div> <!-- F -->
+                            <div class="scale-circle black-key" data-note="6"></div> <!-- F# -->
+                            <div class="scale-circle white-key active" data-note="7"></div> <!-- G -->
+                            <div class="scale-circle black-key" data-note="8"></div> <!-- G# -->
+                            <div class="scale-circle white-key active" data-note="9"></div> <!-- A -->
+                            <div class="scale-circle black-key" data-note="10"></div> <!-- A# -->
+                            <div class="scale-circle white-key" data-note="11"></div> <!-- B -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
 
             <!---------------------------------------------------------------------------------------------------------------------->
             <!-- User Guide -->
-            <div class="desktop-icon hover-change-img" id="user-guide-icon"
+            <div class="desktop-icon hover-change-img" id="user-guide-icon" data-hover="generative"
                  style="--icon-default: url('/images/icons/closed-book-icon.png');
                         --icon-hover: url('/images/icons/open-book-icon.png');">
                 <img src="/images/icons/closed-book-icon.png" alt="User Guide">
