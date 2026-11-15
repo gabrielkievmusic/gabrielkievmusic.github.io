@@ -51,8 +51,8 @@ export function initRadio() {
 
                 if (!radioWidget.classList.contains('is-powered-on')) {
                     // Play sounds
-                    playSound('radio-switch', {volume: 0.9, pitchVar: 25});
-                    playSound('radio-startup', {volume: 0.75, pitchVar: 500});
+                    playSound('radio-switch', {volume: 4.0, pitchVar: 25});
+                    playSound('radio-startup', {volume: 1.1, pitchVar: 500});
 
                     radioWidget.classList.add('is-powered-on');
                     RadioAudio.play();
@@ -73,7 +73,7 @@ export function initRadio() {
             } else {
                 if (radioWidget.classList.contains('is-powered-on')) {
                     // Play power switch sound
-                    playSound('radio-switch', {volume: 0.8, pitchVar: 25});
+                    playSound('radio-switch', {volume: 3.5, pitchVar: 25});
 
                     radioWidget.classList.remove('is-powered-on');
                     RadioAudio.setVolume(0);
@@ -290,7 +290,7 @@ export function initRadio() {
             const distance = targetFreq - startFreq;
             
             // Duration based on distance
-            const duration = Math.max(1500, Math.abs(distance) * 200);
+            const duration = Math.max(1000, Math.abs(distance) * 250);
 
             const startTime = performance.now();
             const animateSeek = (currentTime) => {

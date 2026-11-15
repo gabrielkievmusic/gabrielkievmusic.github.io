@@ -23,13 +23,13 @@ function renderOscillators() {
             <div class="easel-osc">
                 <!-- Power button -->
                 <div class="button-group">
-                    <button class="square-toggle easel-power-btn" id="${conf.id}-toggle" data-active="false"></button>
+                    <button class="square-toggle easel-power-btn" id="${conf.id}-toggle" data-active="false" data-sound="digital-btn"></button>
                     <label class="button-label" for="${conf.id}-toggle">POWER</label>
                 </div>
 
                 <!-- Phase button -->
                 <div class="button-group">
-                    <button class="square-toggle easel-phase-btn" id="${conf.id}-phase" data-active="false"></button>
+                    <button class="square-toggle easel-phase-btn" id="${conf.id}-phase" data-active="false" data-sound="digital-btn"></button>
                     <label class="button-label" for="${conf.id}-phase">PHASE</label>
                 </div>
 
@@ -44,7 +44,7 @@ function renderOscillators() {
                     <div class="ui-knob-group">
                         <output class="knob-value" for="${conf.id}-freq" data-unit="${unit}">${conf.default}</output>
     
-                        <div class="ui-knob">
+                        <div class="ui-knob" data-sound="mute">
                             <div class="knob-dial">
                                 <div class="knob-pointer"></div>
                             </div>
@@ -57,7 +57,7 @@ function renderOscillators() {
                     <!-- Freq fine knob -->
                     <div class="ui-knob-group">
                         
-                        <div class="ui-knob-small">
+                        <div class="ui-knob-small" data-sound="mute">
                             <div class="knob-dial">
                                 <div class="knob-pointer"></div>
                             </div>
@@ -70,7 +70,7 @@ function renderOscillators() {
                     <!-- Freq CV depth knob -->
                     <div class="ui-knob-group">
                         
-                        <div class="ui-knob-small">
+                        <div class="ui-knob-small" data-sound="mute">
                             <div class="knob-dial">
                                 <div class="knob-pointer"></div>
                             </div>
@@ -83,7 +83,7 @@ function renderOscillators() {
                     <!-- Freq CV rate knob -->
                     <div class="ui-knob-group">
                         
-                        <div class="ui-knob-small">
+                        <div class="ui-knob-small" data-sound="mute">
                             <div class="knob-dial">
                                 <div class="knob-pointer"></div>
                             </div>
@@ -104,7 +104,7 @@ function renderOscillators() {
 
                     <!-- Gain knob -->
                     <div class="ui-knob-group">
-                        <div class="ui-knob">
+                        <div class="ui-knob" data-sound="mute">
                             <div class="knob-dial">
                                 <div class="knob-pointer"></div>
                             </div>
@@ -117,7 +117,7 @@ function renderOscillators() {
                     <!-- Gain CV depth knob -->
                         <div class="ui-knob-group">
                             
-                            <div class="ui-knob-small">
+                            <div class="ui-knob-small" data-sound="mute">
                                 <div class="knob-dial">
                                     <div class="knob-pointer"></div>
                                 </div>
@@ -130,7 +130,7 @@ function renderOscillators() {
                         <!-- Gain CV rate knob -->
                         <div class="ui-knob-group">
                             
-                            <div class="ui-knob-small">
+                            <div class="ui-knob-small" data-sound="mute">
                                 <div class="knob-dial">
                                     <div class="knob-pointer"></div>
                                 </div>
@@ -140,7 +140,6 @@ function renderOscillators() {
                             <input type="range" min="0.01" max="20" step="0.01" value="0.0" data-scale="log" class="hslider osc-gain-cv-rate hidden-input" id="${conf.id}-gain-cv-rate">
                         </div>
                 </div>
-
 
             </div>
         `;

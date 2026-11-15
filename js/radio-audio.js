@@ -262,6 +262,8 @@ export const RadioAudio = {
 
         RadioAudio.updateAllStations();
         //console.log('Radio playing')
+
+        document.dispatchEvent(new CustomEvent('audio-focus-change', {detail: {isPlaying: true}}));
     },
 
     pause: () => {
@@ -271,6 +273,8 @@ export const RadioAudio = {
             if (station.isPlaying) station.pauseAndStoreTime();
         });
         //console.log('All stations paused')
+
+        document.dispatchEvent(new CustomEvent('audio-focus-change', {detail: {isPlaying: false}}));
     },
     
     setVolume: (val) => {
