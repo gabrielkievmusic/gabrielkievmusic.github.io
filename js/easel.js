@@ -259,6 +259,9 @@ export function initEasel() {
                     gainNode.connect(getMasterBus()); 
                 }
 
+                // Fade-out ambient drone
+                document.dispatchEvent(new CustomEvent('audio-focus-change', {detail: {isPlaying: true}}));
+
                 /* Start oscillators */
                 oscNode.start();
                 fmOsc.start();
@@ -273,6 +276,9 @@ export function initEasel() {
                 /* If osc is on, turn it off */
                 /* Get nodes */
                 const { oscNode, gainNode, fmOsc, fmDepth, amOsc, amDepth } = activeOscillators[oscId];
+
+                // Fade drone back in
+                document.dispatchEvent(new CustomEvent('audio-focus-change', {detail: {isPlaying: false}}));
 
                 /* Stops sound and disconnects nodes */
                 oscNode.stop();

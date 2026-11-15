@@ -87,7 +87,7 @@ export class DesktopDrone {
         if (!this.isPlaying) return;
         
         /* Fade-out */
-        this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 2.0);
+        this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 8.0);
 
         /* Clear generative loop */
         clearInterval(this.generativeInterval);
@@ -104,13 +104,13 @@ export class DesktopDrone {
     
     mute() {
         if (!this.isPlaying || this.isMuted) return;
-        this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 2.0);
+        this.masterGain.gain.setTargetAtTime(0, this.ctx.currentTime, 8.0);
         this.isMuted = true;
     }
 
     unmute() {
         if (!this.isPlaying || !this.isMuted) return;
-        this.masterGain.gain.setTargetAtTime(1.0, this.ctx.currentTime, 2.0);
+        this.masterGain.gain.setTargetAtTime(1.0, this.ctx.currentTime, 8.0);
         this.isMuted = false;
     }
 

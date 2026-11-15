@@ -45,7 +45,7 @@ export function initUISounds() {
 
         /* Radio glass */
         else if (soundType === 'radio-glass') {
-            playSound('radio-glass', {volume: 1.0, pitchVar: 300});
+            playSound('radio-glass', {volume: 1.0, pitchVar: 200});
         }
 
         /* Click on the radio chassis */
