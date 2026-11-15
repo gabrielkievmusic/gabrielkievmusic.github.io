@@ -33,10 +33,6 @@ function renderOscillators() {
                     <label class="button-label" for="${conf.id}-phase">PHASE</label>
                 </div>
 
-                <!-- <div class="slider-group">
-                    <input type="range" min="${conf.min}" max="${conf.max}" step="${conf.step}" value="${conf.default}" class="hslider osc-freq" id="${conf.id}-freq">
-                    <output class="slider-value" for="${conf.id}-freq">${conf.default}${unit}</output>
-                </div> -->
 
                 <!-- Freq knob container -->
                 <div class="ui-knob-container">
