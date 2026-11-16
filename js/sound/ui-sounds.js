@@ -1,6 +1,6 @@
 /* Imports */
-import { loadSound, playSound } from "./audio-samples.js";
-import { getAudioContext, getMasterBus, createReverbEffect } from "./audio.js";
+import { loadSound, playSound } from "../sound/audio-samples.js";
+import { getAudioContext, getMasterBus, createReverbEffect, getUIBus } from "../sound/audio.js";
 
 /* --- GENERATIVE ICON HOVERING --- */
 /* SCALE */
@@ -77,7 +77,7 @@ function playHoverTone(element) {
     // Create and connect reverb only on the first time
     if (!hoverReverb) {
         hoverReverb = createReverbEffect(ctx, 3.5, 2.5, 0.8);
-        hoverReverb.output.connect(getMasterBus());
+        hoverReverb.output.connect(getUIBus());
     }
 
     /* Attack envelopes */
@@ -104,7 +104,7 @@ function playHoverTone(element) {
     filterLFO.start();
 
     // Store current active oscillator and corresponding element
-    activeHovers.set(element, {osc, gain, filterLFO});
+    activeHovers.set(element, {osc, gain, filter, filterLFO});
 }
 
 // Function to stop a hover sound for when the mouse leaves the icon area
@@ -113,13 +113,19 @@ function stopHoverTone(element) {
     if (!synth) return;
 
     const ctx = getAudioContext();
-    const { osc, gain, filterLFO } = synth;
+    const { osc, gain, filter, filterLFO } = synth;
     const t = ctx.currentTime;
 
-    // Release
+    /* Release envelopes */
+    // Gain
     gain.gain.cancelScheduledValues(t);
     gain.gain.setValueAtTime(gain.gain.value, t);
-    gain.gain.exponentialRampToValueAtTime(0.001, t + hoverRelease)
+    gain.gain.exponentialRampToValueAtTime(0.001, t + hoverRelease);
+    // Filter
+    filter.frequency.cancelScheduledValues(t);
+    filter.frequency.setValueAtTime(filter.frequency.value, t);
+    filter.frequency.exponentialRampToValueAtTime(15000, t + (hoverRelease*0.4));
+    // Disconnect oscillators
     osc.stop(t + hoverRelease);
     filterLFO.stop(t + hoverRelease);
 

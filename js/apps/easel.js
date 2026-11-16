@@ -1,5 +1,5 @@
 /* Get audio context */
-import { getAudioContext, getMasterBus, createReverbEffect } from './audio.js';
+import { getAudioContext, getMasterBus, createReverbEffect } from '../sound/audio.js';
 
 
 

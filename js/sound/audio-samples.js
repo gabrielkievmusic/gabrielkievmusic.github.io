@@ -1,5 +1,5 @@
 /* Imports */
-import { getAudioContext, getMasterBus } from './audio.js';
+import { getAudioContext, getMasterBus } from '../sound/audio.js';
 
 /* Dictionary with sound files loaded in RAM */
 const audioBuffers = {};

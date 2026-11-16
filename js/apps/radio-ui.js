@@ -1,7 +1,7 @@
 /* Imports */
-import { RadioAudio } from './radio-audio.js';
-import { bringToFront } from './windows.js';
-import { playSound } from './audio-samples.js';
+import { RadioAudio } from '../apps/radio-audio.js';
+import { bringToFront } from '../windows.js';
+import { playSound } from '../sound/audio-samples.js';
 
 export function initRadio() {
     const radioIcon = document.getElementById('radio-icon');

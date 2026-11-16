@@ -1,6 +1,6 @@
 /* Imports */
-import { PinkNoise } from './random.js'
-import { getAudioContext, getMasterBus } from './audio.js';
+import { PinkNoise } from '../random.js'
+import { getAudioContext, getMasterBus } from '../sound/audio.js';
 
 /* Function to create the radio static from pink noise */
 function createStaticNoise(ctx) {

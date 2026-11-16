@@ -1,5 +1,5 @@
 /* Import easel frequency state */
-import { easelState } from '../easel.js';
+import { easelState } from '../apps/easel.js';
 
 /* Function to convert osc freq to HSL color and then to RGB */
 function getFreqColor(freq) {

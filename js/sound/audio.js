@@ -2,6 +2,9 @@ let audioCtx = null;
 let masterGain = null;
 let limiter = null;
 
+let droneBus = null;
+let uiHoverBus = null;
+
 /* ----------------------------------------------------------
  * PRIVATE FUNCTIONS
  * ---------------------------------------------------------- */
@@ -53,8 +56,15 @@ export function getAudioContext() {
         /* Master -> Limiter -> Destination */
         masterGain.connect(limiter);
         limiter.connect(audioCtx.destination);
-
-        console.log('Audio mixer created: Master Gain -> Limiter -> Destination');
+        
+        
+        /* Connect sub-buses */
+        droneBus = audioCtx.createGain();
+        uiHoverBus = audioCtx.createGain();
+        droneBus.connect(masterGain);
+        uiHoverBus.connect(masterGain);
+        
+        //console.log('Audio mixer created: Master Gain -> Limiter -> Destination');
     }
 
     if (audioCtx.state === 'suspended') {
@@ -64,9 +74,9 @@ export function getAudioContext() {
     return audioCtx;
 }
 
-export function getMasterBus() {
-    return masterGain;
-}
+export function getMasterBus() { return masterGain; }
+export function getDroneBus() { return droneBus; }
+export function getUIBus() { return uiHoverBus; }
 
 
 /* ----------------------------------------------------------

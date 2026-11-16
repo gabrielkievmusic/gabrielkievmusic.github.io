@@ -1,5 +1,5 @@
 /* Imports */
-import { getAudioContext, getMasterBus } from "../audio.js";
+import { getAudioContext, getDroneBus, getMasterBus } from "../sound/audio.js";
 import { PinkNoise } from "../random.js";
 
 export class DesktopDrone {
@@ -31,13 +31,13 @@ export class DesktopDrone {
         this.masterGain = this.ctx.createGain();
         this.masterGain.gain.value = 0;
         // Drone Gain -> Master Bus
-        this.masterGain.connect(getMasterBus());
+        this.masterGain.connect(getDroneBus());
 
         /* Oscillators */
         this.osc1 = this.ctx.createOscillator();
         this.osc1.type = 'sine';
         this.osc2 = this.ctx.createOscillator();
-        this.osc2.type = 'sine';
+        this.osc2.type = 'triangle';
         // Osc frequencies
         this.osc1.frequency.value = this.baseFrequency;
         this.osc2.frequency.value = this.baseFrequency + 0.001;
@@ -52,7 +52,7 @@ export class DesktopDrone {
 
         /* Oscillator gain */
         this.oscGain = this.ctx.createGain();
-        this.oscGain.gain.value = 0.2;
+        this.oscGain.gain.value = 0.4;
         // Osc 1 & Osc 2 -> Osc gain -> Filter
         this.osc1.connect(this.oscGain);
         this.osc2.connect(this.oscGain);
@@ -64,7 +64,7 @@ export class DesktopDrone {
         this.noiseSource.loop = true;
         // Noise Gain
         this.noiseGain = this.ctx.createGain();
-        this.noiseGain.gain.value = 0.15;
+        this.noiseGain.gain.value = 0.1;
         // Noise source -> Noise gain -> Filter
         this.noiseSource.connect(this.noiseGain);
         this.noiseGain.connect(this.filter);
@@ -121,16 +121,27 @@ export class DesktopDrone {
             const time = this.ctx.currentTime;
             
             // Filter cutoff modulation
-            const nextFilterFreq = 150 + (Math.random() * 300);
+            const nextFilterFreq = 100 + (Math.random() * 200);
             this.filter.frequency.setTargetAtTime(nextFilterFreq, time, intervalTime);
     
             // Osc detuning
-            const detune = 0.005 + (Math.random() * 0.01);
+            const detune = 0.005 + (Math.random() * 0.02);
             this.osc2.frequency.setTargetAtTime(this.baseFrequency + detune, time, intervalTime);
     
             // Noise gain modulation
             const nextNoiseVol = 0.15 + (Math.random() * 0.05);
             this.noiseGain.gain.setTargetAtTime(nextNoiseVol, time, intervalTime);
         }, 4000);
+    }
+
+    /* Update note when system root note is changed */
+    updateBaseNote(newFrequency) {
+        this.baseFrequency = newFrequency;
+        if (this.isPlaying) {
+            const time = this.ctx.currentTime;
+            // Desliza suavemente para a nova nota em 1 segundo (Glide/Portamento)
+            this.osc1.frequency.setTargetAtTime(this.baseFrequency, time, 1.0);
+            this.osc2.frequency.setTargetAtTime(this.baseFrequency + 0.5, time, 1.0);
+        }
     }
 }

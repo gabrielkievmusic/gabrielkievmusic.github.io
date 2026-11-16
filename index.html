@@ -362,6 +362,7 @@
                 <div class="window-header">
                     <span class="window-title">System Settings</span>
                     <div class="window-controls">
+                        <button class="info-btn" data-target="guide-system-info">i</button>
                         <button class="close-btn" id="close-settings">X</button>
                     </div>
                 </div>
@@ -369,58 +370,69 @@
                 <!-- Window content -->
                 <div class="window-content" id="settings-content">
 
-                    <!-- Mixer -->
-                    <div class="settings-section">
-                        <h3 class="settings-heading">System Mixer</h3>
-
-                        <div class="settings-mixer-container">
-                            <div class="vertical-slider-group">
-                                <label>Drone</label>
-                                <input type="range" min="0" max="1" step="0.01" value="0.5" class="vslider" id="settings-mixer-drone">
+                    <div class="horizontal-section-container" id="top-section">
+                        <!-- Mixer -->
+                        <div class="settings-section flex-70">
+                            <h3 class="settings-heading">System Mixer</h3>
+    
+                            <div class="settings-mixer-container">
+                                <div class="vertical-slider-group">
+                                    <label>Drone</label>
+                                    <div class="vslider-wrapper">
+                                        <input type="range" min="0" max="1" step="0.01" value="0.6" class="vslider" id="settings-mixer-drone">
+                                    </div>
+                                </div>
+        
+                                <div class="vertical-slider-group">
+                                    <label>UI</label>
+                                    <div class="vslider-wrapper">
+                                        <input type="range" min="0" max="1" step="0.01" value="0.5" class="vslider" id="settings-mixer-ui">
+                                    </div>
+                                </div>
+        
+                                <div class="vertical-slider-group">
+                                    <label>Master</label>
+                                    <div class="vslider-wrapper">
+                                        <input type="range" min="0" max="1" step="0.01" value="0.8" class="vslider" id="settings-mixer-master">
+                                    </div>
+                                </div>
                             </div>
     
-                            <div class="vertical-slider-group">
-                                <label>UI</label>
-                                <input type="range" min="0" max="1" step="0.01" value="0.5" class="vslider" id="settings-mixer-ui">
+                        </div>
+
+                        <div class="vertical-section-container flex-30">
+                            <!-- Root note selector -->
+                            <div class="settings-section">
+                                <h3 class="settings-heading">System Root Note</h3>
+                                
+                                <div class="root-selector">
+                                    <button id="root-prev" class="root-sel-btn">◄</button>
+                                    <span id="root-display">C</span>
+                                    <button id="root-next" class="root-sel-btn">►</button>
+                                </div>
                             </div>
+        
+                            <!-- Scale selector -->
+                            <div class="settings-section">
+                                <h3 class="settings-heading">System Scale</h3>
+        
+                                <div class="scale-keyboard" id="settings-scale-keyboard">
+                                    <div class="scale-circle white-key active is-root" data-note="0"></div> <!-- C -->
+                                    <div class="scale-circle black-key" data-note="1"></div> <!-- C# -->
+                                    <div class="scale-circle white-key active" data-note="2"></div> <!-- D -->
+                                    <div class="scale-circle black-key" data-note="3"></div> <!-- D# -->
+                                    <div class="scale-circle white-key active" data-note="4"></div> <!-- E -->
+                                    <div class="scale-circle white-key" data-note="5"></div> <!-- F -->
+                                    <div class="scale-circle black-key" data-note="6"></div> <!-- F# -->
+                                    <div class="scale-circle white-key active" data-note="7"></div> <!-- G -->
+                                    <div class="scale-circle black-key" data-note="8"></div> <!-- G# -->
+                                    <div class="scale-circle white-key active" data-note="9"></div> <!-- A -->
+                                    <div class="scale-circle black-key" data-note="10"></div> <!-- A# -->
+                                    <div class="scale-circle white-key" data-note="11"></div> <!-- B -->
+                                </div>
+                            </div>
+                        </div>
     
-                            <div class="vertical-slider-group">
-                                <label>Master</label>
-                                <input type="range" min="0" max="1" step="0.01" value="0.8" class="vslider" id="settings-mixer-master">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Root note selector -->
-                    <div class="settings-section">
-                        <h3 class="settings-heading">System Root Note</h3>
-                        
-                        <div class="root-selector">
-                            <button id="root-prev" class="root-sel-btn">◄</button>
-                            <span id="root-display">C</span>
-                            <button id="root-next" class="root-sel-btn">►</button>
-                        </div>
-                    </div>
-
-                    <!-- Scale selector -->
-                    <div class="settings-section">
-                        <h3 class="settings-heading">System Scale</h3>
-
-                        <div class="scale-keyboard" id="settings-scale-keyboard">
-                            <div class="scale-circle white-key active is-root" data-note="0"></div> <!-- C -->
-                            <div class="scale-circle black-key" data-note="1"></div> <!-- C# -->
-                            <div class="scale-circle white-key active" data-note="2"></div> <!-- D -->
-                            <div class="scale-circle black-key" data-note="3"></div> <!-- D# -->
-                            <div class="scale-circle white-key active" data-note="4"></div> <!-- E -->
-                            <div class="scale-circle white-key" data-note="5"></div> <!-- F -->
-                            <div class="scale-circle black-key" data-note="6"></div> <!-- F# -->
-                            <div class="scale-circle white-key active" data-note="7"></div> <!-- G -->
-                            <div class="scale-circle black-key" data-note="8"></div> <!-- G# -->
-                            <div class="scale-circle white-key active" data-note="9"></div> <!-- A -->
-                            <div class="scale-circle black-key" data-note="10"></div> <!-- A# -->
-                            <div class="scale-circle white-key" data-note="11"></div> <!-- B -->
-                        </div>
                     </div>
 
                 </div>
@@ -485,6 +497,11 @@
 
                         <div class="guide-section" id="guide-system-info">
                             <h1>System Info</h1>
+                            <p>This system is designed primarily as a unit capable of generating and processing sound. In a way, it is simultaneously a computer and a synthesizer, with multiple programs working as separate but concurrent modules. The simplified visual interface allows for most of the processing power to be always available for the Sound Processing Unit.</p>
+                            <p>The entire interface can be controlled via the cursor, with no keyboard necessary. All interactions are performed by a single left-click.</p>
+                            <p>Open programs by clicking their icons and close them by clicking the [X] button. The [i] button opens the program's corresponding page in this User Guide.</p>
+                            <p>All windows can be dragged by clicking and holding on the window's header. Windowless widgets, such as the Radio, are usually fixed to their positions.</p>
+                            <p>To access the system's configurations, open the System Settings program. Through there, you can adjust the output volumes via the System Mixer, set a different root note for the machine's hum and set a custom scale for the generative UI sounds.</p>
                         </div>
 
                         <div class="guide-section" id="guide-radio">
